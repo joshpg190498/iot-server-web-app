@@ -3,7 +3,7 @@ import { Device, DeviceInput } from "../interfaces/devices.interface"
 import { createDeviceRepository, deleteDeviceRepository, getDeviceByIdRepository, getDevicesRepository, updateDeviceRepository } from "../repositories/device.repository"
 import { runProducer } from "../kafka/kafka.producer"
 
-const KAFKA_TOPIC = config.kafka.topic
+const DATA_RECEPTION_KAFKA_TOPIC = config.kafka.topic
 
 export async function getDevicesService(): Promise<Device[]> {
   return await getDevicesRepository()
@@ -15,7 +15,7 @@ export async function getDeviceByIdService(id: number): Promise<Device> {
 
 export async function createDeviceService(input: DeviceInput): Promise<Device> {
   const {newDevice, newUpdate} = await createDeviceRepository(input)
-  await runProducer(KAFKA_TOPIC, newDevice.id_device, newUpdate)
+  await runProducer(DATA_RECEPTION_KAFKA_TOPIC, newDevice.id_device, newUpdate)
   return newDevice
 }
 

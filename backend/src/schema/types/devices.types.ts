@@ -14,7 +14,7 @@ const typeDefs = `#graphql
 
   type Query {
     devices: [Device]
-    deviceById(id: Int!): Device
+    device(id: Int!): Device
   }
 
   type Mutation {

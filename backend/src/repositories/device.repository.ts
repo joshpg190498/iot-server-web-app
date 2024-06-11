@@ -34,13 +34,13 @@ export async function createDeviceRepository(input: DeviceInput): Promise<{ newD
     )
     const newDevice = deviceResult.rows[0]
 
-    const parametersResult = await client.query('SELECT id_parameter, default_period, table_pointer FROM PARAMETERS')
+    const parametersResult = await client.query('SELECT id_parameter, default_period, default_threshold_value FROM PARAMETERS')
     const parameters = parametersResult.rows
 
-    for (const param of parameters) {
+    for (const el of parameters) {
       await client.query(
-        'INSERT INTO DEVICE_READING_SETTINGS (id_device, parameter, period) VALUES ($1, $2, $3)',
-        [newDevice.id_device, param.id_parameter, param.default_period]
+        'INSERT INTO DEVICE_READING_SETTINGS (id_device, parameter, period, threshold_value) VALUES ($1, $2, $3, $4)',
+        [newDevice.id_device, el.id_parameter, el.default_period, el.default_threshold_value]
       )
     }
 

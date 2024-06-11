@@ -1,9 +1,9 @@
-import { createDeviceController, deleteDeviceController, getDeviceByIdController, getDevicesController, updateDeviceController } from '../../controllers/devices.controller';
+import { createDeviceController, getDeviceByIdController, getDevicesController, updateDeviceController, deleteDeviceController } from '../../controllers/devices.controller';
 
 const resolvers = {
   Query: {
     devices: getDevicesController,
-    deviceById: getDeviceByIdController
+    device: getDeviceByIdController
   },
   Mutation: {
     createDevice: createDeviceController,
