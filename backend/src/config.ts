@@ -13,6 +13,9 @@ const config = {
     broker: process.env.KAFKA_BROKER || 'kafka-broker',
     topic: process.env.KAFKA_TOPIC_DEVICE_UPDATE || 'kafka-topic',
     clientId: process.env.BACKEND_APP_KAFKA_CLIENT_ID || 'client-id',
+  },
+  jwt: {
+    secretKey: process.env.JWT_SECURITY || 'secret_key'
   }
 }
 

@@ -1,5 +1,5 @@
 import pool from "../database"
-import { Device, DeviceInput, DeviceUpdate } from "../interfaces/devices.interface"
+import { Device, DeviceInput, DeviceUpdate } from "../interfaces/device.interface"
 import { randomBytes } from "crypto"
 
 export async function getDevicesRepository(): Promise<Device[]> {

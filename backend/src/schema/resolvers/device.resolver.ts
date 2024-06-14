@@ -1,4 +1,4 @@
-import { createDeviceController, getDeviceByIdController, getDevicesController, updateDeviceController, deleteDeviceController } from '../../controllers/devices.controller';
+import { createDeviceController, getDeviceByIdController, getDevicesController, updateDeviceController, deleteDeviceController } from '../../controllers/device.controller';
 
 const resolvers = {
   Query: {

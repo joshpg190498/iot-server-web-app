@@ -6,19 +6,29 @@
           <h1>Plataforma de monitoreo de rendimiento para computadoras monoplaca basadas en Linux</h1>
         </div>
         <h5>Iniciar Sesión</h5>
-        <ion-item class="login-input">
-          <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingresa correo" type="email" required></ion-input>
-        </ion-item>
-        <ion-item class="login-input">
-          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa password"type="password" required></ion-input>
-        </ion-item>
-        <ion-button>Ingresar</ion-button>
+        <form (ngSubmit)="login()" [formGroup]="loginForm">
+          <ion-item class="login-input">
+            <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingresa correo" type="email" formControlName="email" required></ion-input>
+          </ion-item>
+          <ion-item class="login-input">
+            <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa password"type="password" formControlName="password" required></ion-input>
+          </ion-item>
+          <ion-button type="submit" expand="block" [disabled]="loginForm.invalid || isLogin">Ingresar</ion-button>
+          <ion-toast
+            [isOpen]="isToastOpen"
+            [message]="toastMessage"
+            [color]="toastColor"
+            [duration]="3000"
+            (didDismiss)="setOpenToast(false)"
+          ></ion-toast>
+        </form>
+
         <!-- <div class="login-footer">
           <p>¿No tienes una cuenta? <a href="#">Regístrate</a></p>
         </div> -->
       </div>
       <div class="login-image">
-        <img src="../../../../assets/images/sbc.jpg" alt="Login Image">
+        <img src="assets/images/sbc.jpg" alt="Login Image">
       </div>
     </div>
   </ion-card>

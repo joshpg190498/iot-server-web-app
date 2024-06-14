@@ -1,0 +1,58 @@
+// app.component.scss
+
+// Estilos generales
+ion-content, ion-footer {
+  --ion-background-color: #f7f9fc; // Color de fondo general
+}
+
+
+
+// Estilos para el header
+ion-header {
+  ion-toolbar {
+    --background: #f7f9fc; // Fondo del header (blanco grisáceo claro)
+    --color: #333333; // Color de texto del header
+    --border-width: 0; // Sin borde en el header
+    font-family: 'Arial', sans-serif; // Fuente para el header
+  }
+
+  ion-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  ion-button {
+    --color: #333333; // Color de texto de los botones en el header
+    --padding-end: 8px; // Espacio al final del botón
+  }
+}
+
+// Estilos para el footer
+ion-footer {
+  ion-toolbar {
+    --background: #f7f9fc; // Fondo del footer (blanco grisáceo claro)
+    --color: #333333; // Color de texto del footer
+    text-align: center; // Alineación del texto
+    font-family: 'Arial', sans-serif; // Fuente para el footer
+  }
+
+  .footer-text {
+    font-size: 14px;
+    font-style: italic;
+  }
+}
+
+// Estilos para el contenido principal
+ion-router-outlet {
+  margin: 20px;
+  display: block;
+  position: relative;
+  overflow-y: auto;
+  height: calc(100% - 96px); // Ajusta según el tamaño de tu header y footer
+}
+
+ion-router-outlet ion-content {
+  --background: transparent; // Fondo transparente
+  padding: 16px; // Ajusta según tu diseño
+  font-family: 'Arial', sans-serif; // Fuente para el contenido principal
+}

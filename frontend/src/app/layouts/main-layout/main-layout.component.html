@@ -1,1 +1,48 @@
-<ion-router-outlet></ion-router-outlet>
+<ion-menu side="start" type="overlay" contentId="main-content">
+  <ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list lines="none">
+      <ion-item button routerLink="/home">
+        <ion-icon slot="start" name="home-outline"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-item>
+      <ion-item button routerLink="/page1">
+        <ion-icon slot="start" name="document-outline"></ion-icon>
+        <ion-label>Página 1</ion-label>
+      </ion-item>
+      <ion-item button routerLink="/page2">
+        <ion-icon slot="start" name="document-outline"></ion-icon>
+        <ion-label>Página 2</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Main content -->
+<ion-router-outlet id="main-content"></ion-router-outlet>
+
+<!-- Header -->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mi App</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()" fill="clear">
+        Cerrar Sesión
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Footer -->
+<ion-footer>
+  <ion-toolbar>
+    <ion-title class="footer-text"> Plataforma de monitoreo de rendmiento de monoplacas basadas en Linux</ion-title>
+  </ion-toolbar>
+</ion-footer>

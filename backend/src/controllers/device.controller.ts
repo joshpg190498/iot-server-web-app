@@ -1,4 +1,4 @@
-import { CreateDeviceArgs, DeleteDeviceArgs, DeviceByIdArgs, UpdateDeviceArgs } from "../interfaces/devices.interface"
+import { CreateDeviceArgs, DeleteDeviceArgs, DeviceByIdArgs, UpdateDeviceArgs } from "../interfaces/device.interface"
 import { createDeviceService, deleteDeviceService, getDeviceByIdService, getDevicesService, updateDeviceService } from "../services/device.service"
 
 export async function getDevicesController (_: any, __: any, context: any) {

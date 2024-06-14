@@ -1,5 +1,5 @@
 import config from "../config"
-import { Device, DeviceInput } from "../interfaces/devices.interface"
+import { Device, DeviceInput } from "../interfaces/device.interface"
 import { createDeviceRepository, deleteDeviceRepository, getDeviceByIdRepository, getDevicesRepository, updateDeviceRepository } from "../repositories/device.repository"
 import { runProducer } from "../kafka/kafka.producer"
 

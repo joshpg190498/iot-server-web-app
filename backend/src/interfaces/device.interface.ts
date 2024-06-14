@@ -5,22 +5,22 @@ export interface Device {
   state: boolean
 }
 
-export interface DeviceUpdate {
-  id: number;
-  id_device: string;
-  hash_update: string;
-  type: string;
-  creation_datetime_utc: Date;
-}
-
-export interface DeviceByIdArgs {
-  id: number
-}
-
 export interface DeviceInput {
   id_device: string
   description: string | null
   active: boolean
+}
+
+export interface DeviceUpdate {
+  id: number
+  id_device: string
+  hash_update: string
+  type: string
+  creation_datetime_utc: Date
+}
+
+export interface DeviceByIdArgs {
+  id: number
 }
 
 export interface CreateDeviceArgs {
