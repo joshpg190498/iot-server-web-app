@@ -1,0 +1,95 @@
+body, ion-app, ion-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f9fc;
+  font-family: 'Roboto', sans-serif;
+}
+
+.login-container {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f9fc;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  padding: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.login-content {
+  display: flex;
+  width: 100%;
+}
+
+.login-form {
+  flex: 1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.login-title {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.login-title h1 {
+  font-size: 18px;
+  color: #333;
+  margin: 0;
+}
+
+.login-form h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.login-input {
+  margin-bottom: 16px;
+}
+
+.login-button {
+  --background: #007bff;
+  --background-activated: #0056b3;
+  --border-radius: 8px;
+  font-size: 18px;
+  font-weight: 500;
+  margin-top: 20px;
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 16px;
+}
+
+.login-footer a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-image {
+  flex: 1;
+  background-color: #f0f4f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image img {
+  height: 100%;
+  width: 100%
+}

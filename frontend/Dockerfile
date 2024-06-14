@@ -5,7 +5,7 @@ FROM node:20.14-alpine AS builder
 WORKDIR /app
 
 # Copia los archivos de dependencias a la imagen del contenedor
-COPY package*.json ./
+COPY package*.json .
 
 # Instala las dependencias del proyecto
 RUN npm install
