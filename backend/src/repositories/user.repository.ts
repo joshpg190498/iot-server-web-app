@@ -1,5 +1,5 @@
 import pool from "../database"
-import { User, UserInput } from "../interfaces/user.interface"
+import { Permission, User, UserInput } from "../interfaces/user.interface"
 
 export async function getUsersRepository(): Promise<User[]> {
   const client = await pool.connect()
@@ -71,6 +71,24 @@ export async function getUserByEmailRepository(email: string): Promise<User> {
   try {
     const result = await client.query('SELECT id, username, email, password_hash, first_name, last_name, active, created_at, updated_at FROM USERS WHERE email = $1', [email])
     return result.rows[0]
+  } finally {
+    client.release()
+  }
+}
+
+export async function getPermissionsByUserIdRepository(id: number): Promise<Permission[]> {
+  const client = await pool.connect()
+  try {
+    const result = await client.query(`
+        SELECT p.id, p.permission_name, p.icon, p.path, p.description
+          FROM USERS u
+          INNER JOIN ROLE_PERMISSIONS rp
+          ON u.id_role = rp.id_role 
+          INNER JOIN PERMISSIONS p
+          ON rp.id_permission = p.id
+        WHERE u.id_role = $1
+      `, [id])
+    return result.rows
   } finally {
     client.release()
   }

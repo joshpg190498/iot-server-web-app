@@ -5,12 +5,6 @@ export interface Device {
   state: boolean
 }
 
-export interface DeviceInput {
-  id_device: string
-  description: string | null
-  active: boolean
-}
-
 export interface DeviceUpdate {
   id: number
   id_device: string
@@ -24,12 +18,13 @@ export interface DeviceByIdArgs {
 }
 
 export interface CreateDeviceArgs {
-  input: DeviceInput
+  id_device: string,
+  description: string
 }
 
 export interface UpdateDeviceArgs {
   id: number
-  input: DeviceInput
+  description: string
 }
 
 export interface DeleteDeviceArgs {

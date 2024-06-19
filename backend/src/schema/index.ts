@@ -6,8 +6,10 @@ import userTypes from "./types/user.type"
 import userResolvers from "./resolvers/user.resolver"
 import authTypes from "./types/auth.types"
 import authResolvers from "./resolvers/auth.resolver"
+import dashboardTypes from "./types/dashboard.types"
+import dashboardResolvers from "./resolvers/dashboard.resolver"
 
 export default {
-  typeDefs: [deviceTypes, deviceSettingsTypes, userTypes, authTypes],
-  resolvers: [deviceResolvers, deviceSettingsResolver, userResolvers, authResolvers]
+  typeDefs: [deviceTypes, deviceSettingsTypes, userTypes, authTypes, dashboardTypes],
+  resolvers: [deviceResolvers, deviceSettingsResolver, userResolvers, authResolvers, dashboardResolvers]
 }

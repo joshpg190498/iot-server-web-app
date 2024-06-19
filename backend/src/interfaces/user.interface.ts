@@ -38,3 +38,15 @@ export interface UpdateUserArgs {
 export interface DeleteUserArgs {
   id: number
 }
+
+export interface Permission {
+  id: number,
+  permission_name: string,
+  icon: string,
+  path: string,
+  description: string
+}
+
+export interface PermissionsByUserIdArgs {
+  id: number
+}

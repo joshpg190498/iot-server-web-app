@@ -7,19 +7,25 @@ import { DevicesComponent } from './devices/devices.component';
 const routes: Routes = [
   {
     path: 'dashboard',
-    component: DashboardComponent
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
   },
   {
     path: 'users',
-    component: UsersComponent
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
   },
   {
     path: 'devices',
-    component: DevicesComponent
+    loadChildren: () => import('./devices/devices.module').then(m => m.DevicesModule)
+  },
+  {
+    path: '',
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'dashboard',
+    pathMatch: 'full'
   }
 ];
 

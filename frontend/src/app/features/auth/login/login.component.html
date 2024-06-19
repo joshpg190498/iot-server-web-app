@@ -1,35 +1,30 @@
 <div class="login-container">
-  <ion-card class="login-card">
+  <mat-card class="login-card">
     <div class="login-content">
       <div class="login-form">
         <div class="login-title">
           <h1>Plataforma de monitoreo de rendimiento para computadoras monoplaca basadas en Linux</h1>
         </div>
-        <h5>Iniciar Sesión</h5>
-        <form (ngSubmit)="login()" [formGroup]="loginForm">
-          <ion-item class="login-input">
-            <ion-input label="Correo electrónico" labelPlacement="floating" placeholder="Ingresa correo" type="email" formControlName="email" required></ion-input>
-          </ion-item>
-          <ion-item class="login-input">
-            <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa password"type="password" formControlName="password" required></ion-input>
-          </ion-item>
-          <ion-button type="submit" expand="block" [disabled]="loginForm.invalid || isLogin">Ingresar</ion-button>
-          <ion-toast
-            [isOpen]="isToastOpen"
-            [message]="toastMessage"
-            [color]="toastColor"
-            [duration]="3000"
-            (didDismiss)="setOpenToast(false)"
-          ></ion-toast>
-        </form>
-
-        <!-- <div class="login-footer">
-          <p>¿No tienes una cuenta? <a href="#">Regístrate</a></p>
-        </div> -->
+        <div class="login-form">
+          <form (ngSubmit)="login()" [formGroup]="loginForm">
+            <mat-form-field class="login-input" appearance="outline">
+              <mat-label>Correo electrónico</mat-label>
+              <input matInput placeholder="Ingresa correo" type="email" formControlName="email" required>
+            </mat-form-field>
+            <mat-form-field class="login-input" appearance="outline">
+              <mat-label>Contraseña</mat-label>
+              <input matInput placeholder="Ingresa password" type="password" formControlName="password" required>
+            </mat-form-field>
+            <div class="login-button-container">
+              <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLogin">Ingresar</button>
+            </div>
+          </form>
+        </div>
+        
       </div>
       <div class="login-image">
         <img src="assets/images/sbc.jpg" alt="Login Image">
       </div>
     </div>
-  </ion-card>
+  </mat-card>
 </div>

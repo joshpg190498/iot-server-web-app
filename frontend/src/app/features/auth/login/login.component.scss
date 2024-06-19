@@ -1,4 +1,4 @@
-body, ion-app, ion-content {
+body, .login-container {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -6,7 +6,7 @@ body, ion-app, ion-content {
   justify-content: center;
   align-items: center;
   background-color: #f7f9fc;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Ubuntu Sans", sans-serif;
 }
 
 .login-container {
@@ -15,7 +15,6 @@ body, ion-app, ion-content {
   justify-content: center;
   align-items: center;
   background-color: #f7f9fc;
-  background-position: 0cm;
 }
 
 .login-card {
@@ -43,32 +42,32 @@ body, ion-app, ion-content {
 }
 
 .login-title {
-  margin-bottom: 24px;
   text-align: center;
+  font-family: "Ubuntu Sans", sans-serif;
 }
 
-.login-title h5 {
+.login-subtitle {
+  font-family: "Ubuntu Sans", sans-serif;
+  margin-bottom: 10px;
+}
+
+.login-title h1, .login-subtitle {
   color: #333;
   margin: 0;
 }
 
-.login-form h2 {
-  font-size: 24px;
-  color: #333;
-  margin-bottom: 24px;
-}
-
 .login-input {
   margin-bottom: 16px;
+  width: -webkit-fill-available;
 }
 
 .login-button {
-  --background: #007bff;
-  --background-activated: #0056b3;
-  --border-radius: 8px;
+  background: #007bff;
+  border-radius: 8px;
   font-size: 18px;
   font-weight: 500;
   margin-top: 20px;
+  color: white;
 }
 
 .login-footer {
@@ -91,5 +90,9 @@ body, ion-app, ion-content {
 
 .login-image img {
   height: 100%;
-  width: 100%
+  width: 100%;
+}
+
+.login-form {
+  text-align: center;
 }

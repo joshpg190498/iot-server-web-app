@@ -2,13 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DevicesRoutingModule } from './devices-routing.module';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DevicesComponent } from './devices.component';
+import { MaterialModule } from 'src/app/material.module';
+import { DeviceDialogComponent } from './components/device-dialog.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [DevicesComponent, DeviceDialogComponent],
   imports: [
+    IonicModule,
     CommonModule,
-    DevicesRoutingModule
+    DevicesRoutingModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MaterialModule
   ]
 })
 export class DevicesModule { }

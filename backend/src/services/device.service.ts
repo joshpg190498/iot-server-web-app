@@ -1,5 +1,5 @@
 import config from "../config"
-import { Device, DeviceInput } from "../interfaces/device.interface"
+import { Device } from "../interfaces/device.interface"
 import { createDeviceRepository, deleteDeviceRepository, getDeviceByIdRepository, getDevicesRepository, updateDeviceRepository } from "../repositories/device.repository"
 import { runProducer } from "../kafka/kafka.producer"
 
@@ -13,14 +13,14 @@ export async function getDeviceByIdService(id: number): Promise<Device> {
   return await getDeviceByIdRepository(id)
 }
 
-export async function createDeviceService(input: DeviceInput): Promise<Device> {
-  const {newDevice, newUpdate} = await createDeviceRepository(input)
+export async function createDeviceService(id_device: string, description: string): Promise<Device> {
+  const {newDevice, newUpdate} = await createDeviceRepository(id_device, description)
   await runProducer(DATA_RECEPTION_KAFKA_TOPIC, newDevice.id_device, newUpdate)
   return newDevice
 }
 
-export async function updateDeviceService(id: number, input: DeviceInput): Promise<Device> {
-  return await updateDeviceRepository(id, input)
+export async function updateDeviceService(id: number, description: string): Promise<Device> {
+  return await updateDeviceRepository(id, description)
 }
 export async function deleteDeviceService(id: number): Promise<boolean> {
   return await deleteDeviceRepository(id)

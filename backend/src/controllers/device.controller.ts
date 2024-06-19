@@ -11,7 +11,7 @@ export async function getDevicesController (_: any, __: any, context: any) {
   }
 }
 
-export async function getDeviceByIdController (_: any, args: DeviceByIdArgs) {
+export async function getDeviceByIdController (_: any, args: any) {
   try {
     const data = await getDeviceByIdService(args.id)
     return data
@@ -23,17 +23,17 @@ export async function getDeviceByIdController (_: any, args: DeviceByIdArgs) {
 
 export async function createDeviceController (_: any, args: CreateDeviceArgs) {
   try {
-    const data = await createDeviceService(args.input)
+    const data = await createDeviceService(args.id_device, args.description)
     return data
   } catch (err: any) {
-    console.error(err)
+    console.error(err)  
     throw new Error(err)
   }
 }
 
 export async function updateDeviceController (_: any, args: UpdateDeviceArgs) {
   try {
-    const data = await updateDeviceService(args.id, args.input)
+    const data = await updateDeviceService(args.id, args.description)
     return data
   } catch (err: any) {
     console.error(err)

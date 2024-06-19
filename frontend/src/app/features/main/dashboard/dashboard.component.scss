@@ -1,0 +1,103 @@
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.device-card {
+  width: 300px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+  
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+  }
+
+  mat-card-header {
+    background-color: #f5f5f5;
+    padding: 16px;
+    border-radius: var(--mdc-elevated-card-container-shape) var(--mdc-elevated-card-container-shape) 0 0 ;
+
+    mat-card-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    mat-card-subtitle {
+      font-size: 1rem;
+      color: #757575;
+    }
+  }
+
+  mat-card-content {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .device-info {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      min-height: 150px; // Altura fija para todos los cards
+
+      .device-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: #424242;
+
+        mat-icon {
+          color: #616161;
+          overflow: unset;
+        }
+      }
+    }
+
+    .no-info {
+      color: #757575;
+      font-size: 1rem;
+      font-weight: bold;
+      text-align: center;
+      
+    }
+  }
+
+  mat-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: #fff;
+    border-radius: 0 0 var(--mdc-elevated-card-container-shape) var(--mdc-elevated-card-container-shape);
+
+    &.warn {
+      background: #ffb300;
+    }
+
+    &.initialized {
+      background: #43a047;
+    }
+
+    mat-icon {
+      color: #fff;
+    }
+  }
+}

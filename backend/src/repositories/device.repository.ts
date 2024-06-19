@@ -1,5 +1,5 @@
 import pool from "../database"
-import { Device, DeviceInput, DeviceUpdate } from "../interfaces/device.interface"
+import { Device, DeviceUpdate } from "../interfaces/device.interface"
 import { randomBytes } from "crypto"
 
 export async function getDevicesRepository(): Promise<Device[]> {
@@ -23,14 +23,14 @@ export async function getDeviceByIdRepository(id: number): Promise<Device> {
   }
 } 
 
-export async function createDeviceRepository(input: DeviceInput): Promise<{ newDevice: Device, newUpdate: DeviceUpdate }> {
+export async function createDeviceRepository(id_device: string, description: string): Promise<{ newDevice: Device, newUpdate: DeviceUpdate }> {
   const client = await pool.connect()
   try {
     await client.query('BEGIN')
 
     const deviceResult = await client.query(
-      'INSERT INTO DEVICES (id_device, description, active) VALUES ($1, $2, $3) RETURNING *',
-      [input.id_device, input.description, input.active]
+      'INSERT INTO DEVICES (id_device, description) VALUES ($1, $2) RETURNING *',
+      [id_device, description]
     )
     const newDevice = deviceResult.rows[0]
 
@@ -47,7 +47,7 @@ export async function createDeviceRepository(input: DeviceInput): Promise<{ newD
     const hashUpdate = randomBytes(6).toString('hex')
     const createDateTimeUtc = new Date()
     const deviceUpdateResult = await client.query(
-      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, id_type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING id_type AS type, *',
       [newDevice.id_device, hashUpdate, 'startup', createDateTimeUtc]
     ) 
     const newUpdate = deviceUpdateResult.rows[0]
@@ -65,12 +65,12 @@ export async function createDeviceRepository(input: DeviceInput): Promise<{ newD
 }
 
 
-export async function updateDeviceRepository(id: number, input: DeviceInput): Promise<Device> {
+export async function updateDeviceRepository(id: number, description: string): Promise<Device> {
   const client = await pool.connect()
   try {
     const result = await client.query(
-      'UPDATE DEVICES SET id_device = $1, description = $2, active = $3 WHERE id = $4 RETURNING *',
-      [input.id_device, input.description, input.active, id]
+      'UPDATE DEVICES SET description = $1 WHERE id = $3 RETURNING *',
+      [description, id]
     )
     return result.rows[0]
   } finally {

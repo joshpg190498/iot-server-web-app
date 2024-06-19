@@ -1,9 +1,10 @@
-import { createUserController, deleteUserController, getUserByIdController, getUsersController, updateUserController } from "../../controllers/user.controller";
+import { createUserController, deleteUserController, getPermissionByUserIdController, getUserByIdController, getUsersController, updateUserController } from "../../controllers/user.controller";
 
 const resolvers = {
   Query: {
     users: getUsersController,
-    user: getUserByIdController
+    user: getUserByIdController,
+    permissions: getPermissionByUserIdController
   },
   Mutation: {
     createUser: createUserController,

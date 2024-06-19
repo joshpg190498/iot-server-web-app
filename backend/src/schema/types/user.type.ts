@@ -17,9 +17,18 @@ const typeDefs = `#graphql
     id_role: Int!
   }
 
+  type Permission {
+    id: Int,
+    permission_name: String
+    icon: String
+    path: String
+    description: String
+  }
+
   type Query {
     users: [User]
     user(id: Int!): User
+    permissions(id: Int!): [Permission]
   }
 
   type Mutation {

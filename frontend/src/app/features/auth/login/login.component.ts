@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin, Login } from 'src/app/core/interfaces/login.interface';
-import { AuthService } from 'src/app/core/services/auth.services';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +22,7 @@ export class LoginComponent  implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private _authService: AuthService,
+    private _snackBar: MatSnackBar
   ) { 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -41,10 +43,9 @@ export class LoginComponent  implements OnInit {
       (token) => {
         console.log('Token:', token);
         this._authService.setToken(token)
-        this.setOpenToast(true, 'Crendenciales correctas', 'primary')
+        this.setOpenToast('Crendenciales correctas', 'success')
         this.isLogin = false
-        this.router.navigate(['/users'])
-        //this.navCtrl.navigateForward('/dashboard'); // Redirige al usuario a la página del dashboard
+        this.router.navigate(['/dashboard'])
       },
       (error) => {
         let message = error.message
@@ -52,7 +53,7 @@ export class LoginComponent  implements OnInit {
           console.error('Error logging in:', error.graphQLErrors);
           message = error.graphQLErrors[0].message
         }
-        this.setOpenToast(true, message, 'danger')
+        this.setOpenToast(message, 'error')
         this.isLogin = false
       }
     );
@@ -66,9 +67,10 @@ export class LoginComponent  implements OnInit {
     }
   }
 
-  setOpenToast(open: boolean, message?: string, color?: string) {
-    this.toastMessage = message || ''
-    this.toastColor = color || ''
-    this.isToastOpen = open
+  setOpenToast(message?: string, color?: string) {
+    this._snackBar.open(message || '', '', {
+      duration: 3000,
+      panelClass: `snackbar-${color}`
+    });
   }
 }

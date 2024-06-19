@@ -1,5 +1,5 @@
-import { CreateUserArgs, DeleteUserArgs, UserByIdArgs, UpdateUserArgs } from "../interfaces/user.interface"
-import { createUserService, deleteUserService, getUserByIdService, getUsersService, updateUserService } from "../services/user.service"
+import { CreateUserArgs, DeleteUserArgs, UserByIdArgs, UpdateUserArgs, PermissionsByUserIdArgs } from "../interfaces/user.interface"
+import { createUserService, deleteUserService, getPermissionByUserIdServiceService, getUserByIdService, getUsersService, updateUserService } from "../services/user.service"
 
 export async function getUsersController (_: any, __: any, context: any) {
   try {
@@ -44,6 +44,16 @@ export async function updateUserController (_: any, args: UpdateUserArgs) {
 export async function deleteUserController (_: any, args: DeleteUserArgs) {
   try {
     const data = await deleteUserService(args.id)
+    return data
+  } catch (err: any) {
+    console.error(err)
+    throw new Error(err)
+  } 
+}
+
+export async function getPermissionByUserIdController (_: any, args: PermissionsByUserIdArgs) {
+  try {
+    const data = await getPermissionByUserIdServiceService(args.id)
     return data
   } catch (err: any) {
     console.error(err)

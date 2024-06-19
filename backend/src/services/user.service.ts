@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt"
-import { User, UserInput } from "../interfaces/user.interface"
-import { createUserRepository, deleteUserRepository, getUserByEmailRepository, getUserByIdRepository, getUsersRepository, updateUserRepository } from "../repositories/user.repository"
+import { Permission, User, UserInput } from "../interfaces/user.interface"
+import { createUserRepository, deleteUserRepository, getPermissionsByUserIdRepository, getUserByEmailRepository, getUserByIdRepository, getUsersRepository, updateUserRepository } from "../repositories/user.repository"
 
 const SALT_ROUNDS = 10
 
@@ -31,4 +31,8 @@ export async function deleteUserService(id: number): Promise<boolean> {
 
 export async function getUserByEmailService(email: string): Promise<User> {
   return await getUserByEmailRepository(email)
+}
+
+export async function getPermissionByUserIdServiceService(id: number): Promise<Permission[]> {
+  return await getPermissionsByUserIdRepository(id)
 }
