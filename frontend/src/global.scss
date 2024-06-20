@@ -71,3 +71,12 @@ $app-theme: mat.define-theme((
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+
+.ion-page {
+  contain: none;
+}
+
+.feature-page-content {
+  margin: 20px
+}

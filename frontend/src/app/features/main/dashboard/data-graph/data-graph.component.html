@@ -1,3 +1,9 @@
-<p>
-  data-graph works!
-</p>
+<div class="feature-page-content">
+  <div *ngIf="ramUsageDataLoaded">
+    <app-data-graph-ram-usage [ramUsageData]="ramUsageData"></app-data-graph-ram-usage>
+  </div>
+  
+  <div *ngIf="cpuTemperatureDataLoaded">
+    <app-data-graph-cpu-temperature [cpuTemperatureData]="cpuTemperatureData"></app-data-graph-cpu-temperature>
+  </div>
+</div>

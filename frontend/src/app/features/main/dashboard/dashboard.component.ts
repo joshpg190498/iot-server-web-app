@@ -15,7 +15,7 @@ export class DashboardComponent  implements OnInit {
 
   constructor(
     private router: Router,
-    private _dashboardDevice: DashboardService
+    private _dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
@@ -24,7 +24,7 @@ export class DashboardComponent  implements OnInit {
 
   getDevices() {
     console.log('llamando a devices')
-    this._dashboardDevice.getDevices().subscribe(
+    this._dashboardService.getDevices().subscribe(
       (devices) => {
         console.log('devices:', devices);
         this.devices = devices

@@ -6,7 +6,6 @@ export async function getDevicesRepository(): Promise<Device[]> {
   const client = await pool.connect()
   try {
     const result = await client.query(`SELECT * FROM DEVICES`)
-    console.log(result)
     return result.rows
   } finally {
     client.release()

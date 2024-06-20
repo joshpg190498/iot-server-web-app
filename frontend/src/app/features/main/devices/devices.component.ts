@@ -93,7 +93,6 @@ export class DevicesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
         if (isEditMode && device) {
           this.updateDevice(result)
         } else {

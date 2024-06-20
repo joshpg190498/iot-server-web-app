@@ -38,17 +38,15 @@ ion-footer {
   }
 }
 
-// Estilos para el contenido principal
-ion-router-outlet {
-  margin: 20px;
-  display: block;
-  position: relative;
-  overflow-y: auto;
-  height: calc(100% - 96px); // Ajusta según el tamaño de tu header y footer
-}
 
 ion-router-outlet ion-content {
   --background: transparent; // Fondo transparente
   padding: 16px; // Ajusta según tu diseño
   font-family: "Roboto", sans-serif;
+}
+
+.main-content{
+  ion-router-outlet {
+    overflow: auto;
+  }
 }

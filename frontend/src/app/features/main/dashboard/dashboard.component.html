@@ -1,39 +1,41 @@
-<div class="card-container">
-  <mat-card *ngFor="let device of devices" class="device-card" [ngClass]="{'disabled': !device.inserted_at_utc}" (click)="device.inserted_at_utc && device.id_device && goToGraphs(device.id_device)">
-    <mat-card-header>
-      <mat-card-title>{{ device.id_device }}</mat-card-title>
-      <mat-card-subtitle>{{ device.hostname }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="device-info" *ngIf="device.inserted_at_utc; else noInfo">
-        <div class="device-detail">
-          <mat-icon>memory</mat-icon> <span> {{ device.ram }} </span>
+<div class="feature-page-content">
+  <div class="card-container">
+    <mat-card *ngFor="let device of devices" class="device-card" [ngClass]="{'disabled': !device.inserted_at_utc}" (click)="device.inserted_at_utc && device.id_device && goToGraphs(device.id_device)">
+      <mat-card-header>
+        <mat-card-title>{{ device.id_device }}</mat-card-title>
+        <mat-card-subtitle>{{ device.hostname }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="device-info" *ngIf="device.inserted_at_utc; else noInfo">
+          <div class="device-detail">
+            <mat-icon>memory</mat-icon> <span> {{ device.ram }} </span>
+          </div>
+          <div class="device-detail">
+            <mat-icon>computer</mat-icon> <span> {{ device.processor }} </span>
+          </div>
+          <div class="device-detail">
+            <mat-icon>storage</mat-icon> <span> {{ device.hostid }} </span>
+          </div>
+          <div class="device-detail">
+            <mat-icon>dns</mat-icon> <span> {{ device.os }} </span>
+          </div>
+          <div class="device-detail">
+            <mat-icon>storage</mat-icon> <span> {{ device.kernel }} </span>
+          </div>
         </div>
-        <div class="device-detail">
-          <mat-icon>computer</mat-icon> <span> {{ device.processor }} </span>
-        </div>
-        <div class="device-detail">
-          <mat-icon>storage</mat-icon> <span> {{ device.hostid }} </span>
-        </div>
-        <div class="device-detail">
-          <mat-icon>dns</mat-icon> <span> {{ device.os }} </span>
-        </div>
-        <div class="device-detail">
-          <mat-icon>storage</mat-icon> <span> {{ device.kernel }} </span>
-        </div>
-      </div>
-      <ng-template #noInfo>
-        <div class="no-info">
-          Información no disponible
-        </div>
-      </ng-template>
-    </mat-card-content>
-    <mat-card-footer [ngClass]="device.inserted_at_utc ? 'initialized' : 'warn'">
-      <mat-icon>{{ device.inserted_at_utc ? 'check_circle' : 'error' }}</mat-icon>
-      {{ device.inserted_at_utc ? 'Dispositivo inicializado' : 'Falta la inicialización' }}
-    </mat-card-footer>
-  </mat-card>
-  <div *ngIf="devices.length === 0" class="no-devices">
-    No hay dispositivos disponibles.
-  </div>
+        <ng-template #noInfo>
+          <div class="no-info">
+            Información no disponible
+          </div>
+        </ng-template>
+      </mat-card-content>
+      <mat-card-footer [ngClass]="device.inserted_at_utc ? 'initialized' : 'warn'">
+        <mat-icon>{{ device.inserted_at_utc ? 'check_circle' : 'error' }}</mat-icon>
+        {{ device.inserted_at_utc ? 'Dispositivo inicializado' : 'Falta la inicialización' }}
+      </mat-card-footer>
+    </mat-card>
+    <div *ngIf="devices.length === 0" class="no-devices">
+      No hay dispositivos disponibles.
+    </div>
+  </div>  
 </div>

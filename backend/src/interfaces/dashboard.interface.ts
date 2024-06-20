@@ -12,3 +12,23 @@ export interface Device {
   collected_at_utc?: string,
   inserted_at_utc?: string
 }
+
+export interface RamUsage {
+  id: number,
+  id_device: string,
+  total_ram: number,
+  free_ram: number,
+  used_ram: number,
+  used_percent_ram: number,
+  collected_at_utc: string,
+  inserted_at_utc: string
+}
+
+export interface CpuTemperature {
+  id: number,
+  id_device: string,
+  sensor_key: string,
+  temperature: number,
+  collected_at_utc: string,
+  inserted_at_utc: string
+}
