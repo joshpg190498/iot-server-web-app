@@ -4,7 +4,12 @@ import { Permission, User, UserInput } from "../interfaces/user.interface"
 export async function getUsersRepository(): Promise<User[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`SELECT id, username, email, first_name, last_name, active, created_at, updated_at FROM USERS`)
+    const result = await client.query(
+      `SELECT 
+        u.id, u.username, u.email, u.first_name, u.last_name, u.active, u.id_role, r.role_name as role
+      FROM USERS u 
+      INNER JOIN ROLES r
+      ON u.id_role = r.id `)
     return result.rows
   } finally {
     client.release()

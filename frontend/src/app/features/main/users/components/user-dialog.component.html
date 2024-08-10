@@ -1,0 +1,33 @@
+<h5 mat-dialog-title>{{data.isEditMode ? 'Editar Usuario' : 'Crear Usuario'}}</h5>
+<div class="dialog-content">
+  <form [formGroup]="userForm">
+    <mat-form-field *ngIf="!data.isEditMode" appearance="outline">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field *ngIf="!data.isEditMode" appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Nombres</mat-label>
+      <input matInput formControlName="first_name">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="last_name">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Rol</mat-label>
+      <mat-select formControlName="id_role">
+        <mat-option> Seleccione </mat-option>
+        <mat-option *ngFor="let input of roles" [value]="input.id">{{input.role_name}}</mat-option>
+      </mat-select>
+      <!-- <input matInput formControlName="id_role"> -->
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button (click)="onSave()">Guardar</button>
+</div>

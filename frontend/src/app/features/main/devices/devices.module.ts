@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { DevicesRoutingModule } from './devices-routing.module';
 import { IonicModule } from '@ionic/angular';
+import { DevicesRoutingModule } from './devices-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DevicesComponent } from './devices.component';
 import { MaterialModule } from 'src/app/material.module';

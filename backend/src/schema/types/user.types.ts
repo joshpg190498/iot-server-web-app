@@ -6,6 +6,8 @@ const typeDefs = `#graphql
     first_name: String
     last_name: String
     active: Boolean
+    id_role: Int
+    role: String
   }
 
   input UserInput {

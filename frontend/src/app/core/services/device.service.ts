@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -39,7 +38,7 @@ export class DeviceService {
       .watchQuery<{ devices: Device[] }>({
         query: GET_DEVICES_QUERY
       })
-      .valueChanges.pipe(map((result) => result.data.devices));
+      .valueChanges.pipe(map((result: any) => result.data.devices))
   }
 
   createDevice(form: Device): Observable<Device> {
@@ -53,6 +52,6 @@ export class DeviceService {
           }
         ]
       })
-      .pipe(map((result) => result.data?.createDevice  ?? {} as Device));
+      .pipe(map((result: any) => result.data?.createDevice  ?? {} as Device))
   }
 }

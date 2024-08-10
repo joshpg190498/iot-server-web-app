@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -66,7 +65,7 @@ export class DashboardService {
       .watchQuery<{ dashboardDevices: Device[] }>({
         query: GET_DEVICES_QUERY
       })
-      .valueChanges.pipe(map((result) => result.data.dashboardDevices));
+      .valueChanges.pipe(map((result: any) => result.data.dashboardDevices));
   }
 
   getRamUsage(id_device: string): Observable<RamUsage[]> {
@@ -77,7 +76,7 @@ export class DashboardService {
           id_device: id_device
         }
       })
-      .valueChanges.pipe(map((result) => result.data.ramUsage));
+      .valueChanges.pipe(map((result: any) => result.data.ramUsage));
   }
 
   getCpuTemperature(id_device: string): Observable<CpuTemperature[]> {
@@ -88,6 +87,6 @@ export class DashboardService {
           id_device: id_device
         }
       })
-      .valueChanges.pipe(map((result) => result.data.cpuTemperature));
+      .valueChanges.pipe(map((result: any) => result.data.cpuTemperature));
   }
 }

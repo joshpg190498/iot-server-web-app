@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatInputModule } from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatFormFieldModule,
     MatSnackBarModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule
   ],
   exports: [
     FlexLayoutModule,
@@ -43,7 +45,8 @@ import {MatChipsModule} from '@angular/material/chips';
     MatFormFieldModule,
     MatSnackBarModule,
     MatInputModule,
-    MatChipsModule
+    MatChipsModule,
+    MatSelectModule
   ]
 })
 export class MaterialModule { }

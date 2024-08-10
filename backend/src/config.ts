@@ -10,7 +10,7 @@ const config = {
     database: process.env.POSTGRES_DB || 'postgres'
   },
   kafka: {
-    broker: process.env.KAFKA_BROKER || 'kafka-broker',
+    broker: process.env.KAFKA_BROKER || '127.0.0.1:9092',
     topic: process.env.KAFKA_TOPIC_DEVICE_UPDATE || 'kafka-topic',
     clientId: process.env.BACKEND_APP_KAFKA_CLIENT_ID || 'client-id',
   },

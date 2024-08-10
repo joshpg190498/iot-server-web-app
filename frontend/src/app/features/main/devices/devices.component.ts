@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Device } from 'src/app/core/interfaces/device.interface';
@@ -15,58 +14,52 @@ import { DeviceDialogComponent } from './components/device-dialog.component';
 export class DevicesComponent implements OnInit {
   displayedColumns = ['id', 'id_device', 'description', 'active', 'actions']
   devices: Device[] = []
-  dataSource = new MatTableDataSource<any>(this.devices);
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  dataSource = new MatTableDataSource<any>(this.devices)
+  @ViewChild(MatPaginator) paginator!: MatPaginator
 
-  deviceForm: FormGroup;
-  isEditMode = false;
-  editDeviceId: number | null = null;
-  isModalOpen = false;
+  //deviceForm: FormGroup
+  isEditMode = false
+  editDeviceId: number | null = null
+  isModalOpen = false
 
   constructor(
     private _deviceService: DeviceService,
-    private fb: FormBuilder,
     public dialog: MatDialog
   ) {
-    this.deviceForm = this.fb.group({
+/*     this.deviceForm = this.fb.group({
       id: [''],
       id_device: ['', Validators.required],
       description: ['', Validators.required],
-    });
+    }); */
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginator
     this.getDevices()
   }
 
   getDevices() {
-    console.log('llamando a devices')
     this._deviceService.getDevices().subscribe(
-      (devices) => {
-        console.log('devices:', devices);
+      (devices: any) => {
+        console.log('devices:', devices)
         this.devices = devices
-        this.dataSource.data = this.devices;
-        this.dataSource.paginator = this.paginator;
-        /* this._authService.setToken(token)
-        this.setOpenToast(true, 'Crendenciales correctas', 'primary')
-        this.isLogin = false
-        this.router.navigate(['/users']) */
+        this.dataSource.data = this.devices
+        this.dataSource.paginator = this.paginator
       },
-      (error) => {
+      (error: any) => {
         let message = error.message
         if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
+          console.error('Error logging in:', error.graphQLErrors)
           message = error.graphQLErrors[0].message
         }
       }
-    );
+    )
   }
 
   showCreateForm() {
-    this.isEditMode = false;
-    this.deviceForm.reset();
-    this.openEditModal();
+    this.isEditMode = false
+    //this.deviceForm.reset()
+    this.openEditModal()
   }
 
   async openEditModal() {
@@ -91,7 +84,7 @@ export class DevicesComponent implements OnInit {
       } as Device,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         if (isEditMode && device) {
           this.updateDevice(result)
@@ -104,15 +97,10 @@ export class DevicesComponent implements OnInit {
 
   createDevice(form: Device) {
     this._deviceService.createDevice(form).subscribe(
-      (device) => {
-        console.log('device:', device);
-        //this.getDevices()
-        /* this._authService.setToken(token)
-        this.setOpenToast(true, 'Crendenciales correctas', 'primary')
-        this.isLogin = false
-        this.router.navigate(['/users']) */
+      (device: any) => {
+        console.log('device:', device)
       },
-      (error) => {
+      (error: any) => {
         console.error(error)
         let message = error.message
         if (error.graphQLErrors) {

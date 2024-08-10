@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -27,7 +26,7 @@ export class AuthService {
         query: LOGIN_QUERY,
         variables: formData,
       })
-      .valueChanges.pipe(map((result) => result.data.login));
+      .valueChanges.pipe(map((result: any) => result.data.login));
   }
 
   setToken(token: string): any {
@@ -44,5 +43,15 @@ export class AuthService {
     const token = sessionStorage.getItem('token')
     const isExpired = this.jwtHelper.isTokenExpired(token)
     return isExpired
+  }
+
+  isAuthenticated(): boolean {
+    try {
+      const isTokenExpired = this.checkTokenExpiration()
+      return !isTokenExpired
+    } catch (err){
+      console.error(err)
+      return false
+    }
   }
 }
