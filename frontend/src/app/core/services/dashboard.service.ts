@@ -65,7 +65,9 @@ export class DashboardService {
       .watchQuery<{ dashboardDevices: Device[] }>({
         query: GET_DEVICES_QUERY
       })
-      .valueChanges.pipe(map((result: any) => result.data.dashboardDevices));
+      .valueChanges
+      .pipe(
+        map((result: any) => result.data.dashboardDevices))
   }
 
   getRamUsage(id_device: string): Observable<RamUsage[]> {

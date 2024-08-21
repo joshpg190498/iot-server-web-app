@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from 'src/app/core/interfaces/user.interface'
+import { User, UserInput } from 'src/app/core/interfaces/user.interface'
 import { UserService } from 'src/app/core/services/user.service';
 import { RoleService } from 'src/app/core/services/role.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { UserDialogComponent } from './components/user-dialog.component';
 import { Role } from 'src/app/core/interfaces/role.interface';
+import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
 
 @Component({
   selector: 'app-users',
@@ -27,7 +28,8 @@ export class UsersComponent  implements OnInit {
   constructor(
     private _userService: UserService,
     private _roleService: RoleService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _gqlErrorHandlerService: GraphQLErrorHandlerService
   ) {
   }
 
@@ -46,11 +48,7 @@ export class UsersComponent  implements OnInit {
         this.dataSource.paginator = this.paginator
       }, 
       (error: any) => {
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors)
-          message = error.graphQLErrors[0].message
-        }
+        this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     )
   }
@@ -62,11 +60,7 @@ export class UsersComponent  implements OnInit {
         console.log(this.roles)
       }, 
       (error: any) => {
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors)
-          message = error.graphQLErrors[0].message
-        }
+        this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     )
   }
@@ -108,33 +102,36 @@ export class UsersComponent  implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
+        console.log(result)
         if (isEditMode && user) {
-          this.updateUser(result)
+          this.updateUser(result.id, result.input)
         } else {
-          this.createUser(result)
+          this.createUser(result.input)
         }
       }
     });
   }
 
-  createUser(form: User) {
+  createUser(form: UserInput) {
     this._userService.createUser(form).subscribe(
       (user: any) => {
         console.log('user:', user)
       },
       (error: any) => {
-        console.error(error)
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
-          message = error.graphQLErrors[0].message
-        }
-        console.error(error)
+        this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     );
   }
 
-  updateUser(form: User) {
-    console.log(form)
+  updateUser(id: number, form: UserInput) {
+    console.log(id, form, 'form user')
+    this._userService.updateUser(id, form).subscribe(
+      (user: any) => {
+        console.log('user:', user)
+      },
+      (error: any) => {
+        this._gqlErrorHandlerService.handleGraphQLError(error)
+      }
+    );
   }
 }

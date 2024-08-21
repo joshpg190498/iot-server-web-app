@@ -26,11 +26,6 @@ export class DevicesComponent implements OnInit {
     private _deviceService: DeviceService,
     public dialog: MatDialog
   ) {
-/*     this.deviceForm = this.fb.group({
-      id: [''],
-      id_device: ['', Validators.required],
-      description: ['', Validators.required],
-    }); */
   }
 
   ngOnInit() {
@@ -108,11 +103,23 @@ export class DevicesComponent implements OnInit {
           message = error.graphQLErrors[0].message
         }
       }
-    );
+    )
   }
 
   updateDevice(form: Device) {
-    console.log(form)
+    this._deviceService.updateDevice(form).subscribe(
+      (device: any) => {
+        console.log('device:', device)
+      },
+      (error: any) => {
+        console.error(error)
+        let message = error.message
+        if (error.graphQLErrors) {
+          console.error('Error logging in:', error.graphQLErrors);
+          message = error.graphQLErrors[0].message
+        }
+      }
+    )
   }
 
 }

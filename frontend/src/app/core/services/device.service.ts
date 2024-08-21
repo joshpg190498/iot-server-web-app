@@ -26,6 +26,17 @@ const CREATE_DEVICE_MUTATION = gql`
   }
 `;
 
+const UPDATE_DEVICE_MUTATION = gql`
+mutation updateDevice($id: Int!, $description: String!) {
+  updateDevice(id: $id, description: $description) {
+    id
+    id_device
+    description
+    active
+  }
+}
+`;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -53,5 +64,20 @@ export class DeviceService {
         ]
       })
       .pipe(map((result: any) => result.data?.createDevice  ?? {} as Device))
+  }
+
+  updateDevice(form: Device): Observable<Device> {
+    console.log(form, 'form')
+    return this.apollo
+      .mutate<{ updateDevice: Device }>({
+        mutation: UPDATE_DEVICE_MUTATION,
+        variables: form,
+        refetchQueries: [
+          {
+            query: GET_DEVICES_QUERY
+          }
+        ]
+      })
+      .pipe(map((result: any) => result.data?.updateDevice  ?? {} as Device))
   }
 }

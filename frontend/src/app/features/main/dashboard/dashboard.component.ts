@@ -34,6 +34,8 @@ export class DashboardComponent  implements OnInit {
         this.router.navigate(['/users']) */
       },
       (error) => {
+        console.log(error.networkError, 'gaa')
+        console.log(error.networkError.error.errors[0].message)
         let message = error.message
         if (error.graphQLErrors) {
           console.error('Error logging in:', error.graphQLErrors);

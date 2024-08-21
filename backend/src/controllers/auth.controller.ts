@@ -1,3 +1,4 @@
+import { GraphQLError } from "graphql"
 import { loginService } from "../services/auth.service"
 
 export async function loginController (_: any, args: any) {
@@ -6,6 +7,6 @@ export async function loginController (_: any, args: any) {
     return data
   } catch (err: any) {
     console.error(err)
-    throw new Error(err)
+    throw new GraphQLError(err)
   }
 }

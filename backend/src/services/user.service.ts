@@ -20,7 +20,7 @@ export async function createUserService(input: UserInput): Promise<User> {
 
 export async function updateUserService(id: number, input: UserInput): Promise<User> {
   const user = await getUserByIdRepository(id)
-  input.password_hash 
+  input.password_hash = input.password_hash 
     ? await bcrypt.hash(input.password_hash, SALT_ROUNDS)
     : input.password_hash = user.password_hash
   return await updateUserRepository(id, input)
@@ -33,6 +33,6 @@ export async function getUserByEmailService(email: string): Promise<User> {
   return await getUserByEmailRepository(email)
 }
 
-export async function getPermissionByUserIdServiceService(id: number): Promise<Permission[]> {
+export async function getPermissionByUserIdService(id: number): Promise<Permission[]> {
   return await getPermissionsByUserIdRepository(id)
 }

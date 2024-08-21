@@ -10,7 +10,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./main-layout.component.scss'],
 })
 export class MainLayoutComponent  implements OnInit {
-
+  userData: any
   userPermissions: any = []
 
   constructor(
@@ -18,12 +18,13 @@ export class MainLayoutComponent  implements OnInit {
     private menu: MenuController,
     private _userService: UserService,
     private _authService: AuthService
-  ) { }
+  ) { 
+     this.userData = this._authService.getUserData()
+  }
 
   ngOnInit(
   ) {
-    const userData = this._authService.getUserData()
-    this.getPermissions(userData.id)
+    this.getPermissions(this.userData.id)
   }
 
   logout() {

@@ -3,7 +3,7 @@ import { Apollo, gql } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Permission } from '../interfaces/permission.interface';
-import { User } from '../interfaces/user.interface';
+import { User, UserInput } from '../interfaces/user.interface';
 
 const GET_USERS_QUERY = gql`
   query users {
@@ -34,6 +34,21 @@ const CREATE_USER_MUTATION = gql`
     }
   }
 `;
+
+const UPDATE_USER_MUTATION = gql`
+  mutation updateUser($id: Int!, $input: UserInput!) {
+    updateUser(id: $id, input: $input) {
+      id
+      username
+      email
+      first_name
+      last_name
+      active
+      id_role
+      role
+    }
+  }
+`
 
 @Injectable({
   providedIn: 'root',
@@ -73,12 +88,28 @@ export class UserService {
       .valueChanges.pipe(map((result: any) => result.data.permissions));
   }
 
-  createUser(form: User): Observable<User> {
-    console.log(form, 'gaaa')
+  createUser(form: UserInput): Observable<User> {
     return this.apollo
-      .mutate<{ createUser: User }>({
+      .mutate<{ createUser: UserInput }>({
         mutation: CREATE_USER_MUTATION,
         variables: {
+          input: form
+        },
+        refetchQueries: [
+          {
+            query: GET_USERS_QUERY
+          }
+        ]
+      })
+      .pipe(map((result: any) => result.data?.createUser  ?? {} as User))
+  }
+
+  updateUser(id: number, form: UserInput): Observable<User> {
+    return this.apollo
+      .mutate<{ updateUser: UserInput }>({
+        mutation: UPDATE_USER_MUTATION,
+        variables: {
+          id: id,
           input: form
         },
         refetchQueries: [

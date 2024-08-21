@@ -6,6 +6,7 @@ export interface User {
   first_name?: string
   last_name?: string
   active: boolean
+  id_role: number
   created_at: string
   updated_at: string
 }
@@ -14,10 +15,10 @@ export interface UserInput {
   username: string
   email: string
   password_hash: string
-  id_role: number
   first_name?: string
   last_name?: string
   active?: boolean
+  id_role: number
   created_at?: string
   updated_at?: string
 }

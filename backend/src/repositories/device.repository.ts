@@ -68,7 +68,7 @@ export async function updateDeviceRepository(id: number, description: string): P
   const client = await pool.connect()
   try {
     const result = await client.query(
-      'UPDATE DEVICES SET description = $1 WHERE id = $3 RETURNING *',
+      'UPDATE DEVICES SET description = $1 WHERE id = $2 RETURNING *',
       [description, id]
     )
     return result.rows[0]

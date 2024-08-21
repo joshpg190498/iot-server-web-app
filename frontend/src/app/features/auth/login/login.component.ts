@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ILogin, Login } from 'src/app/core/interfaces/login.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent  implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private _authService: AuthService,
-    private _snackBar: MatSnackBar
+    private _toastService: ToastService,
+    private _gqlErrorHandlerService: GraphQLErrorHandlerService
   ) { 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -43,18 +45,21 @@ export class LoginComponent  implements OnInit {
       (token) => {
         console.log('Token:', token);
         this._authService.setToken(token)
-        this.setOpenToast('Crendenciales correctas', 'success')
+        this._toastService.openToast('Credenciales correctas', 'success', 3000)
         this.isLogin = false
         this.router.navigate(['/dashboard'])
       },
       (error) => {
-        let message = error.message
+        this._gqlErrorHandlerService.handleGraphQLError(error)
+        this.isLogin = false
+        /* let message = error.message
+        console.log(error, message)
         if (error.graphQLErrors) {
           console.error('Error logging in:', error.graphQLErrors);
           message = error.graphQLErrors[0].message
         }
         this.setOpenToast(message, 'error')
-        this.isLogin = false
+        this.isLogin = false */
       }
     );
   }
@@ -65,12 +70,5 @@ export class LoginComponent  implements OnInit {
       email: this.loginForm.get(['email'])!.value,
       password: this.loginForm.get('password')!.value
     }
-  }
-
-  setOpenToast(message?: string, color?: string) {
-    this._snackBar.open(message || '', '', {
-      duration: 3000,
-      panelClass: `snackbar-${color}`
-    });
   }
 }

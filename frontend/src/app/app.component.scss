@@ -1,0 +1,26 @@
+::ng-deep .snackbar-error .mat-mdc-snackbar-surface {
+  background-color: #df4759 !important;
+  color: white;
+
+  .mat-mdc-snack-bar-action {
+    color: white !important
+  }
+}
+
+::ng-deep .snackbar-success .mat-mdc-snackbar-surface {
+  background-color: #42ba96 !important;
+  color: white;
+
+  .mat-mdc-snack-bar-action {
+    color: white !important
+  }
+}
+
+::ng-deep .snackbar-warning .mat-mdc-snackbar-surface {
+  background-color: #ffc107 !important;
+  color: white;
+
+  .mat-mdc-snack-bar-action {
+    color: white !important
+  }
+}
