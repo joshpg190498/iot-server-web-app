@@ -1,14 +1,18 @@
 // src/app/apollo.config.ts
-import { ApolloLink, InMemoryCache } from '@apollo/client/core'
+import { ApolloLink, InMemoryCache, split } from '@apollo/client/core'
 import { HttpLink } from 'apollo-angular/http'
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions'
+import { createClient } from 'graphql-ws'
 import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular'
 import { NgModule } from '@angular/core'
 import { provideHttpClient } from '@angular/common/http'
 import { environment } from 'src/environments/environment'
 import { setContext } from '@apollo/client/link/context'
-import { onError } from '@apollo/client/link/error'
+import { Kind, OperationTypeNode } from 'graphql'
+import { getMainDefinition } from '@apollo/client/utilities'
 
 const uri = environment.api.uri
+const wsUri = environment.api.wsUri
 
 export function createApollo(httpLink: HttpLink) {
 
@@ -29,8 +33,27 @@ export function createApollo(httpLink: HttpLink) {
     }
   })
 
+  const http = httpLink.create({ uri })
+  const ws = new GraphQLWsLink(
+    createClient({
+      url: wsUri,
+    }),
+  )
+
+  const link = split(
+    ({ query }: { query: any }) => {
+      const definition = getMainDefinition(query);
+      return (
+        definition.kind === Kind.OPERATION_DEFINITION &&
+        definition.operation === OperationTypeNode.SUBSCRIPTION
+      );
+    },
+    ws,
+    http,
+  )
+
   return {
-    link: ApolloLink.from([authLink, httpLink.create({ uri })]),
+    link: ApolloLink.from([authLink, link]),
     cache: new InMemoryCache(),
   }
 }

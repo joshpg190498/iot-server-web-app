@@ -25,7 +25,17 @@ export class DataGraphComponent  implements OnInit {
       console.log(id); // Aquí puedes utilizar el id como desees
       this.getCpuTemperature(id || '')
       this.getRamUsage(id || '')
+      this.subscribeWs(id || '')
+
     });
+  }
+
+  subscribeWs(id_device: string): void {
+    this._dashboardService.newDeviceDataSubscription(id_device).subscribe(
+      (data) => {
+        console.log(data)
+      }
+    )
   }
 
   getCpuTemperature(id_device: string) {

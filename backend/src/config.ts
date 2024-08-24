@@ -11,8 +11,12 @@ const config = {
   },
   kafka: {
     broker: process.env.KAFKA_BROKER || '127.0.0.1:9092',
-    topic: process.env.KAFKA_TOPIC_DEVICE_UPDATE || 'kafka-topic',
-    clientId: process.env.BACKEND_APP_KAFKA_CLIENT_ID || 'client-id',
+    topics: {
+      deviceUpdate: process.env.KAFKA_TOPIC_DEVICE_UPDATE || 'kafka-topic',
+      newDeviceData: process.env.KAFKA_TOPIC_NEW_DEVICE_DATA || 'kafka-topic2'
+    },
+    clientId: process.env.KAFKA_CLIENT_ID || 'client-id',
+    groupId: process.env.KAFKA_GROUP_ID || '3'
   },
   jwt: {
     secretKey: process.env.JWT_SECURITY || 'secret_key'

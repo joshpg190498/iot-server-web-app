@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Device } from 'src/app/core/interfaces/dashboard.interface';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 
@@ -48,4 +48,6 @@ export class DashboardComponent  implements OnInit {
   goToGraphs(id_device: string): void {
     this.router.navigate([`/dashboard/${id_device}/data-graph`]);
   }
+
+  
 }

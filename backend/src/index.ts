@@ -4,30 +4,16 @@ import cors from "cors"
 import bodyParser from "body-parser"
 import { ApolloServer } from "@apollo/server"
 import { expressMiddleware } from '@apollo/server/express4'
+import { WebSocketServer } from "ws"
+import { useServer } from "graphql-ws/lib/use/ws"
 import schema from "./schema"
 import buildContext from "./middlewares/context"
+import "./kafka/kafka.consumer"
+import { makeExecutableSchema } from "graphql-tools"
 
+const executableSchema = makeExecutableSchema({ typeDefs: schema.typeDefs, resolvers: schema.resolvers })
 
-const setHttpPlugin = {
-    async requestDidStart() {
-      return {
-        async willSendResponse(requestContext: any) {
-            console.log(requestContext)
-          /* response.http.headers.set('custom-header', 'hello'); */
-          /* if (response.body.kind === 'single' &&
-              response.body.singleResult.errors?.[0]?.extensions?.code === 'TEAPOT') {
-            response.http.status = 418;
-          } */
-        },
-      };
-    },
-  }
-
-const server = new ApolloServer({
-    resolvers: schema.resolvers,
-    typeDefs: schema.typeDefs,
-    plugins: [setHttpPlugin]
-})
+const server = new ApolloServer({ schema: executableSchema })
 
 async function runServer() {
     await server.start()
@@ -42,9 +28,17 @@ async function runServer() {
         }),
       );
     
-    app.listen(config.api.port, "0.0.0.0", () => {
+    const httpServer = app.listen(config.api.port, "0.0.0.0", () => {
         console.log(`Server is running on ${config.api.port}`)
     })
+
+    const wsServer = new WebSocketServer({
+      server: httpServer,
+      path: "/subscriptions"
+    })
+
+    useServer({ schema: executableSchema }, wsServer)
+
     
 }
 

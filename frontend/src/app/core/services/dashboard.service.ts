@@ -51,6 +51,17 @@ const GET_CPU_TEMPERATURE = gql`
   }
 `;
 
+const NEW_DEVICE_DATA_SUBSCRIPTION = gql`
+  subscription newDeviceData($id_device: String!) {
+    newDeviceData(id_device: $id_device) {
+      id_device
+      parameter
+      data
+      collected_at_utc
+    }
+  }
+`
+
 
 
 @Injectable({
@@ -90,5 +101,13 @@ export class DashboardService {
         }
       })
       .valueChanges.pipe(map((result: any) => result.data.cpuTemperature));
+  }
+
+  newDeviceDataSubscription(id_device: string): Observable<any> {
+    return this.apollo
+      .subscribe({
+        query: NEW_DEVICE_DATA_SUBSCRIPTION,
+        variables: { id_device },
+      })
   }
 }

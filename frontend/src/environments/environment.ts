@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api: {
-    uri: 'http://192.168.1.210:3000/graphql'
+    uri: 'http://192.168.1.210:3000/graphql',
+    wsUri: 'ws://192.168.1.210:3000/subscriptions'
   }
 };
 

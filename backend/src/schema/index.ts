@@ -10,8 +10,10 @@ import dashboardTypes from "./types/dashboard.types"
 import dashboardResolvers from "./resolvers/dashboard.resolver"
 import roleTypes from "./types/role.types"
 import roleResolvers from "./resolvers/role.resolver"
+import subscriptionTypes from "./types/subscription.types"
+import subscriptionResolvers from "./resolvers/subscription.resolver"
 
 export default {
-  typeDefs: [deviceTypes, deviceSettingsTypes, userTypes, authTypes, dashboardTypes, roleTypes],
-  resolvers: [deviceResolvers, deviceSettingsResolver, userResolvers, authResolvers, dashboardResolvers, roleResolvers]
+  typeDefs: [deviceTypes, deviceSettingsTypes, userTypes, authTypes, dashboardTypes, roleTypes, subscriptionTypes],
+  resolvers: [deviceResolvers, deviceSettingsResolver, userResolvers, authResolvers, dashboardResolvers, roleResolvers, subscriptionResolvers]
 }
