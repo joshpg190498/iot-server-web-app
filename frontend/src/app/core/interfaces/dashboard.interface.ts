@@ -73,3 +73,69 @@ export class CpuTemperature implements ICpuTemperature {
     public inserted_at_utc?: string
   ) {}
 }
+
+export interface ICpuUsage {
+  id?: number;
+  id_device?: string;
+  cpu_usage?: number;
+  collected_at_utc?: string;
+  inserted_at_utc?: string
+}
+
+export class CpuUsage implements ICpuUsage {
+  constructor(
+    public id?: number,
+    public id_device?: string,
+    public cpu_usage?: number,
+    public collected_at_utc?: string,
+    public inserted_at_utc?: string
+  ) {}
+}
+
+export interface IDiskUsage {
+  id?: number;
+  id_device?: string;
+  disk_name?: string;
+  total_disk?: number;
+  free_disk?: number;
+  used_disk?: number;
+  used_percent_disk?: number;
+  collected_at_utc?: string;
+  inserted_at_utc?: string
+}
+
+export class DiskUsage implements IDiskUsage {
+  constructor (
+    public id?: number,
+    public id_device?: string,
+    public disk_name?: string,
+    public total_disk?: number,
+    public free_disk?: number,
+    public used_disk?: number,
+    public used_percent_disk?: number,
+    public collected_at_utc?: string,
+    public inserted_at_utc?: string
+  ) {}
+}
+
+export interface ILoadAverage {
+  id?: number;
+  id_device?: string;
+  load_average_1m?: number;
+  load_average_5m?: number;
+  load_average_15m?: number;
+  collected_at_utc?: string;
+  inserted_at_utc?: string
+}
+
+export class LoadAverage implements ILoadAverage {
+  constructor (
+    public id?: number,
+    public id_device?: string,
+    public load_average_1m?: number,
+    public load_average_5m?: number,
+    public load_average_15m?: number,
+    public collected_at_utc?: string,
+    public inserted_at_utc?: string
+  ) {}
+}

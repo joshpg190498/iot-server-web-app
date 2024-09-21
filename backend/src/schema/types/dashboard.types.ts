@@ -34,10 +34,43 @@ const typeDefs = `#graphql
     inserted_at_utc: String
   }
 
+  type CpuUsage {
+    id: Int!
+    id_device: String!
+    cpu_usage: Float
+    collected_at_utc: String
+    inserted_at_utc: String
+  }
+
+  type DiskUsage {
+    id: Int!,
+    id_device: String!,
+    disk_name: String,
+    total_disk: Float,
+    free_disk: Float,
+    used_disk: Float,
+    used_percent_disk: Float,
+    collected_at_utc: String,
+    inserted_at_utc: String
+  }
+
+  type LoadAverage {
+    id: Int!,
+    id_device: String!,
+    load_average_1m: Float,
+    load_average_5m: Float,
+    load_average_15m: Float,
+    collected_at_utc: String,
+    inserted_at_utc: String
+  }
+
   type Query {
     dashboardDevices: [DashboardDevice]
     ramUsage(id_device: String!): [RamUsage]
     cpuTemperature(id_device: String!): [CpuTemperature]
+    cpuUsage(id_device: String!): [CpuUsage]
+    diskUsage(id_device: String!): [DiskUsage]
+    loadAverage(id_device: String!): [LoadAverage]
   }
 `
 

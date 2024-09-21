@@ -2,6 +2,7 @@ export const authOperations: {[key: string]: number[]} = {
   dashboardDevices: [1, 2, 3],
   ramUsage: [1, 2, 3],
   cpuTemperature: [1, 2, 3],
+  cpuUsage: [1, 2, 3],
   deviceReadingSettings: [1, 2],
   deviceReadingSettingsByIdDevice: [1, 2],
   updateDeviceReadingSettings: [1, 2],
@@ -14,7 +15,7 @@ export const authOperations: {[key: string]: number[]} = {
   users: [1],
   user: [1],
   permissions: [1, 2, 3],
-  creatUser: [1],
-  updatUser: [1],
-  deletUser: [1]
+  createUser: [1],
+  updateUser: [1],
+  deleteUser: [1]
 }

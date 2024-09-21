@@ -80,3 +80,9 @@ $app-theme: mat.define-theme((
 .feature-page-content {
   margin: 20px
 }
+
+/* ngx charts bypass */
+.ngx-charts-outer {
+  -webkit-animation:chartFadeIn linear 0 !important;
+  animation:chartFadeIn linear 0 !important;
+}

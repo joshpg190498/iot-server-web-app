@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CpuTemperature, Device, RamUsage } from '../interfaces/dashboard.interface';
+import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, RamUsage } from '../interfaces/dashboard.interface';
 
 const GET_DEVICES_QUERY = gql`
   query dashboardDevices {
@@ -21,7 +21,7 @@ const GET_DEVICES_QUERY = gql`
       inserted_at_utc
     }
   }
-`;
+`
 
 const GET_RAM_USAGE = gql`
   query ramUsage($id_device: String!) {
@@ -36,7 +36,7 @@ const GET_RAM_USAGE = gql`
       inserted_at_utc
     }
   }
-`;
+`
 
 const GET_CPU_TEMPERATURE = gql`
   query cpuTemperature($id_device: String!) {
@@ -49,7 +49,49 @@ const GET_CPU_TEMPERATURE = gql`
       inserted_at_utc
     }
   }
-`;
+`
+
+const GET_CPU_USAGE = gql`
+  query cpuUsage($id_device: String!) {
+    cpuUsage(id_device: $id_device) {
+      id
+      id_device
+      cpu_usage
+      collected_at_utc
+      inserted_at_utc
+    }
+  }
+`
+
+const GET_DISK_USAGE = gql`
+  query diskUsage($id_device: String!) {
+    diskUsage(id_device: $id_device) {
+      id
+      id_device
+      disk_name
+      total_disk
+      free_disk
+      used_disk
+      used_percent_disk
+      collected_at_utc
+      inserted_at_utc
+    }
+  }
+`
+
+const GET_LOAD_AVERAGE = gql`
+  query loadAverage($id_device: String!) {
+    loadAverage(id_device: $id_device) {
+      id
+      id_device
+      load_average_1m
+      load_average_5m
+      load_average_15m
+      collected_at_utc
+      inserted_at_utc
+    }
+  }
+`
 
 const NEW_DEVICE_DATA_SUBSCRIPTION = gql`
   subscription newDeviceData($id_device: String!) {
@@ -69,6 +111,35 @@ const NEW_DEVICE_DATA_SUBSCRIPTION = gql`
 })
 export class DashboardService {
 
+  private ramDataSubject = new BehaviorSubject<RamUsage[]>([])
+  private cpuTempDataSubject = new BehaviorSubject<CpuTemperature[]>([])
+  private cpuUsageDataSubject = new BehaviorSubject<CpuUsage[]>([])
+  private diskUsageDataSubject = new BehaviorSubject<DiskUsage[]>([])
+  private loadAverageDataSubject = new BehaviorSubject<LoadAverage[]>([])
+
+  private updateData: { [key in any]: (data: any) => void } = {
+    'ram': (data: any) => {
+      const currentData = this.ramDataSubject.getValue()
+      this.ramDataSubject.next([...currentData, ...data].slice(-100))
+    },
+    'cpu_temp': (data: any) => {
+      const currentData = this.cpuTempDataSubject.getValue()
+      this.cpuTempDataSubject.next([...currentData, ...data].slice(-100))
+    },
+    'cpu_usage': (data: any) => {
+      const currentData = this.cpuUsageDataSubject.getValue()
+      this.cpuUsageDataSubject.next([...currentData, ...data].slice(-100))
+    },
+    'disk': (data: any) => {
+      const currentData = this.diskUsageDataSubject.getValue()
+      this.diskUsageDataSubject.next([...currentData, ...data].slice(-100))
+    },
+    'load_average': (data: any) => {
+      const currentData = this.loadAverageDataSubject.getValue()
+      this.loadAverageDataSubject.next([...currentData, ...data].slice(-100))
+    }
+  }
+
   constructor(private apollo: Apollo) {}
 
   getDevices(): Observable<Device[]> {
@@ -81,7 +152,7 @@ export class DashboardService {
         map((result: any) => result.data.dashboardDevices))
   }
 
-  getRamUsage(id_device: string): Observable<RamUsage[]> {
+  getRamUsageRT(id_device: string): Observable<RamUsage[]> {
     return this.apollo
       .watchQuery<{ ramUsage: RamUsage[] }>({
         query: GET_RAM_USAGE,
@@ -89,10 +160,15 @@ export class DashboardService {
           id_device: id_device
         }
       })
-      .valueChanges.pipe(map((result: any) => result.data.ramUsage));
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.ramUsage.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.ramDataSubject.next(data)
+        return data
+      }));
   }
 
-  getCpuTemperature(id_device: string): Observable<CpuTemperature[]> {
+  getCpuTemperatureRT(id_device: string): Observable<CpuTemperature[]> {
     return this.apollo
       .watchQuery<{ cpuTemperature: CpuTemperature[] }>({
         query: GET_CPU_TEMPERATURE,
@@ -100,7 +176,60 @@ export class DashboardService {
           id_device: id_device
         }
       })
-      .valueChanges.pipe(map((result: any) => result.data.cpuTemperature));
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.cpuTemperature.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.cpuTempDataSubject.next(data)
+        return data
+      }));
+  }
+
+  getCpuUsageRT(id_device: string): Observable<CpuUsage[]> {
+    return this.apollo
+      .watchQuery<{ cpuUsage: CpuUsage[] }>({
+        query: GET_CPU_USAGE,
+        variables: {
+          id_device: id_device
+        }
+      })
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.cpuUsage.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.cpuUsageDataSubject.next(data)
+        return data
+      }));
+  }
+
+  getDiskUsageRT(id_device: string): Observable<DiskUsage[]> {
+    return this.apollo
+      .watchQuery<{ diskUsage: DiskUsage[] }>({
+        query: GET_DISK_USAGE,
+        variables: {
+          id_device: id_device
+        }
+      })
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.diskUsage.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.diskUsageDataSubject.next(data)
+        return data
+      }));
+  }
+
+  getLoadAverageRT(id_device: string): Observable<LoadAverage[]> {
+    return this.apollo
+      .watchQuery<{ loadAverage: LoadAverage[] }>({
+        query: GET_LOAD_AVERAGE,
+        variables: {
+          id_device: id_device
+        }
+      })
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.loadAverage.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.loadAverageDataSubject.next(data)
+        return data
+      }));
   }
 
   newDeviceDataSubscription(id_device: string): Observable<any> {
@@ -109,5 +238,34 @@ export class DashboardService {
         query: NEW_DEVICE_DATA_SUBSCRIPTION,
         variables: { id_device },
       })
+      .pipe(
+        map((result: any) => {
+          console.log(result, 'result:ga')
+          const newData = result.data.newDeviceData
+          if (this.updateData[newData.parameter]) {
+            this.updateData[newData.parameter](newData.data);
+          }
+        })
+      )
+  }
+
+  getRealTimeRamData(): Observable<RamUsage[]> {
+    return this.ramDataSubject.asObservable()
+  }
+
+  getRealTimeCpuTempData(): Observable<CpuTemperature[]> {
+    return this.cpuTempDataSubject.asObservable()
+  }
+
+  getRealTimeCpuUsageData(): Observable<CpuUsage[]> {
+    return this.cpuUsageDataSubject.asObservable()
+  }
+
+  getRealTimeDiskUsageData(): Observable<DiskUsage[]> {
+    return this.diskUsageDataSubject.asObservable()
+  }
+
+  getRealTimeLoadAverageData(): Observable<LoadAverage[]> {
+    return this.loadAverageDataSubject.asObservable()
   }
 }

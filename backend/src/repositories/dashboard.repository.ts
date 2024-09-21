@@ -1,5 +1,5 @@
 import pool from "../database"
-import { CpuTemperature, Device, RamUsage } from "../interfaces/dashboard.interface"
+import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, RamUsage } from "../interfaces/dashboard.interface"
 
 export async function getDevicesRepository(): Promise<Device[]> {
   const client = await pool.connect()
@@ -25,11 +25,10 @@ export async function getRamUsageByIdDeviceRepository(id_device: string): Promis
   const client = await pool.connect()
   try {
     const result = await client.query(`
-      SELECT * 
+      SELECT *
         FROM ram_usage
-      WHERE 
-        id_device = $1
-      ORDER BY collected_at_utc
+      WHERE id_device = $1
+      ORDER BY collected_at_utc DESC
     `, [id_device])
     return result.rows
   } finally {
@@ -42,13 +41,58 @@ export async function getCpuTemperatureByIdDeviceRepository(id_device: string): 
   try {
     const result = await client.query(`
       SELECT *
-        FROM cpu_temperature 
-      WHERE 
-        id_device = $1
-      ORDER BY collected_at_utc
+        FROM cpu_temperature
+      WHERE id_device = $1
+      ORDER BY collected_at_utc DESC
     `, [id_device])
     return result.rows
   } finally {
     client.release()
   }
 }
+
+export async function getCpuUsageByIdDeviceRepository(id_device: string): Promise <CpuUsage[]> {
+  const client = await pool.connect()
+  try {
+    const result = await client.query(`
+      SELECT *
+        FROM cpu_usage
+      WHERE id_device = $1
+      ORDER BY collected_at_utc DESC
+    `, [id_device])
+    return result.rows
+  } finally {
+    client.release()
+  }
+}
+
+export async function getDiskUsageByIdDeviceRepository(id_device: string): Promise <DiskUsage[]> {
+  const client = await pool.connect()
+  try {
+    const result = await client.query(`
+      SELECT *
+        FROM disk_usage
+      WHERE id_device = $1
+      ORDER BY collected_at_utc DESC
+    `, [id_device])
+    return result.rows
+  } finally {
+    client.release()
+  }
+}
+
+export async function getLoadAverageByIdDeviceRepository(id_device: string): Promise <LoadAverage[]> {
+  const client = await pool.connect()
+  try {
+    const result = await client.query(`
+      SELECT *
+        FROM load_average
+      WHERE id_device = $1
+      ORDER BY collected_at_utc DESC
+    `, [id_device])
+    return result.rows
+  } finally {
+    client.release()
+  }
+}
+

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CpuTemperature } from 'src/app/core/interfaces/dashboard.interface';
+import { CpuUsage } from 'src/app/core/interfaces/dashboard.interface';
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -8,22 +8,21 @@ import {
   ApexLegend,
   ApexTooltip,
   ApexDataLabels,
-  ApexFill,
   ApexStroke
 } from 'ng-apexcharts';
 
 @Component({
-  selector: 'app-data-graph-cpu-temperature',
-  templateUrl: './data-graph-cpu-temperature.component.html',
+  selector: 'app-data-graph-cpu-usage',
+  templateUrl: './data-graph-cpu-usage.component.html',
   styleUrls: ['./data-graph.component.scss']
 })
-export class DataGraphCpuTemperatureComponent implements OnChanges {
-  @Input() cpuTemperatureData: CpuTemperature[] = [];
+export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
+  @Input() cpuUsageData: CpuUsage[] = [];
   public chartSeries: ApexAxisChartSeries = [];
   public chartOptions: any;
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['cpuTemperatureData']) {
+    if (changes['cpuUsageData']) {
       this.parseData();
     }
   }
@@ -53,7 +52,7 @@ export class DataGraphCpuTemperatureComponent implements OnChanges {
       },
       yaxis: {
         title: {
-          text: 'Temperatura (°C)'
+          text: 'Utilización (%)'
         }
       },
       dataLabels: {
@@ -79,27 +78,17 @@ export class DataGraphCpuTemperatureComponent implements OnChanges {
   }
 
   parseData() {
-    const sensorData: Record<string, { name: string; data: { x: string; y: number }[] }> = {};
-
-    this.cpuTemperatureData.forEach(({ sensor_key, collected_at_utc, temperature }: CpuTemperature) => {
-      if (!sensor_key) return;
-
-      if (!sensorData[sensor_key]) {
-        sensorData[sensor_key] = { name: sensor_key, data: [] };
-      }
-
-      if (collected_at_utc && temperature) {
-        sensorData[sensor_key].data.push({
-          x: new Date(Number(collected_at_utc)).toLocaleString(),
-          y: Number(temperature)
-        });
-      }
-    });
-
-    this.chartSeries = Object.values(sensorData).map(item => ({
-      name: item.name,
-      data: item.data 
+    const cpuUsageTrend = this.cpuUsageData.map((el: CpuUsage) => ({
+      x: new Date(Number(el.collected_at_utc)).toLocaleString(),
+      y: Number(el.cpu_usage)
     }));
+
+    this.chartSeries = [
+      {
+        name: 'Uso CPU',
+        data: cpuUsageTrend
+      }
+    ];
   }
 
   onSelect(data: any): void {

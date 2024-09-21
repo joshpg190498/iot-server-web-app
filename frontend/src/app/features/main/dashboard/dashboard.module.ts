@@ -8,6 +8,9 @@ import { DataGraphComponent } from './data-graph/data-graph.component';
 import { DataGraphRamUsageComponent } from './data-graph/data-graph-ram-usage.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { DataGraphCpuTemperatureComponent } from './data-graph/data-graph-cpu-temperature.component';
+import { DataGraphCpuUsageComponent } from './data-graph/data-graph-cpu-usage.component';
+import { DataGraphDiskUsageComponent } from './data-graph/data-graph-disk-usage.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 
 @NgModule({
@@ -15,13 +18,16 @@ import { DataGraphCpuTemperatureComponent } from './data-graph/data-graph-cpu-te
     DashboardComponent,
     DataGraphComponent,
     DataGraphRamUsageComponent,
-    DataGraphCpuTemperatureComponent
+    DataGraphCpuTemperatureComponent,
+    DataGraphCpuUsageComponent,
+    DataGraphDiskUsageComponent
   ],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     MaterialModule,
-    NgxChartsModule
+    NgxChartsModule,
+    NgApexchartsModule
   ]
 })
 export class DashboardModule { }

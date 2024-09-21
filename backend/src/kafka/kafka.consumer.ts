@@ -1,6 +1,7 @@
 import config from "../config"
 import { Kafka, logLevel } from "kafkajs"
 import { pubsub } from "../pubsub"
+import { getDataByTablePointerAndCollectedDate, getParameterById } from "../repositories/pointer.repository"
 
 const kafka = new Kafka({
   clientId: config.kafka.clientId,
@@ -32,24 +33,39 @@ export async function runConsumer(topic: string, handleMessage: (message: any) =
   }
 }
 
-const handleMessage = (message: any) => {
+const handleMessage = async (message: any) => {
   try {
     const parsedValue = JSON.parse(message.value)
-
-    const { IDDevice, Parameter, Data, CollectedAtUtc } = parsedValue
-    pubsub.publish(`NEW_${IDDevice}_DATA`, {
-      newDeviceData: {
-        id_device: IDDevice,
-        parameter: Parameter,
-        data: Data,
-        collected_at_utc: CollectedAtUtc
-      }
-    })
+    const { IDDevice, Parameter, CollectedAtUtc } = parsedValue
+    const parameterInfo = await getParameterById(Parameter)
+    const data = await getDataByTablePointerAndCollectedDate(parameterInfo.table_pointer, CollectedAtUtc)
+    const formattedData = formatData(data)
+    if (data.length) {
+      pubsub.publish(`NEW_${IDDevice}_DATA`, {
+        newDeviceData: {
+          id_device: IDDevice,
+          parameter: Parameter,
+          data: formattedData
+        }
+      })  
+    }
   } catch (err) {
     console.error(err)
   }
   console.log(message)
   console.log(`Received message: ${JSON.stringify(message)}`)
+}
+
+const formatData = (data: any) => {
+  return data.map((item: any) => {
+    const collectedTimestamp = new Date(item.collected_at_utc).getTime()
+    const insertedTimestamp = new Date(item.inserted_at_utc).getTime()
+    return {
+      ...item,
+      collected_at_utc: collectedTimestamp.toString(),
+      inserted_at_utc: insertedTimestamp.toString()
+    };
+  });
 }
 
 runConsumer(config.kafka.topics.newDeviceData, handleMessage).catch(console.error)
