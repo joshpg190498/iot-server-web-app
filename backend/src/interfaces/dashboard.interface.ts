@@ -9,6 +9,7 @@ export interface Device {
   hostid?: string,
   os?: string,
   kernel?: string,
+  cpu_count?: number,
   collected_at_utc?: string,
   inserted_at_utc?: string
 }

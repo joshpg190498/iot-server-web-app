@@ -1,4 +1,4 @@
-import { getCpuTemperatureByIdDeviceService, getCpuUsageByIdDeviceService, getDevicesService, getDiskUsageByIdDeviceService, getLoadAverageByIdDeviceService, getRamUsageByIdDeviceService } from "../services/dashboard.service"
+import { getCpuTemperatureByIdDeviceService, getCpuUsageByIdDeviceService, getDevicesService, getDiskUsageByIdDeviceService, getLoadAverageByIdDeviceService, getNetworkStatsByIdDeviceService, getRamUsageByIdDeviceService } from "../services/dashboard.service"
 
 export async function getDevicesController (_: any, __: any, context: any) {
   try {
@@ -53,6 +53,16 @@ export async function getDiskUsageByIdDeviceController (_: any, args: any) {
 export async function getLoadAverageByIdDeviceController (_: any, args: any) {
   try {
     const data = await getLoadAverageByIdDeviceService(args.id_device)
+    return data
+  } catch (err: any) {
+    console.error(err)
+    throw new Error(err)
+  }
+}
+
+export async function getNetworkStatsByIdDeviceController (_: any, args: any) {
+  try {
+    const data = await getNetworkStatsByIdDeviceService(args.id_device)
     return data
   } catch (err: any) {
     console.error(err)

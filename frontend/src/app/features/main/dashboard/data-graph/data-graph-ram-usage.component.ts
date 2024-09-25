@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { RamUsage } from 'src/app/core/interfaces/dashboard.interface';
+import { Component, Input, OnChanges, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { RamUsage } from 'src/app/core/interfaces/dashboard.interface'
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -8,36 +8,36 @@ import {
   ApexLegend,
   ApexTooltip,
   ApexDataLabels,
-  ApexFill,
   ApexStroke
-} from 'ng-apexcharts';
+} from 'ng-apexcharts'
 
 @Component({
   selector: 'app-data-graph-ram-usage',
   templateUrl: './data-graph-ram-usage.component.html',
-  styleUrls: ['./data-graph.component.scss']
+  styleUrls: ['./data-graph.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DataGraphRamUsageComponent implements OnChanges {
-  @Input() ramUsageData: RamUsage[] = [];
-  public chartSeries: ApexAxisChartSeries = [];
-  public chartOptions: any;
-  private maxPoints: number = 50; // Máximo número de puntos a mostrar en el gráfico
+  @Input() ramUsageData: RamUsage[] = []
+  public chartSeries: ApexAxisChartSeries = []
+  public chartOptions: any
+  private maxPoints: number = 50 // Máximo número de puntos a mostrar en el gráfico
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ramUsageData']) {
-      this.parseData();
+      this.parseData()
     }
   }
 
   ngOnInit() {
-    this.initializeChartOptions();
+    this.initializeChartOptions()
   }
 
   initializeChartOptions() {
     this.chartOptions = {
       chart: {
-        type: 'area', // Cambiado a "area" para gráfico de área
-        stacked: true,
+        type: 'line', // Gráfico de línea
+        height: '240px',
         animations: {
           enabled: true,
           easing: 'linear',
@@ -47,31 +47,28 @@ export class DataGraphRamUsageComponent implements OnChanges {
         }
       },
       xaxis: {
-        type: 'datetime', // Se utiliza "datetime" para mejor manejo de fechas
+        type: 'datetime', // Cambiar el eje X a datetime
         labels: {
-          format: 'dd/MM/yy HH:mm:ss',
-          show: false
+          show: true, // Mostrar etiquetas en el eje X
+          format: 'dd/MM/yy HH:mm:ss' // Formato de la etiqueta (opcional)
         }
       },
       yaxis: {
         title: {
-          text: 'Megabytes (MB)'
+          text: 'RAM Usada (%)'
+        },
+        labels: {
+          formatter: (val: any) => {
+            return val + ' %'
+          }
         }
       },
       dataLabels: {
-        enabled: false // Se deshabilitan las etiquetas dentro del área
+        enabled: false 
       },
       stroke: {
         curve: 'smooth',
-        width: 2 // Grosor de las líneas del área
-      },
-      fill: {
-        type: 'gradient', // Rellena el área con un gradiente
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.7,
-          opacityTo: 0.9,
-        }
+        width: 2 
       },
       legend: {
         show: true,
@@ -79,85 +76,47 @@ export class DataGraphRamUsageComponent implements OnChanges {
       },
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm:ss'
+          formatter: (val: number) => {
+            return new Date(val).toLocaleString()
+          }
+        },
+        y: {
+          formatter: (value: number, { series, seriesIndex, dataPointIndex, w }: any) => {
+            const usedRamMB = w.config.series[seriesIndex].data[dataPointIndex].usedRamMB
+            return usedRamMB ? `${usedRamMB} MB` : 'N/A'
+          }
         }
       },
       grid: {
-        show: true // Muestra las líneas de la cuadrícula
-      },
-      /* annotations: {
-        yaxis: [
-          {
-            y: 100,
-            borderColor: '#E44D25',
-            label: {
-              text: 'Límite',
-              style: {
-                color: '#fff',
-                background: '#E44D25'
-              }
-            }
-          }
-        ]
-      } */
-    };
+        show: true 
+      }
+    }
   }
 
   parseData() {
-    // Convierto los datos de uso y RAM libre en dos series de datos para el gráfico
-    const usedRamTrend = this.ramUsageData.map((el: RamUsage) => ({
-      x: new Date(Number(el.collected_at_utc)).getTime(), // timestamp para el eje X
-      y: Number(el.used_ram) // Porcentaje de RAM usada
-    }));
+    const usedRamTrend = this.ramUsageData.map((el: RamUsage) => {
+      if (el.used_ram === null || el.free_ram === null) {
+        return {
+          x: new Date(Number(el.collected_at_utc)).getTime(), 
+          y: null,
+          usedRamMB: null
+        }
+      }
+      const totalRam = Number(el.used_ram) + Number(el.free_ram)
+      const usedRamPercentage = (Number(el.used_ram) / totalRam) * 100
 
-    const freeRamTrend = this.ramUsageData.map((el: RamUsage) => ({
-      x: new Date(Number(el.collected_at_utc)).getTime(), // timestamp para el eje X
-      y: Number(el.free_ram) // Porcentaje de RAM libre
-    }));
+      return {
+        x: new Date(Number(el.collected_at_utc)).getTime(), 
+        y: usedRamPercentage, 
+        usedRamMB: Number(el.used_ram) 
+      }
+    })
 
     this.chartSeries = [
       {
         name: 'RAM Usada',
         data: usedRamTrend
-      },
-      {
-        name: 'RAM Libre',
-        data: freeRamTrend
       }
-    ];
-  }
-
-  updateRealtimeData(newData: RamUsage) {
-    const newPointUsed = {
-      x: new Date(Number(newData.collected_at_utc)).getTime(),
-      y: (Number(newData.used_ram) / (Number(newData.used_ram) + Number(newData.free_ram))) * 100
-    };
-
-    const newPointFree = {
-      x: new Date(Number(newData.collected_at_utc)).getTime(),
-      y: (Number(newData.free_ram) / (Number(newData.used_ram) + Number(newData.free_ram))) * 100
-    };
-
-    let currentUsedData = this.chartSeries[0].data as any[];
-    let currentFreeData = this.chartSeries[1].data as any[];
-
-    if (currentUsedData.length >= this.maxPoints) {
-      currentUsedData.shift();
-      currentFreeData.shift();
-    }
-
-    currentUsedData.push(newPointUsed);
-    currentFreeData.push(newPointFree);
-
-    this.chartSeries = [
-      {
-        name: 'RAM Usada',
-        data: currentUsedData
-      },
-      {
-        name: 'RAM Libre',
-        data: currentFreeData
-      }
-    ];
+    ]
   }
 }

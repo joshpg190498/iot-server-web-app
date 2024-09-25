@@ -9,6 +9,7 @@ export interface IDevice {
   hostid?: string;
   os?: string;
   kernel?: string;
+  cpu_count?: number;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -25,6 +26,7 @@ export class Device implements IDevice {
     public hostid?: string,
     public os?: string,
     public kernel?: string,
+    public cpu_count?: number,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}
@@ -135,6 +137,40 @@ export class LoadAverage implements ILoadAverage {
     public load_average_1m?: number,
     public load_average_5m?: number,
     public load_average_15m?: number,
+    public collected_at_utc?: string,
+    public inserted_at_utc?: string
+  ) {}
+}
+
+export interface INetworkStats {
+  id?: number;
+  id_device?: string;
+  interface_name?: string;
+  bytes_sent?: number;
+  bytes_recv?: number;
+  packets_sent?: number;
+  packets_recv?: number;
+  errin?: number;
+  errout?: number;
+  dropin?: number;
+  droput?: number;
+  collected_at_utc?: string;
+  inserted_at_utc?: string
+}
+
+export class NetworkStats implements INetworkStats {
+  constructor (
+    public id?: number,
+    public id_device?: string,
+    public interface_name?: string,
+    public bytes_sent?: number,
+    public bytes_recv?: number,
+    public packets_sent?: number,
+    public packets_recv?: number,
+    public errin?: number,
+    public errout?: number,
+    public dropin?: number,
+    public dropout?: number,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}

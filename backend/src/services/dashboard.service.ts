@@ -1,5 +1,5 @@
-import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, RamUsage } from "../interfaces/dashboard.interface";
-import { getCpuTemperatureByIdDeviceRepository, getCpuUsageByIdDeviceRepository, getDevicesRepository, getDiskUsageByIdDeviceRepository, getLoadAverageByIdDeviceRepository, getRamUsageByIdDeviceRepository } from "../repositories/dashboard.repository";
+import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from "../interfaces/dashboard.interface";
+import { getCpuTemperatureByIdDeviceRepository, getCpuUsageByIdDeviceRepository, getDevicesRepository, getDiskUsageByIdDeviceRepository, getLoadAverageByIdDeviceRepository, getNetworkStatsByIdDeviceRepository, getRamUsageByIdDeviceRepository } from "../repositories/dashboard.repository";
 
 
 export async function getDevicesService(): Promise<Device[]> {
@@ -24,4 +24,8 @@ export async function getDiskUsageByIdDeviceService(id_device: string): Promise<
 
 export async function getLoadAverageByIdDeviceService(id_device: string): Promise<LoadAverage[]> {
   return await getLoadAverageByIdDeviceRepository(id_device)
+}
+
+export async function getNetworkStatsByIdDeviceService(id_device: string): Promise<NetworkStats[]> {
+  return await getNetworkStatsByIdDeviceRepository(id_device)
 }

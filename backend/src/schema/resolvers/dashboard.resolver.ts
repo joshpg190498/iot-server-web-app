@@ -1,4 +1,4 @@
-import { getCpuTemperatureByIdDeviceController, getCpuUsageByIdDeviceController, getDevicesController, getDiskUsageByIdDeviceController, getLoadAverageByIdDeviceController, getRamUsageByIdDeviceController } from '../../controllers/dashboard.controller';
+import { getCpuTemperatureByIdDeviceController, getCpuUsageByIdDeviceController, getDevicesController, getDiskUsageByIdDeviceController, getLoadAverageByIdDeviceController, getNetworkStatsByIdDeviceController, getRamUsageByIdDeviceController } from '../../controllers/dashboard.controller';
 
 const resolvers = {
   Query: {
@@ -7,7 +7,8 @@ const resolvers = {
     cpuTemperature: getCpuTemperatureByIdDeviceController,
     cpuUsage: getCpuUsageByIdDeviceController,
     diskUsage: getDiskUsageByIdDeviceController,
-    loadAverage: getLoadAverageByIdDeviceController
+    loadAverage: getLoadAverageByIdDeviceController,
+    networkStats: getNetworkStatsByIdDeviceController
   }
 };
 

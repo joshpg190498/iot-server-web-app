@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { CpuTemperature, CpuUsage, DiskUsage, LoadAverage, RamUsage } from 'src/app/core/interfaces/dashboard.interface';
+import { CpuTemperature, CpuUsage, DiskUsage, LoadAverage, NetworkStats, RamUsage } from 'src/app/core/interfaces/dashboard.interface';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 
 @Component({
@@ -16,11 +16,13 @@ export class DataGraphComponent  implements OnInit {
   cpuUsageData: CpuUsage[] = []
   diskUsageData: DiskUsage[] = []
   loadAverageData: LoadAverage[] = []
+  networkStatsData: NetworkStats[] = []
   ramUsageDataLoaded = false
   cpuTemperatureDataLoaded = false
   cpuUsageDataLoaded = false
   diskUsageDataLoaded = false
   loadAverageDataLoaded = false
+  networkStatsDataLoaded = false
 
   constructor(
     private _dashboardService: DashboardService,
@@ -67,6 +69,13 @@ export class DataGraphComponent  implements OnInit {
     )
 
     this.subscriptions.push(
+      this._dashboardService.getNetworkStatsRT(id).subscribe(networkStatsData => {
+        this.networkStatsData = networkStatsData
+        this.networkStatsDataLoaded = true
+      })
+    )
+
+    this.subscriptions.push(
       this._dashboardService.getRealTimeRamData().subscribe(ramUsageData => {
         this.ramUsageData = ramUsageData
       })
@@ -93,6 +102,12 @@ export class DataGraphComponent  implements OnInit {
     this.subscriptions.push(
       this._dashboardService.getRealTimeLoadAverageData().subscribe(loadAverageData => {
         this.loadAverageData = loadAverageData
+      })
+    )
+
+    this.subscriptions.push(
+      this._dashboardService.getRealTimeNetworkStatsData().subscribe(networkStatsData => {
+        this.networkStatsData = networkStatsData
       })
     )
 

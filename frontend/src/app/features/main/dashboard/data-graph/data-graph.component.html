@@ -8,7 +8,7 @@
   <mat-tab-group>
     <mat-tab label="Tiempo real">  
       <div class="container">
-        <mat-grid-list cols="3" rowHeight="300px">
+        <mat-grid-list cols="3" rowHeight="350px" [gutterSize]="'16px'">
           <mat-grid-tile>
             <mat-card>
               <mat-card-header>
@@ -41,6 +41,42 @@
               <mat-card-content>
                 <div *ngIf="cpuTemperatureDataLoaded">
                   <app-data-graph-cpu-usage [cpuUsageData]="cpuUsageData"></app-data-graph-cpu-usage>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Uso de Disco</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div *ngIf="diskUsageDataLoaded">
+                  <app-data-graph-disk-usage [diskUsageData]="diskUsageData"></app-data-graph-disk-usage>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Load Average</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div *ngIf="loadAverageDataLoaded">
+                  <app-data-graph-load-average [loadAverageData]="loadAverageData"></app-data-graph-load-average>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Tráfico de red</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div *ngIf="networkStatsDataLoaded">
+                  <app-data-graph-network-stats [networkStatsData]="networkStatsData"></app-data-graph-network-stats>
                 </div>
               </mat-card-content>
             </mat-card>

@@ -11,6 +11,8 @@ import { DataGraphCpuTemperatureComponent } from './data-graph/data-graph-cpu-te
 import { DataGraphCpuUsageComponent } from './data-graph/data-graph-cpu-usage.component';
 import { DataGraphDiskUsageComponent } from './data-graph/data-graph-disk-usage.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { DataGraphLoadAverageComponent } from './data-graph/data-graph-load-average.component';
+import { DataGraphNetworkStatsComponent } from './data-graph/data-graph-network-stats.component';
 
 
 @NgModule({
@@ -20,7 +22,9 @@ import { NgApexchartsModule } from 'ng-apexcharts';
     DataGraphRamUsageComponent,
     DataGraphCpuTemperatureComponent,
     DataGraphCpuUsageComponent,
-    DataGraphDiskUsageComponent
+    DataGraphDiskUsageComponent,
+    DataGraphLoadAverageComponent,
+    DataGraphNetworkStatsComponent
   ],
   imports: [
     CommonModule,

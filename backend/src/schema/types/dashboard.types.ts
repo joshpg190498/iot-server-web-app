@@ -10,6 +10,7 @@ const typeDefs = `#graphql
     hostid: String
     os: String
     kernel: String
+    cpu_count: Int
     collected_at_utc: String
     inserted_at_utc: String
   }
@@ -64,6 +65,22 @@ const typeDefs = `#graphql
     inserted_at_utc: String
   }
 
+  type NetworkStats {
+    id: Int!,
+    id_device: String!,
+    interface_name: String,
+    bytes_sent: Float,
+    bytes_recv: Float,
+    packets_sent: Float,
+    packets_recv: Float,
+    errout: Float,
+    errin: Float,
+    dropin: Float,
+    dropout: Float,
+    collected_at_utc: String,
+    inserted_at_utc: String
+  }
+
   type Query {
     dashboardDevices: [DashboardDevice]
     ramUsage(id_device: String!): [RamUsage]
@@ -71,6 +88,7 @@ const typeDefs = `#graphql
     cpuUsage(id_device: String!): [CpuUsage]
     diskUsage(id_device: String!): [DiskUsage]
     loadAverage(id_device: String!): [LoadAverage]
+    networkStats(id_device: String!): [NetworkStats]
   }
 `
 

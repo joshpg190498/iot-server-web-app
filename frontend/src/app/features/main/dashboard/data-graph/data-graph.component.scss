@@ -1,12 +1,45 @@
-mat-card-header {
-  justify-content: center;
-
-  mat-card-title {
-    font-size: 14px;
-  }
+/* Estilos para el mat-card */
+mat-card {
+  max-height: 330px;
+  padding: 16px;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Agrega sombra suave */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.ngx-charts-outer {
-  -webkit-animation: chartFadeIn linear .6s;
-  animation: chartFadeIn linear .6s;
+/* Estilos para mat-card-header */
+mat-card-header {
+  justify-content: center;
+}
+
+/* Estilos para mat-card-title */
+mat-card-title {
+  font-size: 16px; /* Aumentado para mejor visibilidad */
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Estilos para mat-card-content */
+mat-card-content {
+  max-height: 300px;
+  padding: 10px 0px 10px 0px;
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para el contenedor principal */
+.container {
+  width: 100%;
+  padding: 0; /* Elimina padding si lo hay */
+}
+
+/* Estilos para el contenido dentro de mat-grid-tile */
+.mat-grid-tile {
+  padding: 16px; /* Espaciado entre las tarjetas */
+}
+
+.mat-grid-tile-content {
+  display: block !important;
 }

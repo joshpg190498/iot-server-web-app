@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, RamUsage } from '../interfaces/dashboard.interface';
+import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
 
 const GET_DEVICES_QUERY = gql`
   query dashboardDevices {
@@ -17,6 +17,7 @@ const GET_DEVICES_QUERY = gql`
       hostid
       os
       kernel
+      cpu_count
       collected_at_utc
       inserted_at_utc
     }
@@ -93,6 +94,27 @@ const GET_LOAD_AVERAGE = gql`
   }
 `
 
+const GET_NETWORK_STATS = gql`
+  query networkStats($id_device: String!) {
+    networkStats(id_device: $id_device) {
+      id
+      id_device
+      interface_name
+      bytes_sent
+      bytes_recv
+      packets_sent
+      packets_recv
+      errout
+      errin
+      dropin
+      dropout
+      collected_at_utc
+      inserted_at_utc
+    }
+  }
+`
+
+
 const NEW_DEVICE_DATA_SUBSCRIPTION = gql`
   subscription newDeviceData($id_device: String!) {
     newDeviceData(id_device: $id_device) {
@@ -116,6 +138,7 @@ export class DashboardService {
   private cpuUsageDataSubject = new BehaviorSubject<CpuUsage[]>([])
   private diskUsageDataSubject = new BehaviorSubject<DiskUsage[]>([])
   private loadAverageDataSubject = new BehaviorSubject<LoadAverage[]>([])
+  private networkStatsDataSubject = new BehaviorSubject<NetworkStats[]>([])
 
   private updateData: { [key in any]: (data: any) => void } = {
     'ram': (data: any) => {
@@ -137,6 +160,10 @@ export class DashboardService {
     'load_average': (data: any) => {
       const currentData = this.loadAverageDataSubject.getValue()
       this.loadAverageDataSubject.next([...currentData, ...data].slice(-100))
+    },
+    'network_stats': (data: any) => {
+      const currentData = this.networkStatsDataSubject.getValue()
+      this.networkStatsDataSubject.next([...currentData, ...data].slice(-100))
     }
   }
 
@@ -232,6 +259,22 @@ export class DashboardService {
       }));
   }
 
+  getNetworkStatsRT(id_device: string): Observable<NetworkStats[]> {
+    return this.apollo
+      .watchQuery<{ networkStats: NetworkStats[] }>({
+        query: GET_NETWORK_STATS,
+        variables: {
+          id_device: id_device
+        }
+      })
+      .valueChanges.pipe(map((result: any) => {
+        const data = result.data.networkStats.slice(0, 100)
+        data.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+        this.networkStatsDataSubject.next(data)
+        return data
+      }));
+  }
+
   newDeviceDataSubscription(id_device: string): Observable<any> {
     return this.apollo
       .subscribe({
@@ -267,5 +310,9 @@ export class DashboardService {
 
   getRealTimeLoadAverageData(): Observable<LoadAverage[]> {
     return this.loadAverageDataSubject.asObservable()
+  }
+
+  getRealTimeNetworkStatsData(): Observable<NetworkStats[]> {
+    return this.networkStatsDataSubject.asObservable()
   }
 }

@@ -1,5 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { CpuUsage } from 'src/app/core/interfaces/dashboard.interface';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { CpuUsage } from 'src/app/core/interfaces/dashboard.interface'
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -9,32 +9,34 @@ import {
   ApexTooltip,
   ApexDataLabels,
   ApexStroke
-} from 'ng-apexcharts';
+} from 'ng-apexcharts'
 
 @Component({
   selector: 'app-data-graph-cpu-usage',
   templateUrl: './data-graph-cpu-usage.component.html',
-  styleUrls: ['./data-graph.component.scss']
+  styleUrls: ['./data-graph.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
-  @Input() cpuUsageData: CpuUsage[] = [];
-  public chartSeries: ApexAxisChartSeries = [];
-  public chartOptions: any;
+  @Input() cpuUsageData: CpuUsage[] = []
+  public chartSeries: ApexAxisChartSeries = []
+  public chartOptions: any
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['cpuUsageData']) {
-      this.parseData();
+      this.parseData()
     }
   }
 
   ngOnInit() {
-    this.initializeChartOptions();
+    this.initializeChartOptions()
   }
 
   initializeChartOptions() {
     this.chartOptions = {
       chart: {
         type: 'line',
+        height: '240px',
         animations: {
           enabled: true,
           easing: 'linear',
@@ -44,15 +46,20 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
         }
       },
       xaxis: {
-        type: 'string',
+        type: 'datetime',
         labels: {
           format: 'dd/MM/yy HH:mm:ss',
-          show: false
+          show: true
         }
       },
       yaxis: {
         title: {
           text: 'Utilización (%)'
+        },
+        labels: {
+          formatter: (val: any) => {
+            return val + ' %'
+          }
         }
       },
       dataLabels: {
@@ -68,38 +75,28 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
       },
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm:ss'
+          formatter: (val: number) => {
+            return new Date(val).toLocaleString()
+          }
         }
       },
       grid: {
         show: true
       }
-    };
+    }
   }
 
   parseData() {
-    const cpuUsageTrend = this.cpuUsageData.map((el: CpuUsage) => ({
-      x: new Date(Number(el.collected_at_utc)).toLocaleString(),
-      y: Number(el.cpu_usage)
-    }));
+    const cpuUsageTrend = this.cpuUsageData.map(({ cpu_usage, collected_at_utc}: CpuUsage) => ({
+      x: new Date(Number(collected_at_utc)).getTime(),
+      y: Number(cpu_usage)
+    }))
 
     this.chartSeries = [
       {
         name: 'Uso CPU',
         data: cpuUsageTrend
       }
-    ];
-  }
-
-  onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data: any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data: any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+    ]
   }
 }
