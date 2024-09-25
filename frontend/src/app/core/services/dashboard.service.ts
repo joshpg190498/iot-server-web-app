@@ -2,7 +2,74 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CpuTemperature, CpuUsage, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
+import { CpuTemperature, CpuUsage, DashboardDeviceData, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
+
+const ramUsageFields = `
+  id
+  id_device
+  total_ram
+  free_ram
+  used_ram
+  used_percent_ram
+  collected_at_utc
+  inserted_at_utc
+`
+
+const cpuTemperatureFields = `
+  id
+  id_device
+  sensor_key
+  temperature
+  collected_at_utc
+  inserted_at_utc
+`
+
+const cpuUsageFields = `
+  id
+  id_device
+  cpu_usage
+  collected_at_utc
+  inserted_at_utc
+`
+
+const diskUsageFields = `
+  id
+  id_device
+  disk_name
+  total_disk
+  free_disk
+  used_disk
+  used_percent_disk
+  collected_at_utc
+  inserted_at_utc
+`
+
+const loadAverageFields = `
+  id
+  id_device
+  load_average_1m
+  load_average_5m
+  load_average_15m
+  collected_at_utc
+  inserted_at_utc
+`
+
+const networkStatsFields = `
+  id
+  id_device
+  interface_name
+  bytes_sent
+  bytes_recv
+  packets_sent
+  packets_recv
+  errout
+  errin
+  dropin
+  dropout
+  collected_at_utc
+  inserted_at_utc
+`
+
 
 const GET_DEVICES_QUERY = gql`
   query dashboardDevices {
@@ -27,14 +94,7 @@ const GET_DEVICES_QUERY = gql`
 const GET_RAM_USAGE = gql`
   query ramUsage($id_device: String!) {
     ramUsage(id_device: $id_device) {
-      id
-      id_device
-      total_ram
-      free_ram
-      used_ram
-      used_percent_ram
-      collected_at_utc
-      inserted_at_utc
+      ${ramUsageFields}
     }
   }
 `
@@ -42,12 +102,7 @@ const GET_RAM_USAGE = gql`
 const GET_CPU_TEMPERATURE = gql`
   query cpuTemperature($id_device: String!) {
     cpuTemperature(id_device: $id_device) {
-      id
-      id_device
-      sensor_key
-      temperature
-      collected_at_utc
-      inserted_at_utc
+      ${cpuTemperatureFields}
     }
   }
 `
@@ -55,11 +110,7 @@ const GET_CPU_TEMPERATURE = gql`
 const GET_CPU_USAGE = gql`
   query cpuUsage($id_device: String!) {
     cpuUsage(id_device: $id_device) {
-      id
-      id_device
-      cpu_usage
-      collected_at_utc
-      inserted_at_utc
+      ${cpuUsageFields}
     }
   }
 `
@@ -67,15 +118,7 @@ const GET_CPU_USAGE = gql`
 const GET_DISK_USAGE = gql`
   query diskUsage($id_device: String!) {
     diskUsage(id_device: $id_device) {
-      id
-      id_device
-      disk_name
-      total_disk
-      free_disk
-      used_disk
-      used_percent_disk
-      collected_at_utc
-      inserted_at_utc
+      ${diskUsageFields}
     }
   }
 `
@@ -83,13 +126,7 @@ const GET_DISK_USAGE = gql`
 const GET_LOAD_AVERAGE = gql`
   query loadAverage($id_device: String!) {
     loadAverage(id_device: $id_device) {
-      id
-      id_device
-      load_average_1m
-      load_average_5m
-      load_average_15m
-      collected_at_utc
-      inserted_at_utc
+      ${loadAverageFields}
     }
   }
 `
@@ -97,21 +134,34 @@ const GET_LOAD_AVERAGE = gql`
 const GET_NETWORK_STATS = gql`
   query networkStats($id_device: String!) {
     networkStats(id_device: $id_device) {
-      id
-      id_device
-      interface_name
-      bytes_sent
-      bytes_recv
-      packets_sent
-      packets_recv
-      errout
-      errin
-      dropin
-      dropout
-      collected_at_utc
-      inserted_at_utc
+      ${networkStatsFields}
     }
   }
+`
+
+const GET_DASHBOARD_DEVICE_DATA = gql`
+query dashboardDeviceData($id_device: String!) {
+  dashboardDeviceData(id_device: $id_device) {
+    ramUsage {
+      ${ramUsageFields}
+    }
+    cpuTemperature {
+      ${cpuTemperatureFields}
+    }
+    cpuUsage {
+      ${cpuUsageFields}
+    }
+    diskUsage {
+      ${diskUsageFields}
+    }
+    loadAverage {
+      ${loadAverageFields}
+    }
+    networkStats {
+      ${networkStatsFields}
+    }
+  }
+}
 `
 
 
@@ -273,6 +323,45 @@ export class DashboardService {
         this.networkStatsDataSubject.next(data)
         return data
       }));
+  }
+
+  getDashboardDeviceDataRT(id_device: string): Observable<any> {
+    return this.apollo
+    .watchQuery<{ dashboardDeviceData: DashboardDeviceData }>({
+      query: GET_DASHBOARD_DEVICE_DATA,
+      variables: {
+        id_device: id_device
+      }
+    })
+    .valueChanges.pipe(map((result: any) => {
+      const dashboardDeviceData = result.data.dashboardDeviceData
+
+      const ramUsageData = dashboardDeviceData.ramUsage.slice(0, 100)
+      ramUsageData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.ramDataSubject.next(ramUsageData)
+
+      const cpuTemperatureData = dashboardDeviceData.cpuTemperature.slice(0, 100)
+      cpuTemperatureData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.cpuTempDataSubject.next(cpuTemperatureData)
+
+      const cpuUsageData = dashboardDeviceData.cpuUsage.slice(0, 100)
+      cpuUsageData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.cpuUsageDataSubject.next(cpuUsageData)
+
+      const diskUsageData = dashboardDeviceData.diskUsage.slice(0, 100)
+      diskUsageData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.diskUsageDataSubject.next(diskUsageData)
+
+      const loadAverageData = dashboardDeviceData.loadAverage.slice(0, 100)
+      loadAverageData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.loadAverageDataSubject.next(loadAverageData)
+
+      const networkStatsData = dashboardDeviceData.networkStats.slice(0, 100)
+      networkStatsData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
+      this.networkStatsDataSubject.next(networkStatsData)
+
+      return { ramUsageData, cpuTemperatureData, cpuUsageData, diskUsageData, loadAverageData, networkStatsData}
+    }));
   }
 
   newDeviceDataSubscription(id_device: string): Observable<any> {

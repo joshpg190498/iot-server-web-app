@@ -33,44 +33,26 @@ export class DataGraphComponent  implements OnInit {
     this.route.paramMap.subscribe(params => {
      const id = params.get('id') || ''
      if (!id) return
-     this.subscriptions.push(
-      this._dashboardService.getRamUsageRT(id).subscribe(ramUsageData => {
-        this.ramUsageData = ramUsageData
+
+    this.subscriptions.push(
+      this._dashboardService.getDashboardDeviceDataRT(id).subscribe(dashboardDeviceData => {
+
+        this.ramUsageData = dashboardDeviceData.ramUsageData
         this.ramUsageDataLoaded = true
-      })
-    )
 
-    this.subscriptions.push(
-      this._dashboardService.getCpuTemperatureRT(id).subscribe(cpuTemperatureData => {
-        this.cpuTemperatureData = cpuTemperatureData
+        this.cpuTemperatureData = dashboardDeviceData.cpuTemperatureData
         this.cpuTemperatureDataLoaded = true
-      })
-    )
 
-    this.subscriptions.push(
-      this._dashboardService.getCpuUsageRT(id).subscribe(cpuUsageData => {
-        this.cpuUsageData = cpuUsageData
+        this.cpuUsageData = dashboardDeviceData.cpuUsageData
         this.cpuUsageDataLoaded = true
-      })
-    )
 
-    this.subscriptions.push(
-      this._dashboardService.getDiskUsageRT(id).subscribe(diskUsageData => {
-        this.diskUsageData = diskUsageData
+        this.diskUsageData = dashboardDeviceData.diskUsageData
         this.diskUsageDataLoaded = true
-      })
-    )
 
-    this.subscriptions.push(
-      this._dashboardService.getLoadAverageRT(id).subscribe(loadAverageData => {
-        this.loadAverageData = loadAverageData
+        this.loadAverageData = dashboardDeviceData.loadAverageData
         this.loadAverageDataLoaded = true
-      })
-    )
 
-    this.subscriptions.push(
-      this._dashboardService.getNetworkStatsRT(id).subscribe(networkStatsData => {
-        this.networkStatsData = networkStatsData
+        this.networkStatsData = dashboardDeviceData.networkStatsData
         this.networkStatsDataLoaded = true
       })
     )
@@ -110,7 +92,7 @@ export class DataGraphComponent  implements OnInit {
         this.networkStatsData = networkStatsData
       })
     )
-
+    
     this._dashboardService.newDeviceDataSubscription(id).subscribe()
     })
   }

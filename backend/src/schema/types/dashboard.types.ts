@@ -81,6 +81,15 @@ const typeDefs = `#graphql
     inserted_at_utc: String
   }
 
+  type DashboardDeviceData {
+    ramUsage: [RamUsage]
+    cpuTemperature: [CpuTemperature]
+    cpuUsage: [CpuUsage]
+    diskUsage: [DiskUsage]
+    loadAverage: [LoadAverage]
+    networkStats: [NetworkStats]
+  }
+
   type Query {
     dashboardDevices: [DashboardDevice]
     ramUsage(id_device: String!): [RamUsage]
@@ -89,6 +98,7 @@ const typeDefs = `#graphql
     diskUsage(id_device: String!): [DiskUsage]
     loadAverage(id_device: String!): [LoadAverage]
     networkStats(id_device: String!): [NetworkStats]
+    dashboardDeviceData(id_device: String!): DashboardDeviceData
   }
 `
 

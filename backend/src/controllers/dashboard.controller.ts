@@ -69,3 +69,28 @@ export async function getNetworkStatsByIdDeviceController (_: any, args: any) {
     throw new Error(err)
   }
 }
+
+export async function getDashboardDeviceDataByIdDeviceController (_: any, args: any) {
+  try {
+    const [ramUsage, cpuTemperature, cpuUsage, diskUsage, loadAverage, networkStats] = await Promise.all([
+      getRamUsageByIdDeviceService(args.id_device),
+      getCpuTemperatureByIdDeviceService(args.id_device),
+      getCpuUsageByIdDeviceService(args.id_device),
+      getDiskUsageByIdDeviceService(args.id_device),
+      getLoadAverageByIdDeviceService(args.id_device),
+      getNetworkStatsByIdDeviceService(args.id_device)
+    ])
+    return {
+      ramUsage,
+      cpuTemperature,
+      cpuUsage,
+      diskUsage,
+      loadAverage,
+      networkStats
+    }
+  } catch (err: any) {
+    console.error(err)
+    throw new Error(err)
+  }
+}
+

@@ -98,7 +98,7 @@ export class DataGraphCpuTemperatureComponent implements OnChanges {
         sensorData[sensor_key] = { name: sensor_key, data: [] }
       }
 
-      if (temperature && typeof temperature !== 'number') {
+      if (temperature && typeof temperature == 'number') {
         sensorData[sensor_key].data.push({
           x: new Date(Number(collected_at_utc)).getTime(),
           y: Number(temperature)

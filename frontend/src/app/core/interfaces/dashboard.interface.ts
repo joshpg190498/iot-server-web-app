@@ -175,3 +175,23 @@ export class NetworkStats implements INetworkStats {
     public inserted_at_utc?: string
   ) {}
 }
+
+export interface IDashboardDeviceData {
+  ramUsage?: RamUsage[],
+  cpuTemperature?: CpuTemperature[],
+  cpuUsage?: CpuUsage[]
+  diskUsage?: DiskUsage[]
+  loadAverage?: LoadAverage[]
+  networkStats?: NetworkStats[]
+}
+
+export class DashboardDeviceData implements IDashboardDeviceData {
+  constructor (
+    public ramUsage?: RamUsage[],
+    public cpuTemperature?: CpuTemperature[],
+    public cpuUsage?: CpuUsage[],
+    public diskUsage?: DiskUsage[],
+    public loadAverage?: LoadAverage[],
+    public networkStats?: NetworkStats[]
+  ) {}
+}
