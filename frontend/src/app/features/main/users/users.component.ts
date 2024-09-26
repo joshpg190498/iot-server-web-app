@@ -8,6 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { UserDialogComponent } from './components/user-dialog.component';
 import { Role } from 'src/app/core/interfaces/role.interface';
 import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
+import { ToastService } from 'src/app/core/services/toast.service';
 
 @Component({
   selector: 'app-users',
@@ -15,7 +16,7 @@ import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent  implements OnInit {
-  displayedColumns = ['id', 'username', 'email', 'first_name', 'last_name', 'active', 'role', 'actions']
+  displayedColumns = ['username', 'email', 'first_name', 'last_name', 'active', 'role', 'actions']
   users: User[] = []
   roles: Role[] = []
   dataSource = new MatTableDataSource<any>(this.users)
@@ -29,7 +30,8 @@ export class UsersComponent  implements OnInit {
     private _userService: UserService,
     private _roleService: RoleService,
     public dialog: MatDialog,
-    private _gqlErrorHandlerService: GraphQLErrorHandlerService
+    private _gqlErrorHandlerService: GraphQLErrorHandlerService,
+    private _toastService: ToastService,
   ) {
   }
 
@@ -80,7 +82,16 @@ export class UsersComponent  implements OnInit {
   }
 
   deleteUser(id: number) {
-    this.users = this.users.filter(user => user.id !== id);
+    this._userService.deleteUser(id).subscribe(
+      (user: any) => {
+        console.log('user:', user)
+        this._toastService.openToast('Usuario eliminado correctamente', 'success', 3000)
+
+      },
+      (error: any) => {
+        this._gqlErrorHandlerService.handleGraphQLError(error)
+      }
+    );
   }
 
   openDialog(isEditMode: boolean, user?: User): void {
@@ -116,6 +127,7 @@ export class UsersComponent  implements OnInit {
     this._userService.createUser(form).subscribe(
       (user: any) => {
         console.log('user:', user)
+        this._toastService.openToast('Usuario creado correctamente', 'success', 3000)
       },
       (error: any) => {
         this._gqlErrorHandlerService.handleGraphQLError(error)
@@ -128,6 +140,8 @@ export class UsersComponent  implements OnInit {
     this._userService.updateUser(id, form).subscribe(
       (user: any) => {
         console.log('user:', user)
+        this._toastService.openToast('Usuario editado correctamente', 'success', 3000)
+
       },
       (error: any) => {
         this._gqlErrorHandlerService.handleGraphQLError(error)

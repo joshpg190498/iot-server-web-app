@@ -50,6 +50,12 @@ const UPDATE_USER_MUTATION = gql`
   }
 `
 
+const DELETE_USER_MUTATION = gql`
+  mutation deleteUser($id: Int!) {
+    deleteUser(id: $id)
+  }
+`
+
 @Injectable({
   providedIn: 'root',
 })
@@ -90,7 +96,7 @@ export class UserService {
 
   createUser(form: UserInput): Observable<User> {
     return this.apollo
-      .mutate<{ createUser: UserInput }>({
+      .mutate<{ createUser: User }>({
         mutation: CREATE_USER_MUTATION,
         variables: {
           input: form
@@ -106,7 +112,7 @@ export class UserService {
 
   updateUser(id: number, form: UserInput): Observable<User> {
     return this.apollo
-      .mutate<{ updateUser: UserInput }>({
+      .mutate<{ updateUser: User }>({
         mutation: UPDATE_USER_MUTATION,
         variables: {
           id: id,
@@ -118,6 +124,22 @@ export class UserService {
           }
         ]
       })
-      .pipe(map((result: any) => result.data?.createUser  ?? {} as User))
+      .pipe(map((result: any) => result.data?.updateUser  ?? {} as User))
+  }
+
+  deleteUser(id: number): Observable<boolean> {
+    return this.apollo
+      .mutate<{ deleteUser: boolean }>({
+        mutation: DELETE_USER_MUTATION,
+        variables: {
+          id: id
+        },
+        refetchQueries: [
+          {
+            query: GET_USERS_QUERY
+          }
+        ]
+      })
+      .pipe(map((result: any) => result.data?.deleteUser))
   }
 }

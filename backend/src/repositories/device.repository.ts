@@ -82,9 +82,6 @@ export async function deleteDeviceRepository(id: number): Promise<boolean> {
   try {
     await client.query('DELETE FROM DEVICES WHERE id = $1', [id])
     return true
-  } catch(err) {
-    console.error(err)
-    return false
   } finally {
     client.release()
   }

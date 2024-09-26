@@ -37,6 +37,12 @@ mutation updateDevice($id: Int!, $description: String!) {
 }
 `;
 
+const DELETE_DEVICE_MUTATION = gql`
+  mutation deleteDevice($id: Int!) {
+    deleteDevice(id: $id)
+  }
+`
+
 @Injectable({
   providedIn: 'root',
 })
@@ -79,5 +85,21 @@ export class DeviceService {
         ]
       })
       .pipe(map((result: any) => result.data?.updateDevice  ?? {} as Device))
+  }
+
+  deleteDevice(id: number): Observable<boolean> {
+    return this.apollo
+      .mutate<{ deleteDevice: boolean }>({
+        mutation: DELETE_DEVICE_MUTATION,
+        variables: {
+          id: id
+        },
+        refetchQueries: [
+          {
+            query: GET_DEVICES_QUERY
+          }
+        ]
+      })
+      .pipe(map((result: any) => result.data?.deleteDevice))
   }
 }

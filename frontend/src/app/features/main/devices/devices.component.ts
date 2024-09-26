@@ -5,6 +5,8 @@ import { Device } from 'src/app/core/interfaces/device.interface';
 import { DeviceService } from 'src/app/core/services/device.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeviceDialogComponent } from './components/device-dialog.component';
+import { ToastService } from 'src/app/core/services/toast.service';
+import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
 
 @Component({
   selector: 'app-devices',
@@ -12,7 +14,7 @@ import { DeviceDialogComponent } from './components/device-dialog.component';
   styleUrls: ['../../../layouts/main-layout/main-layout.component.scss','./devices.component.scss'],
 })
 export class DevicesComponent implements OnInit {
-  displayedColumns = ['id', 'id_device', 'description', 'active', 'actions']
+  displayedColumns = ['id_device', 'description', 'active', 'actions']
   devices: Device[] = []
   dataSource = new MatTableDataSource<any>(this.devices)
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -24,7 +26,9 @@ export class DevicesComponent implements OnInit {
 
   constructor(
     private _deviceService: DeviceService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _toastService: ToastService,
+    private _gqlErrorHandlerService: GraphQLErrorHandlerService
   ) {
   }
 
@@ -66,7 +70,15 @@ export class DevicesComponent implements OnInit {
   }
 
   deleteDevice(id: number) {
-    this.devices = this.devices.filter(device => device.id !== id);
+    this._deviceService.deleteDevice(id).subscribe(
+      (device: any) => {
+        console.log('device:', device)
+        if (device) this._toastService.openToast('Dispositivo eliminado correctamente', 'success', 3000)
+      },
+      (error: any) => {
+        this._gqlErrorHandlerService.handleGraphQLError(error)
+      }
+    )
   }
 
   openDialog(isEditMode: boolean, device?: Device): void {
@@ -94,30 +106,22 @@ export class DevicesComponent implements OnInit {
     this._deviceService.createDevice(form).subscribe(
       (device: any) => {
         console.log('device:', device)
+        this._toastService.openToast('Dispositivo creado correctamente', 'success', 3000)
       },
       (error: any) => {
-        console.error(error)
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
-          message = error.graphQLErrors[0].message
-        }
+        this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     )
   }
 
   updateDevice(form: Device) {
     this._deviceService.updateDevice(form).subscribe(
-      (device: any) => {
+      (device: any) => {        
+        this._toastService.openToast('Dispositivo editado correctamente', 'success', 3000)
         console.log('device:', device)
       },
       (error: any) => {
-        console.error(error)
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
-          message = error.graphQLErrors[0].message
-        }
+        this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     )
   }

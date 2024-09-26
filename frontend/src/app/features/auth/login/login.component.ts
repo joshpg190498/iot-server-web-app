@@ -52,14 +52,6 @@ export class LoginComponent  implements OnInit {
       (error) => {
         this._gqlErrorHandlerService.handleGraphQLError(error)
         this.isLogin = false
-        /* let message = error.message
-        console.log(error, message)
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
-          message = error.graphQLErrors[0].message
-        }
-        this.setOpenToast(message, 'error')
-        this.isLogin = false */
       }
     );
   }
