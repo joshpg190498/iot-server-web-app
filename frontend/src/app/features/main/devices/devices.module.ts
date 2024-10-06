@@ -5,11 +5,12 @@ import { DevicesRoutingModule } from './devices-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DevicesComponent } from './devices.component';
 import { MaterialModule } from 'src/app/material.module';
-import { DeviceDialogComponent } from './components/device-dialog.component';
+import { UpsertDeviceDialogComponent } from './components/upsert-device-dialog.component';
+import { SettingsDeviceDialogComponent } from './components/settings-device-dialog.component';
 
 
 @NgModule({
-  declarations: [DevicesComponent, DeviceDialogComponent],
+  declarations: [DevicesComponent, UpsertDeviceDialogComponent, SettingsDeviceDialogComponent],
   imports: [
     IonicModule,
     CommonModule,

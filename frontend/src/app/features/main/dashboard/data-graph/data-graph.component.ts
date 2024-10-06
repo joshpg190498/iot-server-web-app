@@ -23,11 +23,53 @@ export class DataGraphComponent  implements OnInit {
   diskUsageDataLoaded = false
   loadAverageDataLoaded = false
   networkStatsDataLoaded = false
+  cards: any = []
 
   constructor(
     private _dashboardService: DashboardService,
     private route: ActivatedRoute
-  ) { }
+  ) { 
+
+    this.cards = [
+      {
+        title: 'RAM',
+        dataLoaded: 'ramUsageDataLoaded',
+        graphComponent: 'app-data-graph-ram-usage',
+        data: 'ramUsageData'
+      },
+      {
+        title: 'Temperatura CPU',
+        dataLoaded: 'cpuTemperatureDataLoaded',
+        graphComponent: 'app-data-graph-cpu-temperature',
+        data: 'cpuTemperatureData'
+      },
+      {
+        title: 'Uso CPU',
+        dataLoaded: 'cpuUsageDataLoaded',
+        graphComponent: 'app-data-graph-cpu-usage',
+        data: 'cpuUsageData'
+      },
+      {
+        title: 'Uso de Disco',
+        dataLoaded: 'diskUsageDataLoaded',
+        graphComponent: 'app-data-graph-disk-usage',
+        data: 'diskUsageData'
+      },
+      {
+        title: 'Load Average',
+        dataLoaded: 'loadAverageDataLoaded',
+        graphComponent: 'app-data-graph-load-average',
+        data: 'loadAverageData'
+      },
+      {
+        title: 'Tráfico de red',
+        dataLoaded: 'networkStatsDataLoaded',
+        graphComponent: 'app-data-graph-network-stats',
+        data: 'networkStatsData'
+      }
+    ]
+
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -99,60 +141,6 @@ export class DataGraphComponent  implements OnInit {
 
   ngOnDestroy() {
     this.subscriptions.forEach(subscription => subscription.unsubscribe())
-
   }
-
-  /* subscribeWs(id_device: string): void {
-    this._dashboardService.newDeviceDataSubscription(id_device)
-  }
-
-  getCpuTemperature(id_device: string) {
-    console.log('llamando a devices')
-    this._dashboardService.getCpuTemperature(id_device).subscribe(
-      (cpuTemperature) => {
-        console.log('cpuTemperature:', cpuTemperature)
-        this.cpuTemperatureData = cpuTemperature
-        this.checkCpuTemperatureDataLoaded() 
-
-      },
-      (error) => {
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors)
-          message = error.graphQLErrors[0].message
-        }
-      }
-    )
-  }
-
-  getRamUsage(id_device: string) {
-    console.log('llamando a devices')
-    this._dashboardService.getRamUsage(id_device).subscribe(
-      (ramUsage) => {
-        console.log(ramUsage, 'ram')
-        this.ramUsageData = ramUsage
-        this.checkRamUsageDataLoaded(); 
-      },
-      (error) => {
-        let message = error.message
-        if (error.graphQLErrors) {
-          console.error('Error logging in:', error.graphQLErrors);
-          message = error.graphQLErrors[0].message
-        }
-      }
-    );
-  }
-
-  checkRamUsageDataLoaded() {
-    if (this.ramUsageData.length > 0) {
-      this.ramUsageDataLoaded = true;
-    }
-  }
-
-  checkCpuTemperatureDataLoaded() {
-    if (this.cpuTemperatureData.length > 0) {
-      this.cpuTemperatureDataLoaded = true;
-    }
-  } */
 
 }

@@ -9,7 +9,8 @@ export async function getUsersRepository(): Promise<User[]> {
         u.id, u.username, u.email, u.first_name, u.last_name, u.active, u.id_role, r.role_name as role
       FROM USERS u 
       INNER JOIN ROLES r
-      ON u.id_role = r.id `)
+      ON u.id_role = r.id 
+      ORDER BY u.id`)
     return result.rows
   } finally {
     client.release()

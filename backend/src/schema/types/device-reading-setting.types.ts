@@ -6,6 +6,8 @@ const typeDefs = `#graphql
     period: Int!
     active: Boolean!
     threshold_value: Float
+    has_threshold: Boolean!
+    description: String!
   }
 
   input DeviceReadingSettingInput {
@@ -13,6 +15,7 @@ const typeDefs = `#graphql
     period: Int!
     active: Boolean!
     threshold_value: Float
+    description: String
   }
 
   type Query {

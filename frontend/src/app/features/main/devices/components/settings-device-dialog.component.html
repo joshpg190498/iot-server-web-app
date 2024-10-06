@@ -1,0 +1,32 @@
+<div class="mat-dialog">
+  <span class="mat-dialog-title">Configuración de parámetros ({{data.id_device}})</span>
+  <mat-dialog-content>
+    <form [formGroup]="readingSettingForm">
+      <div formArrayName="parameters">
+        <div *ngFor="let parameter of parametersFormArray.controls; let i = index" [formGroupName]="i" class="parameter-row">
+          
+          <span class="parameter-cell cell-title">{{ parameter.get('description')?.value }}</span>
+
+          <mat-form-field class="small parameter-cell" appearance="outline">
+            <mat-label>Periodo (en segundos)</mat-label>
+            <input matInput formControlName="period" type="number" placeholder="Periodo">
+          </mat-form-field>
+
+
+          <mat-form-field class="small parameter-cell" appearance="outline">
+            <mat-label>Threshold</mat-label>
+            <input matInput formControlName="threshold_value" type="number" placeholder="Threshold">
+          </mat-form-field>
+
+          <mat-checkbox class="parameter-cell" formControlName="active">Activo</mat-checkbox>
+
+        </div>
+      </div>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button (click)="onSave()">Guardar</button>
+  </mat-dialog-actions>
+</div>

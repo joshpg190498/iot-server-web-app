@@ -37,10 +37,6 @@ export class MainLayoutComponent  implements OnInit {
       (permissions) => {
         console.log('Permissions:', permissions);
         this.userPermissions = permissions
-        /* this._authService.setToken(token)
-        this.setOpenToast(true, 'Crendenciales correctas', 'primary')
-        this.isLogin = false
-        this.router.navigate(['/users']) */
       },
       (error) => {
         let message = error.message

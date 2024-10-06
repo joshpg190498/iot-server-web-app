@@ -1,0 +1,20 @@
+<div class="mat-dialog">
+  <span class="mat-dialog-title">{{data.isEditMode ? 'Editar Dispositivo' : 'Crear Dispositivo'}}</span>
+  <mat-dialog-content>
+    <form [formGroup]="deviceForm">
+      <mat-form-field class="small" *ngIf="!data.isEditMode" appearance="outline">
+        <mat-label>ID Device</mat-label>
+        <input matInput formControlName="id_device">
+      </mat-form-field>
+      <mat-form-field class="small" appearance="outline">
+        <mat-label>Descripción</mat-label>
+        <input matInput formControlName="description">
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button (click)="onSave()">Guardar</button>
+  </mat-dialog-actions>
+</div>
+

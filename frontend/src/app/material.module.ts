@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatCheckboxModule } from '@angular/material/checkbox'
 
 
 @NgModule({
@@ -32,7 +33,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatInputModule,
     MatChipsModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule,
+    MatCheckboxModule
   ],
   exports: [
     FlexLayoutModule,
@@ -49,7 +52,9 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatInputModule,
     MatChipsModule,
     MatSelectModule,
-    MatTabsModule
+    MatTabsModule,
+    MatChipsModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialModule { }

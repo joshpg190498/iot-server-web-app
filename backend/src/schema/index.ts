@@ -1,7 +1,7 @@
 import deviceTypes from "./types/device.types"
 import deviceResolvers from "./resolvers/device.resolver"
-import deviceSettingsTypes from "./types/device-settings.types"
-import deviceSettingsResolver from "./resolvers/device-settings.resolver"
+import deviceReadingSettingTypes from "./types/device-reading-setting.types"
+import deviceReadingSettingResolver from "./resolvers/device-reading-setting.resolver"
 import userTypes from "./types/user.types"
 import userResolvers from "./resolvers/user.resolver"
 import authTypes from "./types/auth.types"
@@ -14,6 +14,6 @@ import subscriptionTypes from "./types/subscription.types"
 import subscriptionResolvers from "./resolvers/subscription.resolver"
 
 export default {
-  typeDefs: [deviceTypes, deviceSettingsTypes, userTypes, authTypes, dashboardTypes, roleTypes, subscriptionTypes],
-  resolvers: [deviceResolvers, deviceSettingsResolver, userResolvers, authResolvers, dashboardResolvers, roleResolvers, subscriptionResolvers]
+  typeDefs: [deviceTypes, deviceReadingSettingTypes, userTypes, authTypes, dashboardTypes, roleTypes, subscriptionTypes],
+  resolvers: [deviceResolvers, deviceReadingSettingResolver, userResolvers, authResolvers, dashboardResolvers, roleResolvers, subscriptionResolvers]
 }

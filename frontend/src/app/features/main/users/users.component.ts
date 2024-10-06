@@ -16,7 +16,7 @@ import { ToastService } from 'src/app/core/services/toast.service';
   styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent  implements OnInit {
-  displayedColumns = ['username', 'email', 'first_name', 'last_name', 'active', 'role', 'actions']
+  displayedColumns = ['nro', 'username', 'email', 'first_name', 'last_name', 'active', 'role', 'actions']
   users: User[] = []
   roles: Role[] = []
   dataSource = new MatTableDataSource<any>(this.users)
@@ -44,7 +44,10 @@ export class UsersComponent  implements OnInit {
   getUsers() {
     this._userService.getUsers().subscribe(
       (users: any) => {
-        this.users = users
+        this.users = users.map((e: any, i: number) => ({
+          ...e,
+          position: i+1
+        }))
         this.dataSource.data = this.users
         console.log(this.users)
         this.dataSource.paginator = this.paginator

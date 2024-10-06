@@ -1,45 +1,51 @@
-/* Estilos para el mat-card */
-mat-card {
-  max-height: 330px;
-  padding: 16px;
-  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2); /* Agrega sombra suave */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
+.feature-page-content {
 
-/* Estilos para mat-card-header */
-mat-card-header {
-  justify-content: center;
-}
+  mat-tab-group {
+    span {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+    }
+  }
 
-/* Estilos para mat-card-title */
-mat-card-title {
-  font-size: 16px; /* Aumentado para mejor visibilidad */
-  font-weight: bold;
-  text-align: center;
-}
-
-/* Estilos para mat-card-content */
-mat-card-content {
-  max-height: 300px;
-  padding: 10px 0px 10px 0px;
-  display: block;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Estilos para el contenedor principal */
-.container {
-  width: 100%;
-  padding: 0; /* Elimina padding si lo hay */
-}
-
-/* Estilos para el contenido dentro de mat-grid-tile */
-.mat-grid-tile {
-  padding: 16px; /* Espaciado entre las tarjetas */
-}
-
-.mat-grid-tile-content {
-  display: block !important;
+  mat-card {
+    max-height: 330px;
+    padding: 16px;
+    border: 1px solid #919eab4d;
+    box-shadow: #919eab4d 0 0 2px,#919eab1f 0 12px 24px -4px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  mat-card-header {
+    justify-content: center;
+  }
+  
+  mat-card-title {
+    font-size: 12px; 
+    text-align: center;
+  }
+  
+  mat-card-content {
+    max-height: 300px;
+    padding: 10px 0px 10px 0px;
+    display: block;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container {
+    width: 100%;
+    padding: 0; 
+    margin-top: 10px
+  }
+  
+  .mat-grid-tile {
+    padding: 16px; 
+  }
+  
+  .mat-grid-tile-content {
+    display: block !important;
+  }
+  
 }

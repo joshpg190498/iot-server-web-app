@@ -28,10 +28,6 @@ export class DashboardComponent  implements OnInit {
       (devices) => {
         console.log('devices:', devices);
         this.devices = devices
-        /* this._authService.setToken(token)
-        this.setOpenToast(true, 'Crendenciales correctas', 'primary')
-        this.isLogin = false
-        this.router.navigate(['/users']) */
       },
       (error) => {
         console.log(error.networkError, 'gaa')

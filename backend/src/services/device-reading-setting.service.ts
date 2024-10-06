@@ -1,7 +1,7 @@
 import config from "../config"
-import { DeviceReadingInput, DeviceReadingSetting } from "../interfaces/device-settings.interface"
+import { DeviceReadingInput, DeviceReadingSetting } from "../interfaces/device-reading-setting.interface"
 import { runProducer } from "../kafka/kafka.producer"
-import { getDeviceReadingSettingsByIdDeviceRepository, getDeviceReadingSettingsRepository, updateDeviceReadingSettingsRepository } from "../repositories/device-settings.repository"
+import { getDeviceReadingSettingsByIdDeviceRepository, getDeviceReadingSettingsRepository, updateDeviceReadingSettingsRepository } from "../repositories/device-reading-setting.repository"
 
 const DATA_RECEPTION_KAFKA_TOPIC = config.kafka.topics.deviceUpdate
 

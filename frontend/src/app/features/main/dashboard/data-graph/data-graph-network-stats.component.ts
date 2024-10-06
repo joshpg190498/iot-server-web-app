@@ -105,11 +105,6 @@ export class DataGraphNetworkStatsComponent implements OnChanges {
       if (!bytes_recv && typeof bytes_recv !== 'number') return 
       if (!bytes_sent && typeof bytes_sent !== 'number') return
 
-      /* trafficData[interface_name].data.push({
-        x: new Date(Number(collected_at_utc)).getTime(),
-        y: Number(bytes_recv/1024/1024 + bytes_sent/1024/1024)
-      }) */
-
       trafficData[`${interface_name}_bytes_recv`].data.push({
         x: new Date(Number(collected_at_utc)).getTime(),
         y: Number((bytes_recv/1024/1024).toFixed(2))

@@ -52,13 +52,13 @@
       flex-direction: column;
       justify-content: center;
       gap: 8px;
-      min-height: 150px; // Altura fija para todos los cards
+      min-height: 150px; 
 
       .device-detail {
         display: flex;
         align-items: center;
         gap: 8px;
-        font-size: 0.875rem;
+        font-size: 0.75rem;
         color: #424242;
 
         mat-icon {
@@ -83,7 +83,7 @@
     justify-content: center;
     gap: 8px;
     padding: 8px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 400;
     color: #fff;
     border-radius: 0 0 var(--mdc-elevated-card-container-shape) var(--mdc-elevated-card-container-shape);

@@ -5,7 +5,8 @@ import { randomBytes } from "crypto"
 export async function getDevicesRepository(): Promise<Device[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`SELECT * FROM DEVICES`)
+    const result = await client.query(`
+      SELECT * FROM DEVICES ORDER BY ID`)
     return result.rows
   } finally {
     client.release()

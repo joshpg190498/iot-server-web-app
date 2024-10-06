@@ -1,6 +1,6 @@
 import { randomBytes } from "crypto"
 import pool from "../database"
-import { DeviceReadingSetting, DeviceReadingInput } from "../interfaces/device-settings.interface"
+import { DeviceReadingSetting, DeviceReadingInput } from "../interfaces/device-reading-setting.interface"
 
 export async function getDeviceReadingSettingsRepository(): Promise<DeviceReadingSetting[]> {
   const client = await pool.connect()
@@ -15,7 +15,13 @@ export async function getDeviceReadingSettingsRepository(): Promise<DeviceReadin
 export async function getDeviceReadingSettingsByIdDeviceRepository(id_device: string): Promise<DeviceReadingSetting[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`SELECT * FROM DEVICE_READING_SETTINGS WHERE id_device = $1`, [id_device])
+    const result = await client.query(`
+      SELECT  drs.id, drs.id_device, drs.parameter, drs.period, drs.active, drs.threshold_value, 
+        p.has_threshold, p.description 
+        FROM DEVICE_READING_SETTINGS drs
+        INNER JOIN PARAMETERS p
+        ON drs.parameter = p.id_parameter
+      WHERE id_device = $1`, [id_device])
     return result.rows
   } finally {
     client.release()
@@ -36,7 +42,7 @@ export async function updateDeviceReadingSettingsRepository(id_device: string, s
     const hashUpdate = randomBytes(6).toString('hex')
     const createDateTimeUtc = new Date()
     const deviceUpdateResult = await client.query(
-      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, id_type as type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, id_type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING *',
       [id_device, hashUpdate, 'update', createDateTimeUtc]
     ) 
     const newUpdate = deviceUpdateResult.rows[0]

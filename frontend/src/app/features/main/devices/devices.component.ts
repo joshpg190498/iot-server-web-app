@@ -1,20 +1,21 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Device } from 'src/app/core/interfaces/device.interface';
 import { DeviceService } from 'src/app/core/services/device.service';
 import { MatDialog } from '@angular/material/dialog';
-import { DeviceDialogComponent } from './components/device-dialog.component';
+import { UpsertDeviceDialogComponent } from './components/upsert-device-dialog.component';
+import { SettingsDeviceDialogComponent } from './components/settings-device-dialog.component';
 import { ToastService } from 'src/app/core/services/toast.service';
 import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
 
 @Component({
   selector: 'app-devices',
   templateUrl: './devices.component.html',
-  styleUrls: ['../../../layouts/main-layout/main-layout.component.scss','./devices.component.scss'],
+  styleUrls: ['./devices.component.scss'],
 })
 export class DevicesComponent implements OnInit {
-  displayedColumns = ['id_device', 'description', 'active', 'actions']
+  displayedColumns = ['nro', 'id_device', 'description', 'active', 'actions']
   devices: Device[] = []
   dataSource = new MatTableDataSource<any>(this.devices)
   @ViewChild(MatPaginator) paginator!: MatPaginator
@@ -40,8 +41,10 @@ export class DevicesComponent implements OnInit {
   getDevices() {
     this._deviceService.getDevices().subscribe(
       (devices: any) => {
-        console.log('devices:', devices)
-        this.devices = devices
+        this.devices = devices.map((e: any, i: number) => ({
+          ...e,
+          position: i+1
+        }))
         this.dataSource.data = this.devices
         this.dataSource.paginator = this.paginator
       },
@@ -57,7 +60,6 @@ export class DevicesComponent implements OnInit {
 
   showCreateForm() {
     this.isEditMode = false
-    //this.deviceForm.reset()
     this.openEditModal()
   }
 
@@ -81,8 +83,27 @@ export class DevicesComponent implements OnInit {
     )
   }
 
-  openDialog(isEditMode: boolean, device?: Device): void {
-    const dialogRef = this.dialog.open(DeviceDialogComponent, {
+  openSettingsDialog(device?: Device): void {
+    const dialogRef = this.dialog.open(SettingsDeviceDialogComponent, {
+      width: '80vw',
+      data: {
+        id_device: device ? device.id_device : null
+      } as Device,
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        if (result.success) {
+          this._toastService.openToast(`Parámetros del equipo ${result.id_device} configurado correctamente`, 'success', 3000)
+        } else {
+          this._toastService.openToast(`Error al configurar parámetros. Inténtelo más tarde`, 'error', 3000)
+        }
+      }
+    });
+  }
+
+  openUpsertDialog(isEditMode: boolean, device?: Device): void {
+    const dialogRef = this.dialog.open(UpsertDeviceDialogComponent, {
       width: '300px',
       data: {
         id: device ? device.id : null,

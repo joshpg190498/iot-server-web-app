@@ -1,52 +1,44 @@
-// app.component.scss
+ion-menu {
+  text-align: center;
+  ion-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+  }
 
-// Estilos generales
-ion-content, ion-footer {
-  --ion-background-color: #f7f9fc; // Color de fondo general
+  ion-content{
+    ion-label {
+      font-size: 14px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+  }
 }
 
-// Estilos para el header
 ion-header {
   ion-toolbar {
-    --background: #f7f9fc; // Fondo del header (blanco grisáceo claro)
-    --color: #333333; // Color de texto del header
-    --border-width: 0; // Sin borde en el header
-    font-family: "Roboto", sans-serif;
-  }
+    ion-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 600;
+      font-size: 16px;
+    }
 
-  ion-title {
-    font-size: 20px;
-  }
+    ion-button {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
 
-  ion-button {
-    --color: #333333; // Color de texto de los botones en el header
-    --padding-end: 8px; // Espacio al final del botón
+      .button-native {
+        border-radius: 10px;
+      }
+    }
+
+
   }
 }
 
-// Estilos para el footer
 ion-footer {
-  ion-toolbar {
-    --background: #f7f9fc; // Fondo del footer (blanco grisáceo claro)
-    --color: #333333; // Color de texto del footer
-    text-align: center; // Alineación del texto
-    font-family: "Roboto", sans-serif;
-  }
-
-  .footer-text {
+  text-align: center;
+  ion-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 14px;
-  }
-}
-
-
-ion-router-outlet ion-content {
-  --background: transparent; // Fondo transparente
-  padding: 16px; // Ajusta según tu diseño
-  font-family: "Roboto", sans-serif;
-}
-
-.main-content{
-  ion-router-outlet {
-    overflow: auto;
   }
 }

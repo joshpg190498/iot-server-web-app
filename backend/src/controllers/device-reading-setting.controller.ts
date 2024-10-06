@@ -1,5 +1,5 @@
-import { DeviceReadingSettingsByIdDeviceArgs, UpdateDeviceReadingSettingsArgs } from "../interfaces/device-settings.interface"
-import { getDeviceReadingSettingsByIdDeviceService, getDeviceReadingSettingsService, updateDeviceReadingSettingsService } from "../services/device-settings.service"
+import { DeviceReadingSettingsByIdDeviceArgs, UpdateDeviceReadingSettingsArgs } from "../interfaces/device-reading-setting.interface"
+import { getDeviceReadingSettingsByIdDeviceService, getDeviceReadingSettingsService, updateDeviceReadingSettingsService } from "../services/device-reading-setting.service"
 
 
 export async function getDeviceReadingSettingsController (_: any, __: any, context: any) {

@@ -1,4 +1,4 @@
-import { getDeviceReadingSettingsByIdDeviceController, getDeviceReadingSettingsController, updateDeviceReadingSettingsController } from "../../controllers/device-settings.controller";
+import { getDeviceReadingSettingsByIdDeviceController, getDeviceReadingSettingsController, updateDeviceReadingSettingsController } from "../../controllers/device-reading-setting.controller";
 
 const resolvers = {
   Query: {

@@ -1,13 +1,3 @@
-body, .login-container {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f7f9fc;
-  font-family: "Ubuntu Sans", sans-serif;
-}
 
 .login-container {
   display: flex;
@@ -15,39 +5,53 @@ body, .login-container {
   justify-content: center;
   align-items: center;
   background-color: #f7f9fc;
+
+  mat-card {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    padding: 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    overflow: hidden;
+
+    .login-form {
+      flex: 1;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #ffffff;
+
+      .login-title {
+        text-align: center;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      .login-body {
+        flex: 1;
+        padding: 40px 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #ffffff;
+      }
+    }
+  }
+  
 }
 
-.login-card {
-  width: 100%;
-  max-width: 800px;
-  display: flex;
-  padding: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border-radius: 12px;
-  overflow: hidden;
-}
 
 .login-content {
   display: flex;
   width: 100%;
 }
 
-.login-form {
-  flex: 1;
-  padding: 40px 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: #ffffff;
-}
 
-.login-title {
-  text-align: center;
-  font-family: "Ubuntu Sans", sans-serif;
-}
+
 
 .login-subtitle {
-  font-family: "Ubuntu Sans", sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   margin-bottom: 10px;
 }
 
@@ -61,14 +65,6 @@ body, .login-container {
   width: -webkit-fill-available;
 }
 
-.login-button {
-  background: #007bff;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: 500;
-  margin-top: 20px;
-  color: white;
-}
 
 .login-footer {
   text-align: center;

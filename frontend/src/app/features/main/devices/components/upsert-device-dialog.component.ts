@@ -5,14 +5,14 @@ import { Device, IDevice } from 'src/app/core/interfaces/device.interface';
 
 @Component({
   selector: 'app-device-dialog',
-  templateUrl: './device-dialog.component.html',
+  templateUrl: './upsert-device-dialog.component.html',
   styleUrls: ['../devices.component.scss']
 })
-export class DeviceDialogComponent {
+export class UpsertDeviceDialogComponent {
   deviceForm: FormGroup;
 
   constructor(
-    public dialogRef: MatDialogRef<DeviceDialogComponent>,
+    public dialogRef: MatDialogRef<UpsertDeviceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Device,
     private fb: FormBuilder
   ) {

@@ -4,7 +4,9 @@ export interface DeviceReadingSetting {
   parameter: string
   period: number
   active: boolean
-  threshold_value: number | null
+  threshold_value: number | null,
+  has_threshold: boolean
+  description: string
 }
 
 export interface DeviceReadingInput {
