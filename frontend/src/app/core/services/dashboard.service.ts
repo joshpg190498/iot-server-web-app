@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { CpuTemperature, CpuUsage, DashboardDeviceData, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
 
 const ramUsageFields = `
@@ -198,6 +198,7 @@ export class DashboardService {
     'cpu_temp': (data: any) => {
       const currentData = this.cpuTempDataSubject.getValue()
       this.cpuTempDataSubject.next([...currentData, ...data].slice(-100))
+      console.log(this.cpuTempDataSubject.getValue())
     },
     'cpu_usage': (data: any) => {
       const currentData = this.cpuUsageDataSubject.getValue()
@@ -372,11 +373,14 @@ export class DashboardService {
       })
       .pipe(
         map((result: any) => {
-          console.log(result, 'result:ga')
           const newData = result.data.newDeviceData
           if (this.updateData[newData.parameter]) {
             this.updateData[newData.parameter](newData.data);
           }
+        }),
+        catchError((error: any) => {
+          console.error("Error en la suscripción:", error);
+          return of(null); // O alguna lógica de recuperación
         })
       )
   }

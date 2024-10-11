@@ -42,7 +42,7 @@ export async function updateDeviceReadingSettingsRepository(id_device: string, s
     const hashUpdate = randomBytes(6).toString('hex')
     const createDateTimeUtc = new Date()
     const deviceUpdateResult = await client.query(
-      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, id_type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING *',
+      'INSERT INTO DEVICE_UPDATES (id_device, hash_update, id_type, creation_datetime_utc) VALUES ($1, $2, $3, $4) RETURNING id_type AS type, *',
       [id_device, hashUpdate, 'update', createDateTimeUtc]
     ) 
     const newUpdate = deviceUpdateResult.rows[0]

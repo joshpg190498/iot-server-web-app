@@ -21,7 +21,6 @@ export class DataGraphRamUsageComponent implements OnChanges {
   @Input() ramUsageData: RamUsage[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
-  private maxPoints: number = 50 // Máximo número de puntos a mostrar en el gráfico
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['ramUsageData']) {
@@ -36,21 +35,21 @@ export class DataGraphRamUsageComponent implements OnChanges {
   initializeChartOptions() {
     this.chartOptions = {
       chart: {
-        type: 'line', // Gráfico de línea
+        type: 'line',
         height: '240px',
         animations: {
           enabled: true,
           easing: 'linear',
           dynamicAnimation: {
-            speed: 1000 // Velocidad de la animación de actualización
+            speed: 1000 
           }
         }
       },
       xaxis: {
-        type: 'datetime', // Cambiar el eje X a datetime
+        type: 'datetime', 
         labels: {
-          show: true, // Mostrar etiquetas en el eje X
-          format: 'dd/MM/yy HH:mm:ss' // Formato de la etiqueta (opcional)
+          show: true, 
+          format: 'dd/MM/yy HH:mm:ss'
         }
       },
       yaxis: {
@@ -95,19 +94,17 @@ export class DataGraphRamUsageComponent implements OnChanges {
 
   parseData() {
     const usedRamTrend = this.ramUsageData.map((el: RamUsage) => {
-      if (el.used_ram === null || el.free_ram === null) {
+      if (el.used_ram === null || el.used_percent_ram === null) {
         return {
           x: new Date(Number(el.collected_at_utc)).getTime(), 
           y: null,
           usedRamMB: null
         }
       }
-      const totalRam = Number(el.used_ram) + Number(el.free_ram)
-      const usedRamPercentage = (Number(el.used_ram) / totalRam) * 100
 
       return {
         x: new Date(Number(el.collected_at_utc)).getTime(), 
-        y: usedRamPercentage, 
+        y: el.used_percent_ram, 
         usedRamMB: Number(el.used_ram) 
       }
     })

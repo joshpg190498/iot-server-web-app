@@ -107,12 +107,12 @@ export class DataGraphNetworkStatsComponent implements OnChanges {
 
       trafficData[`${interface_name}_bytes_recv`].data.push({
         x: new Date(Number(collected_at_utc)).getTime(),
-        y: Number((bytes_recv/1024/1024).toFixed(2))
+        y: Number((Number(bytes_recv)/1024/1024).toFixed(2))
       })
 
       trafficData[`${interface_name}_bytes_sent`].data.push({
         x: new Date(Number(collected_at_utc)).getTime(),
-        y: Number((bytes_sent/1024/1024).toFixed(2))
+        y: Number((Number(bytes_sent)/1024/1024).toFixed(2))
       })
       
     })

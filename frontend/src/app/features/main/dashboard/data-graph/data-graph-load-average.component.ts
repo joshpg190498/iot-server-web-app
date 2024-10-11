@@ -85,18 +85,17 @@ export class DataGraphLoadAverageComponent implements OnChanges, OnInit {
     const series5m: { x: number, y: number }[] = [];
     const series15m: { x: number, y: number }[] = [];
 
-    // Recorremos los datos de entrada para separar las tres métricas
     this.loadAverageData.forEach(({ collected_at_utc, load_average_1m, load_average_5m, load_average_15m }: LoadAverage) => {
       const timestamp = collected_at_utc ? new Date(Number(collected_at_utc)).getTime() : null;
       if (timestamp) {
         if (load_average_1m !== undefined) {
-          series1m.push({ x: timestamp, y: load_average_1m });
+          series1m.push({ x: timestamp, y: Number(load_average_1m) });
         }
         if (load_average_5m !== undefined) {
-          series5m.push({ x: timestamp, y: load_average_5m });
+          series5m.push({ x: timestamp, y: Number(load_average_5m) });
         }
         if (load_average_15m !== undefined) {
-          series15m.push({ x: timestamp, y: load_average_15m });
+          series15m.push({ x: timestamp, y: Number(load_average_15m) });
         }
       }
     });

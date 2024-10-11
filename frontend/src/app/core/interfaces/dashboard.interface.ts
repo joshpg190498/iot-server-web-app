@@ -60,7 +60,7 @@ export interface ICpuTemperature {
   id?: number;
   id_device?: string;
   sensor_key?: string;
-  temperature?: number;
+  temperature?: number | string;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -70,7 +70,7 @@ export class CpuTemperature implements ICpuTemperature {
     public id?: number,
     public id_device?: string,
     public sensor_key?: string,
-    public temperature?: number,
+    public temperature?: number | string,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}
@@ -79,7 +79,7 @@ export class CpuTemperature implements ICpuTemperature {
 export interface ICpuUsage {
   id?: number;
   id_device?: string;
-  cpu_usage?: number;
+  cpu_usage?: number | string;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -88,7 +88,7 @@ export class CpuUsage implements ICpuUsage {
   constructor(
     public id?: number,
     public id_device?: string,
-    public cpu_usage?: number,
+    public cpu_usage?: number | string,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}
@@ -98,10 +98,10 @@ export interface IDiskUsage {
   id?: number;
   id_device?: string;
   disk_name?: string;
-  total_disk?: number;
-  free_disk?: number;
-  used_disk?: number;
-  used_percent_disk?: number;
+  total_disk?: number | string;
+  free_disk?: number | string;
+  used_disk?: number | string;
+  used_percent_disk?: number | string;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -111,10 +111,10 @@ export class DiskUsage implements IDiskUsage {
     public id?: number,
     public id_device?: string,
     public disk_name?: string,
-    public total_disk?: number,
-    public free_disk?: number,
-    public used_disk?: number,
-    public used_percent_disk?: number,
+    public total_disk?: number | string,
+    public free_disk?: number | string,
+    public used_disk?: number | string,
+    public used_percent_disk?: number | string,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}
@@ -123,9 +123,9 @@ export class DiskUsage implements IDiskUsage {
 export interface ILoadAverage {
   id?: number;
   id_device?: string;
-  load_average_1m?: number;
-  load_average_5m?: number;
-  load_average_15m?: number;
+  load_average_1m?: number | string;
+  load_average_5m?: number | string;
+  load_average_15m?: number | string;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -134,9 +134,9 @@ export class LoadAverage implements ILoadAverage {
   constructor (
     public id?: number,
     public id_device?: string,
-    public load_average_1m?: number,
-    public load_average_5m?: number,
-    public load_average_15m?: number,
+    public load_average_1m?: number | string,
+    public load_average_5m?: number | string,
+    public load_average_15m?: number | string,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}
@@ -146,14 +146,14 @@ export interface INetworkStats {
   id?: number;
   id_device?: string;
   interface_name?: string;
-  bytes_sent?: number;
-  bytes_recv?: number;
-  packets_sent?: number;
-  packets_recv?: number;
-  errin?: number;
-  errout?: number;
-  dropin?: number;
-  droput?: number;
+  bytes_sent?: number | string;
+  bytes_recv?: number | string;
+  packets_sent?: number | string;
+  packets_recv?: number | string;
+  errin?: number | string;
+  errout?: number | string;
+  dropin?: number | string;
+  droput?: number | string;
   collected_at_utc?: string;
   inserted_at_utc?: string
 }
@@ -163,14 +163,14 @@ export class NetworkStats implements INetworkStats {
     public id?: number,
     public id_device?: string,
     public interface_name?: string,
-    public bytes_sent?: number,
-    public bytes_recv?: number,
-    public packets_sent?: number,
-    public packets_recv?: number,
-    public errin?: number,
-    public errout?: number,
-    public dropin?: number,
-    public dropout?: number,
+    public bytes_sent?: number | string,
+    public bytes_recv?: number | string,
+    public packets_sent?: number | string,
+    public packets_recv?: number | string,
+    public errin?: number | string,
+    public errout?: number | string,
+    public dropin?: number | string,
+    public dropout?: number | string,
     public collected_at_utc?: string,
     public inserted_at_utc?: string
   ) {}

@@ -98,17 +98,17 @@ export class DataGraphCpuTemperatureComponent implements OnChanges {
         sensorData[sensor_key] = { name: sensor_key, data: [] }
       }
 
-      if (temperature && typeof temperature == 'number') {
+      if (temperature) {
         sensorData[sensor_key].data.push({
           x: new Date(Number(collected_at_utc)).getTime(),
           y: Number(temperature)
         })
       }
     })
-
     this.chartSeries = Object.values(sensorData).map(item => ({
       name: item.name,
       data: item.data 
     }))
+    console.log(this.chartSeries)
   }
 }

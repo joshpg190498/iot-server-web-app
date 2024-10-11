@@ -3,7 +3,7 @@ import { DeviceReadingInput, DeviceReadingSetting } from "../interfaces/device-r
 import { runProducer } from "../kafka/kafka.producer"
 import { getDeviceReadingSettingsByIdDeviceRepository, getDeviceReadingSettingsRepository, updateDeviceReadingSettingsRepository } from "../repositories/device-reading-setting.repository"
 
-const DATA_RECEPTION_KAFKA_TOPIC = config.kafka.topics.deviceUpdate
+const DEVICE_UPDATE_KAFKA_TOPIC = config.kafka.topics.deviceUpdate
 
 export async function getDeviceReadingSettingsService(): Promise<DeviceReadingSetting[]> {
   return await getDeviceReadingSettingsRepository()
@@ -16,7 +16,7 @@ export async function getDeviceReadingSettingsByIdDeviceService(id_device: strin
 export async function updateDeviceReadingSettingsService(id_device: string, settings: DeviceReadingInput[]): Promise<boolean> {
   try {
     const newUpdate = await updateDeviceReadingSettingsRepository(id_device, settings)
-    await runProducer(DATA_RECEPTION_KAFKA_TOPIC, id_device, newUpdate)
+    await runProducer(DEVICE_UPDATE_KAFKA_TOPIC, id_device, newUpdate)
     return true  
   } catch (err) {
     console.error(err)

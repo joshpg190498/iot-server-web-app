@@ -43,7 +43,7 @@ export async function getCpuTemperatureByIdDeviceRepository(id_device: string): 
       SELECT *
         FROM cpu_temperature
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
+      ORDER BY collected_at_utc DESC, sensor_key DESC
     `, [id_device])
     return result.rows
   } finally {
@@ -73,7 +73,7 @@ export async function getDiskUsageByIdDeviceRepository(id_device: string): Promi
       SELECT *
         FROM disk_usage
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
+      ORDER BY collected_at_utc DESC, disk_name DESC
     `, [id_device])
     return result.rows
   } finally {
@@ -103,7 +103,7 @@ export async function getNetworkStatsByIdDeviceRepository(id_device: string): Pr
       SELECT *
         FROM network_stats
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
+      ORDER BY collected_at_utc DESC, interface_name DESC
     `, [id_device])
     return result.rows
   } finally {
