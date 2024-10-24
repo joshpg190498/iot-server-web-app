@@ -176,7 +176,7 @@ export class NetworkStats implements INetworkStats {
   ) {}
 }
 
-export interface IDashboardDeviceData {
+export interface IDashboardDeviceDataRT {
   ramUsage?: RamUsage[],
   cpuTemperature?: CpuTemperature[],
   cpuUsage?: CpuUsage[]
@@ -185,7 +185,7 @@ export interface IDashboardDeviceData {
   networkStats?: NetworkStats[]
 }
 
-export class DashboardDeviceData implements IDashboardDeviceData {
+export class DashboardDeviceDataRT implements IDashboardDeviceDataRT {
   constructor (
     public ramUsage?: RamUsage[],
     public cpuTemperature?: CpuTemperature[],

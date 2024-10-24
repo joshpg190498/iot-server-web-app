@@ -21,90 +21,150 @@ export async function getDevicesRepository(): Promise<Device[]> {
   }
 }
 
-export async function getRamUsageByIdDeviceRepository(id_device: string): Promise <RamUsage[]> {
+export async function getRamUsageByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <RamUsage[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM ram_usage
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()
   }
 }
 
-export async function getCpuTemperatureByIdDeviceRepository(id_device: string): Promise <CpuTemperature[]> {
+export async function getCpuTemperatureByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <CpuTemperature[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM cpu_temperature
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC, sensor_key DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC, sensor_key DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()
   }
 }
 
-export async function getCpuUsageByIdDeviceRepository(id_device: string): Promise <CpuUsage[]> {
+export async function getCpuUsageByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <CpuUsage[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM cpu_usage
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()
   }
 }
 
-export async function getDiskUsageByIdDeviceRepository(id_device: string): Promise <DiskUsage[]> {
+export async function getDiskUsageByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <DiskUsage[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM disk_usage
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC, disk_name DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC, disk_name DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()
   }
 }
 
-export async function getLoadAverageByIdDeviceRepository(id_device: string): Promise <LoadAverage[]> {
+export async function getLoadAverageByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <LoadAverage[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM load_average
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()
   }
 }
 
-export async function getNetworkStatsByIdDeviceRepository(id_device: string): Promise <NetworkStats[]> {
+export async function getNetworkStatsByIdDeviceRepository(
+  id_device: string,
+  startTime: any = null,
+  endTime: any = null
+): Promise <NetworkStats[]> {
   const client = await pool.connect()
   try {
-    const result = await client.query(`
+    let query = `
       SELECT *
         FROM network_stats
       WHERE id_device = $1
-      ORDER BY collected_at_utc DESC, interface_name DESC
-    `, [id_device])
+    `
+    const queryParams: any[] = [id_device]
+    if (startTime && endTime) {
+      query += ` AND collected_at_utc BETWEEN $2 AND $3`
+      queryParams.push(startTime, endTime)
+    }
+    query += ` ORDER BY collected_at_utc DESC, interface_name DESC`
+    const result = await client.query(query, queryParams)
     return result.rows
   } finally {
     client.release()

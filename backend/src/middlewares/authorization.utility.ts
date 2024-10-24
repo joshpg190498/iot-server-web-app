@@ -6,7 +6,7 @@ export const authOperations: {[key: string]: number[]} = {
   diskUsage: [1, 2, 3],
   loadAverage: [1, 2, 3],
   networkStats: [1, 2, 3],
-  dashboardDeviceData: [1, 2, 3],
+  dashboardDeviceDataRT: [1, 2, 3],
   deviceReadingSettings: [1, 2],
   deviceReadingSettingsByIdDevice: [1, 2],
   updateDeviceReadingSettings: [1, 2],

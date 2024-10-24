@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
-import { LoadAverage } from 'src/app/core/interfaces/dashboard.interface';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core'
+import { DatePipe } from '@angular/common'
+import { LoadAverage } from 'src/app/core/interfaces/dashboard.interface'
 import {
   ApexAxisChartSeries,
   ApexChart,
@@ -18,10 +19,14 @@ import {
   styleUrls: ['./data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphLoadAverageComponent implements OnChanges, OnInit {
-  @Input() loadAverageData: LoadAverage[] = [];
-  public chartSeries: ApexAxisChartSeries = [];
-  public chartOptions: any;
+export class DataGraphLoadAverageComponent implements OnChanges {
+  @Input() loadAverageData: LoadAverage[] = []
+  public chartSeries: ApexAxisChartSeries = []
+  public chartOptions: any
+
+  constructor(
+    private datePipe: DatePipe
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['loadAverageData']) {
@@ -39,7 +44,7 @@ export class DataGraphLoadAverageComponent implements OnChanges, OnInit {
         type: 'line',
         height: '240px',
         animations: {
-          enabled: true,
+          enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
@@ -49,7 +54,7 @@ export class DataGraphLoadAverageComponent implements OnChanges, OnInit {
       xaxis: {
         type: 'datetime', 
         labels: {
-          format: 'dd/MM/yy HH:mm:ss',
+          format: 'dd-MM-yy HH:mm:ss',
           show: true 
         }
       },
@@ -71,7 +76,7 @@ export class DataGraphLoadAverageComponent implements OnChanges, OnInit {
       },
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm:ss'
+          format: 'dd-MM-yy HH:mm:ss'
         }
       },
       grid: {

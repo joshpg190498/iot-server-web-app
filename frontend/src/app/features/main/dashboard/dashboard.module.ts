@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { MaterialModule } from 'src/app/material.module';
@@ -32,6 +32,9 @@ import { DataGraphNetworkStatsComponent } from './data-graph/data-graph-network-
     MaterialModule,
     NgxChartsModule,
     NgApexchartsModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class DashboardModule { }

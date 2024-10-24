@@ -20,7 +20,7 @@ export async function getUsersRepository(): Promise<User[]> {
 export async function getUserByIdRepository(id: number): Promise<User> {
   const client = await pool.connect()
   try {
-    const result = await client.query('SELECT id, username, email, password_hash, first_name, last_name, active, created_at, updated_at FROM USERS WHERE id = $1', [id])
+    const result = await client.query('SELECT id, username, email, password_hash, first_name, last_name, active, created_at_utc, updated_at_utc FROM USERS WHERE id = $1', [id])
     return result.rows[0]
   } finally {
     client.release()
@@ -51,7 +51,7 @@ export async function updateUserRepository(id: number, input: Partial<UserInput>
            last_name = $2, 
            id_role = $3,
            password_hash = $4, 
-           updated_at = $5 
+           updated_at_utc = $5 
        WHERE id = $6
        RETURNING *`,
       [input.first_name, input.last_name, input.id_role, input.password_hash, updatedAtUtc, id]
@@ -75,7 +75,7 @@ export async function deleteUserRepository(id: number): Promise<boolean> {
 export async function getUserByEmailRepository(email: string): Promise<User> {
   const client = await pool.connect()
   try {
-    const result = await client.query('SELECT id, username, email, password_hash, first_name, last_name, active, id_role, created_at, updated_at FROM USERS WHERE email = $1', [email])
+    const result = await client.query('SELECT id, username, email, password_hash, first_name, last_name, active, id_role, created_at_utc, updated_at_utc FROM USERS WHERE email = $1', [email])
     return result.rows[0]
   } finally {
     client.release()

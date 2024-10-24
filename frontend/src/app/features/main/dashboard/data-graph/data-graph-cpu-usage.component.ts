@@ -38,7 +38,7 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
         type: 'line',
         height: '240px',
         animations: {
-          enabled: true,
+          enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
@@ -48,7 +48,7 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
       xaxis: {
         type: 'datetime',
         labels: {
-          format: 'dd/MM/yy HH:mm:ss',
+          format: 'dd-MM-yy HH:mm:ss',
           show: true
         }
       },
@@ -75,9 +75,7 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
       },
       tooltip: {
         x: {
-          formatter: (val: number) => {
-            return new Date(val).toLocaleString()
-          }
+          format: 'dd-MM-yy HH:mm:ss'
         }
       },
       grid: {

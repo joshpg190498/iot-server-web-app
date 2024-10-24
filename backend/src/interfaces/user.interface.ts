@@ -7,8 +7,8 @@ export interface User {
   last_name?: string
   active: boolean
   id_role: number
-  created_at: string
-  updated_at: string
+  created_at_utc: string
+  updated_at_utc: string
 }
 
 export interface UserInput {
@@ -19,8 +19,8 @@ export interface UserInput {
   last_name?: string
   active?: boolean
   id_role: number
-  created_at?: string
-  updated_at?: string
+  created_at_utc?: string
+  updated_at_utc?: string
 }
 
 export interface UserByIdArgs {

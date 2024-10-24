@@ -38,10 +38,10 @@ export class DataGraphRamUsageComponent implements OnChanges {
         type: 'line',
         height: '240px',
         animations: {
-          enabled: true,
+          enabled: false,
           easing: 'linear',
           dynamicAnimation: {
-            speed: 1000 
+            speed: 1000
           }
         }
       },
@@ -49,7 +49,7 @@ export class DataGraphRamUsageComponent implements OnChanges {
         type: 'datetime', 
         labels: {
           show: true, 
-          format: 'dd/MM/yy HH:mm:ss'
+          format: 'dd-MM-yy HH:mm:ss'
         }
       },
       yaxis: {
@@ -75,9 +75,7 @@ export class DataGraphRamUsageComponent implements OnChanges {
       },
       tooltip: {
         x: {
-          formatter: (val: number) => {
-            return new Date(val).toLocaleString()
-          }
+          format: 'dd-MM-yy HH:mm:ss'
         },
         y: {
           formatter: (value: number, { series, seriesIndex, dataPointIndex, w }: any) => {

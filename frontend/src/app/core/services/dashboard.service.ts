@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { CpuTemperature, CpuUsage, DashboardDeviceData, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
+import { CpuTemperature, CpuUsage, DashboardDeviceDataRT, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface';
 
 const ramUsageFields = `
   id
@@ -140,8 +140,8 @@ const GET_NETWORK_STATS = gql`
 `
 
 const GET_DASHBOARD_DEVICE_DATA = gql`
-query dashboardDeviceData($id_device: String!) {
-  dashboardDeviceData(id_device: $id_device) {
+query dashboardDeviceDataRT($id_device: String!) {
+  dashboardDeviceDataRT(id_device: $id_device) {
     ramUsage {
       ${ramUsageFields}
     }
@@ -328,14 +328,14 @@ export class DashboardService {
 
   getDashboardDeviceDataRT(id_device: string): Observable<any> {
     return this.apollo
-    .watchQuery<{ dashboardDeviceData: DashboardDeviceData }>({
+    .watchQuery<{ dashboardDeviceDataRT: DashboardDeviceDataRT }>({
       query: GET_DASHBOARD_DEVICE_DATA,
       variables: {
         id_device: id_device
       }
     })
     .valueChanges.pipe(map((result: any) => {
-      const dashboardDeviceData = result.data.dashboardDeviceData
+      const dashboardDeviceData = result.data.dashboardDeviceDataRT
 
       const ramUsageData = dashboardDeviceData.ramUsage.slice(0, 100)
       ramUsageData.sort((a: any, b: any) => a.collected_at_utc - b.collected_at_utc)
