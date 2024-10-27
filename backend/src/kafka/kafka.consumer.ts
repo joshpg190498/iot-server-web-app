@@ -68,4 +68,4 @@ const formatData = (data: any) => {
   });
 }
 
-runConsumer(config.kafka.topics.newDeviceData, handleMessage).catch(console.error)
+runConsumer(config.kafka.topics.deviceDataEvents, handleMessage).catch(console.error)

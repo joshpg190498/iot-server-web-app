@@ -77,8 +77,8 @@ export class DataGraphComponent  implements OnInit {
      if (!id) return
 
     this.subscriptions.push(
-      this._dashboardService.getDashboardDeviceDataRT(id).subscribe(dashboardDeviceData => {
-
+      this._dashboardService.getDashboardDeviceDataRT(id)
+        .subscribe(dashboardDeviceData => {
         this.ramUsageData = dashboardDeviceData.ramUsageData
         this.ramUsageDataLoaded = true
 
@@ -96,7 +96,10 @@ export class DataGraphComponent  implements OnInit {
 
         this.networkStatsData = dashboardDeviceData.networkStatsData
         this.networkStatsDataLoaded = true
-      })
+      }, (error) => {
+        console.log(error)
+      }
+    )
     )
 
     this.subscriptions.push(

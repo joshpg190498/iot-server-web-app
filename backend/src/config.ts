@@ -1,3 +1,9 @@
+import * as dotenv from 'dotenv'
+import * as path from 'path'
+
+const envPath = path.join(process.cwd(), '.env')
+dotenv.config({ path: envPath })
+
 const config = {
   api: {
     port: Number(process.env.BACKEND_APP_PORT) || 3000
@@ -12,11 +18,11 @@ const config = {
   kafka: {
     broker: process.env.KAFKA_BROKER || '127.0.0.1:9092',
     topics: {
-      deviceUpdate: process.env.KAFKA_TOPIC_DEVICE_UPDATE || 'kafka-topic',
-      newDeviceData: process.env.KAFKA_TOPIC_NEW_DEVICE_DATA || 'kafka-topic2'
+      deviceUpdateEvents: 'device-update-events',
+      deviceDataEvents: 'device-data-events'
     },
-    clientId: process.env.KAFKA_CLIENT_ID || 'client-id',
-    groupId: process.env.KAFKA_GROUP_ID || '3'
+    clientId: 'web-app-backend-kafka-client',
+    groupId: 'device-data-events-websocket-group'
   },
   jwt: {
     secretKey: process.env.JWT_SECURITY || 'secret_key'
