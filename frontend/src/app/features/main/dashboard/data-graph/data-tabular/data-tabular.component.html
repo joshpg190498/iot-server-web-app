@@ -1,0 +1,38 @@
+<mat-card>
+  <mat-card-content>
+    <div class="header-controls" fxLayout="row" fxLayoutAlign="space-between center">
+      <mat-form-field appearance="outline" class="parameter-select">
+        <mat-label>Seleccione un parámetro</mat-label>
+        <mat-select [(value)]="selectedParameter" (selectionChange)="onParameterChange($event.value)">
+          <mat-option *ngFor="let param of parameters" [value]="param.id_parameter">
+            {{ param.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-button (click)="downloadCSV()">Descargar CSV</button>
+    </div>
+
+    <div class="container">
+            <div fxLayout="row" >
+              <mat-card-title>Datos de Parámetro</mat-card-title>
+            </div>
+            <div class="responsive-table-container">
+              <table mat-table [dataSource]="dataSource" >
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+                  <th mat-header-cell *matHeaderCellDef> {{ column | titlecase }} </th>
+                  <td mat-cell *matCellDef="let element"> {{ element[column] }} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [length]="parameterData.length"
+                             [pageSize]="pageSize"
+                             [pageSizeOptions]="[5, 10, 20]"
+                             (page)="onPageChange($event)"
+                             showFirstLastButtons>
+              </mat-paginator>
+            </div>
+    </div>
+  </mat-card-content>
+</mat-card>

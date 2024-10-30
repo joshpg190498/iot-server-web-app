@@ -12,18 +12,19 @@ import {
 } from 'ng-apexcharts'
 
 @Component({
-  selector: 'app-data-graph-ram-usage',
-  templateUrl: './data-graph-ram-usage.component.html',
-  styleUrls: ['./data-graph.component.scss'],
+  selector: 'app-real-time-ram-usage',
+  templateUrl: './real-time-ram-usage.component.html',
+  styleUrls: ['../data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphRamUsageComponent implements OnChanges {
+export class RealTimeRamUsageComponent implements OnChanges {
   @Input() ramUsageData: RamUsage[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
+  @Input() deviceId: string = '' 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['ramUsageData']) {
+    if (changes['ramUsageData'] || changes['deviceId']) {
       this.parseData()
     }
   }
@@ -36,13 +37,20 @@ export class DataGraphRamUsageComponent implements OnChanges {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: '240px',
+        height: 240,
+width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
           }
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: false
         }
       },
       xaxis: {
@@ -91,7 +99,9 @@ export class DataGraphRamUsageComponent implements OnChanges {
   }
 
   parseData() {
-    const usedRamTrend = this.ramUsageData.map((el: RamUsage) => {
+    const usedRamTrend = this.ramUsageData
+    .filter(({ id_device }) => id_device === this.deviceId)
+    .map((el: RamUsage) => {
       if (el.used_ram === null || el.used_percent_ram === null) {
         return {
           x: new Date(Number(el.collected_at_utc)).getTime(), 

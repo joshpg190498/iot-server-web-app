@@ -53,3 +53,25 @@ export async function getNetworkStatsByIdDeviceService(
 ): Promise<NetworkStats[]> {
   return await getNetworkStatsByIdDeviceRepository(id_device, startTime, endTime)
 }
+
+export async function getDashboardDeviceDataRTByIdDeviceService(id_device: string): Promise<any> {
+
+  const endTime = new Date()
+  const startTime = new Date(endTime.getTime() - 60 * 60 * 1000)
+  const [ramUsage, cpuTemperature, cpuUsage, diskUsage, loadAverage, networkStats] = await Promise.all([
+    getRamUsageByIdDeviceService(id_device, startTime, endTime),
+    getCpuTemperatureByIdDeviceService(id_device, startTime, endTime),
+    getCpuUsageByIdDeviceService(id_device, startTime, endTime),
+    getDiskUsageByIdDeviceService(id_device, startTime, endTime),
+    getLoadAverageByIdDeviceService(id_device, startTime, endTime),
+    getNetworkStatsByIdDeviceService(id_device, startTime, endTime)
+  ])
+  return {
+    ramUsage,
+    cpuTemperature,
+    cpuUsage,
+    diskUsage,
+    loadAverage,
+    networkStats
+  }
+}

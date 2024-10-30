@@ -1,0 +1,74 @@
+<mat-grid-list cols="3" rowHeight="350px" [gutterSize]="'16px'" style="margin-top: 10px;">
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>RAM</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="ramUsageDataLoaded">
+          <app-real-time-ram-usage [ramUsageData]="ramUsageData" [deviceId]="deviceId"></app-real-time-ram-usage>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Temperatura CPU</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="cpuTemperatureDataLoaded">
+          <app-real-time-cpu-temperature [cpuTemperatureData]="cpuTemperatureData" [deviceId]="deviceId"></app-real-time-cpu-temperature>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Uso CPU</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="cpuTemperatureDataLoaded">
+          <app-real-time-cpu-usage [cpuUsageData]="cpuUsageData" [deviceId]="deviceId"></app-real-time-cpu-usage>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Uso de Disco</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="diskUsageDataLoaded">
+          <app-real-time-disk-usage [diskUsageData]="diskUsageData" [deviceId]="deviceId"></app-real-time-disk-usage>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Load Average</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="loadAverageDataLoaded">
+          <app-real-time-graph-load-average [loadAverageData]="loadAverageData" [deviceId]="deviceId"></app-real-time-graph-load-average>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Tráfico de red</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="networkStatsDataLoaded">
+          <app-real-time-network-stats [networkStatsData]="networkStatsData" [deviceId]="deviceId"></app-real-time-network-stats>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

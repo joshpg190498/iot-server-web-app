@@ -52,10 +52,10 @@ export class DeviceService {
 
   getDevices(): Observable<Device[]> {
     return this.apollo
-      .watchQuery<{ devices: Device[] }>({
+      .query<{ devices: Device[] }>({
         query: GET_DEVICES_QUERY
       })
-      .valueChanges.pipe(map((result: any) => result.data.devices))
+      .pipe(map((result: any) => result.data.devices))
   }
 
   createDevice(form: Device): Observable<Device> {
@@ -73,7 +73,6 @@ export class DeviceService {
   }
 
   updateDevice(form: Device): Observable<Device> {
-    console.log(form, 'form')
     return this.apollo
       .mutate<{ updateDevice: Device }>({
         mutation: UPDATE_DEVICE_MUTATION,

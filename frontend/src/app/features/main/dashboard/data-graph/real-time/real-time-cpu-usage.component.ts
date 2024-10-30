@@ -12,18 +12,19 @@ import {
 } from 'ng-apexcharts'
 
 @Component({
-  selector: 'app-data-graph-cpu-usage',
-  templateUrl: './data-graph-cpu-usage.component.html',
-  styleUrls: ['./data-graph.component.scss'],
+  selector: 'app-real-time-cpu-usage',
+  templateUrl: './real-time-cpu-usage.component.html',
+  styleUrls: ['../data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
+export class RealTimeCpuUsageComponent implements OnChanges, OnInit {
   @Input() cpuUsageData: CpuUsage[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
+  @Input() deviceId: string = '' 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['cpuUsageData']) {
+    if (changes['cpuUsageData'] || changes['deviceId']) {
       this.parseData()
     }
   }
@@ -36,13 +37,20 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: '240px',
+        height: 240,
+width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
           }
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true
         }
       },
       xaxis: {
@@ -85,7 +93,9 @@ export class DataGraphCpuUsageComponent implements OnChanges, OnInit {
   }
 
   parseData() {
-    const cpuUsageTrend = this.cpuUsageData.map(({ cpu_usage, collected_at_utc}: CpuUsage) => ({
+    const cpuUsageTrend = this.cpuUsageData
+    .filter(({ id_device }) => id_device === this.deviceId)
+    .map(({ cpu_usage, collected_at_utc}: CpuUsage) => ({
       x: new Date(Number(collected_at_utc)).getTime(),
       y: Number(cpu_usage)
     }))

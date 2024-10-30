@@ -12,18 +12,19 @@ import {
 } from 'ng-apexcharts'
 
 @Component({
-  selector: 'app-data-graph-disk-usage',
-  templateUrl: './data-graph-disk-usage.component.html',
-  styleUrls: ['./data-graph.component.scss'],
+  selector: 'app-real-time-disk-usage',
+  templateUrl: './real-time-disk-usage.component.html',
+  styleUrls: ['../data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphDiskUsageComponent implements OnChanges {
+export class RealTimeDiskUsageComponent implements OnChanges {
   @Input() diskUsageData: DiskUsage[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
+  @Input() deviceId: string = '' 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['diskUsageData']) {
+    if (changes['diskUsageData'] || changes['deviceId']) {
       this.parseData()
     }
   }
@@ -36,13 +37,20 @@ export class DataGraphDiskUsageComponent implements OnChanges {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: '240px',
+        height: 240,
+width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
           }
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true
         }
       },
       xaxis: {
@@ -93,7 +101,9 @@ export class DataGraphDiskUsageComponent implements OnChanges {
   parseData() {
     const diskData: Record<string, { name: string, data: { x: number, y: number, usedDiskMB: number }[] }> = {}
 
-    this.diskUsageData.forEach(({ disk_name, collected_at_utc, used_disk, free_disk, used_percent_disk }: DiskUsage) => {
+    this.diskUsageData
+    .filter(({ id_device }) => id_device === this.deviceId)
+    .forEach(({ disk_name, collected_at_utc, used_disk, free_disk, used_percent_disk }: DiskUsage) => {
       if (!disk_name || !used_disk || !used_percent_disk) return
 
       if (!diskData[disk_name]) {

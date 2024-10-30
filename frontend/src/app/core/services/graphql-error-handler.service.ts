@@ -8,7 +8,6 @@ export class GraphQLErrorHandlerService {
   constructor(private _toastService: ToastService) {}
 
   handleGraphQLError(error: any): void {
-    console.log(error.graphQLErrors, error.networkError)
     let errorMessage = 'Ocurrió un error';
     if (error.graphQLErrors.length > 0) {
       errorMessage = error.graphQLErrors.map((err: any) => err.message).join(', ');

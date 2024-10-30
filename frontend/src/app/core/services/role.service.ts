@@ -23,9 +23,9 @@ export class RoleService {
 
   getRoles(): Observable<Role[]> {
     return this.apollo
-      .watchQuery<{ roles: Role[] }>({
+      .query<{ roles: Role[] }>({
         query: GET_ROLES_QUERY
       })
-      .valueChanges.pipe(map((result: any) => result.data.roles))
+      .pipe(map((result: any) => result.data.roles))
   }
 }

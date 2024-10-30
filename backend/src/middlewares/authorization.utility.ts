@@ -21,5 +21,9 @@ export const authOperations: {[key: string]: number[]} = {
   permissions: [1, 2, 3],
   createUser: [1],
   updateUser: [1],
-  deleteUser: [1]
+  deleteUser: [1],
+  hourlyParameters: [1, 2, 3],
+  historicData: [1, 2, 3],
+  parameters: [1, 2, 3],
+  tabularData: [1, 2, 3]
 }

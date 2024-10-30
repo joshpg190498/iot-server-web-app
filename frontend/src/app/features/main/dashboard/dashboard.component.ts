@@ -23,14 +23,11 @@ export class DashboardComponent  implements OnInit {
   }
 
   getDevices() {
-    console.log('llamando a devices')
     this._dashboardService.getDevices().subscribe(
       (devices) => {
-        console.log('devices:', devices);
         this.devices = devices
       },
       (error) => {
-        console.log(error.networkError, 'gaa')
         console.log(error.networkError.error.errors[0].message)
         let message = error.message
         if (error.graphQLErrors) {

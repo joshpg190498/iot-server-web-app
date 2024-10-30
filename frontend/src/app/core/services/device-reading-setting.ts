@@ -36,13 +36,13 @@ export class DeviceReadingSettingService {
 
   getDeviceReadingSettings(id_device: string): Observable<DeviceReadingSetting[]> {
     return this.apollo
-      .watchQuery<{ devices: DeviceReadingSetting[] }>({
+      .query<{ devices: DeviceReadingSetting[] }>({
         query: GET_READING_SETTINGS_DEVICE_QUERY,
         variables: {
           id_device: id_device
         }
       })
-      .valueChanges.pipe(map((result: any) => result.data.deviceReadingSettingsByIdDevice))
+      .pipe(map((result: any) => result.data.deviceReadingSettingsByIdDevice))
   }
 
   updateDeviceReadingSettings(id_device: string, settings: DeviceReadingSetting[]): Observable<boolean> {

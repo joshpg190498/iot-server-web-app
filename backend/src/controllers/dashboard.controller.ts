@@ -1,4 +1,4 @@
-import { getCpuTemperatureByIdDeviceService, getCpuUsageByIdDeviceService, getDevicesService, getDiskUsageByIdDeviceService, getLoadAverageByIdDeviceService, getNetworkStatsByIdDeviceService, getRamUsageByIdDeviceService } from "../services/dashboard.service"
+import { getCpuTemperatureByIdDeviceService, getCpuUsageByIdDeviceService, getDashboardDeviceDataRTByIdDeviceService, getDevicesService, getDiskUsageByIdDeviceService, getLoadAverageByIdDeviceService, getNetworkStatsByIdDeviceService, getRamUsageByIdDeviceService } from "../services/dashboard.service"
 
 export async function getDevicesController (_: any, __: any, context: any) {
   try {
@@ -72,24 +72,8 @@ export async function getNetworkStatsByIdDeviceController (_: any, args: any) {
 
 export async function getDashboardDeviceDataRTByIdDeviceController (_: any, args: any) {
   try {
-    const endTime = new Date()
-    const startTime = new Date(endTime.getTime() - 60 * 60 * 1000)
-    const [ramUsage, cpuTemperature, cpuUsage, diskUsage, loadAverage, networkStats] = await Promise.all([
-      getRamUsageByIdDeviceService(args.id_device, startTime, endTime),
-      getCpuTemperatureByIdDeviceService(args.id_device, startTime, endTime),
-      getCpuUsageByIdDeviceService(args.id_device, startTime, endTime),
-      getDiskUsageByIdDeviceService(args.id_device, startTime, endTime),
-      getLoadAverageByIdDeviceService(args.id_device, startTime, endTime),
-      getNetworkStatsByIdDeviceService(args.id_device, startTime, endTime)
-    ])
-    return {
-      ramUsage,
-      cpuTemperature,
-      cpuUsage,
-      diskUsage,
-      loadAverage,
-      networkStats
-    }
+    const data = await getDashboardDeviceDataRTByIdDeviceService(args.id_device)
+    return data
   } catch (err: any) {
     console.error(err)
     throw new Error(err)

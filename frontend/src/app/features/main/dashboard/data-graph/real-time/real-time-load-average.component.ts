@@ -14,22 +14,23 @@ import {
 } from 'ng-apexcharts';
 
 @Component({
-  selector: 'app-data-graph-load-average',
-  templateUrl: './data-graph-load-average.component.html',
-  styleUrls: ['./data-graph.component.scss'],
+  selector: 'app-real-time-graph-load-average',
+  templateUrl: './real-time-load-average.component.html',
+  styleUrls: ['../data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphLoadAverageComponent implements OnChanges {
+export class RealTimeLoadAverageComponent implements OnChanges {
   @Input() loadAverageData: LoadAverage[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
+  @Input() deviceId: string = '' 
 
   constructor(
     private datePipe: DatePipe
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['loadAverageData']) {
+    if (changes['loadAverageData'] || changes['deviceId']) {
       this.parseData();
     }
   }
@@ -42,13 +43,20 @@ export class DataGraphLoadAverageComponent implements OnChanges {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: '240px',
+        height: 240,
+width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
           }
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true
         }
       },
       xaxis: {
@@ -90,7 +98,9 @@ export class DataGraphLoadAverageComponent implements OnChanges {
     const series5m: { x: number, y: number }[] = [];
     const series15m: { x: number, y: number }[] = [];
 
-    this.loadAverageData.forEach(({ collected_at_utc, load_average_1m, load_average_5m, load_average_15m }: LoadAverage) => {
+    this.loadAverageData
+    .filter(({ id_device }) => id_device === this.deviceId)
+    .forEach(({ collected_at_utc, load_average_1m, load_average_5m, load_average_15m }: LoadAverage) => {
       const timestamp = collected_at_utc ? new Date(Number(collected_at_utc)).getTime() : null;
       if (timestamp) {
         if (load_average_1m !== undefined) {

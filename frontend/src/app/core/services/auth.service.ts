@@ -22,11 +22,11 @@ export class AuthService {
     `;
 
     return this.apollo
-      .watchQuery<any>({
+      .query<any>({
         query: LOGIN_QUERY,
         variables: formData,
       })
-      .valueChanges.pipe(map((result: any) => result.data.login));
+      .pipe(map((result: any) => result.data.login));
   }
 
   setToken(token: string): any {

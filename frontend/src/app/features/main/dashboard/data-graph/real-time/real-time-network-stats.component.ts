@@ -13,18 +13,19 @@ import {
 } from 'ng-apexcharts'
 
 @Component({
-  selector: 'app-data-graph-network-stats',
-  templateUrl: './data-graph-network-stats.component.html',
-  styleUrls: ['./data-graph.component.scss'],
+  selector: 'app-real-time-network-stats',
+  templateUrl: './real-time-network-stats.component.html',
+  styleUrls: ['../data-graph.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DataGraphNetworkStatsComponent implements OnChanges {
+export class RealTimeNetworkStatsComponent implements OnChanges {
   @Input() networkStatsData: NetworkStats[] = []
   public chartSeries: ApexAxisChartSeries = []
   public chartOptions: any
+  @Input() deviceId: string = '' 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes['networkStatsData']) {
+    if (changes['networkStatsData'] || changes['deviceId']) {
       this.parseData()
     }
   }
@@ -37,13 +38,20 @@ export class DataGraphNetworkStatsComponent implements OnChanges {
     this.chartOptions = {
       chart: {
         type: 'line',
-        height: '240px',
+        height: 240,
+width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
           dynamicAnimation: {
             speed: 1000
           }
+        },
+        zoom: {
+          enabled: false
+        },
+        toolbar: {
+          show: true
         }
       },
       xaxis: {
@@ -89,7 +97,9 @@ export class DataGraphNetworkStatsComponent implements OnChanges {
   parseData() {
     const trafficData: Record<string, { name: string, data: { x: number, y: number }[] }> = {}
 
-    this.networkStatsData.forEach(({ interface_name, bytes_recv, bytes_sent, collected_at_utc }: NetworkStats) => {
+    this.networkStatsData
+    .filter(({ id_device }) => id_device === this.deviceId)
+    .forEach(({ interface_name, bytes_recv, bytes_sent, collected_at_utc }: NetworkStats) => {
       if (!interface_name) return
 
       if (!trafficData[`${interface_name}_bytes_recv`]) {

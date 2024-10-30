@@ -1,0 +1,35 @@
+<mat-card>
+  <mat-card-content>
+    <div class="header-controls">
+      <mat-form-field appearance="outline" class="parameter-select">
+        <mat-label>Seleccione un parámetro</mat-label>
+        <mat-select [(value)]="selectedParameter" (selectionChange)="onParameterChange($event.value)">
+          <mat-option *ngFor="let param of hourlyParameters" [value]="param.id_parameter">
+            {{ param.description }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="time-range-buttons">
+        <button mat-button *ngFor="let range of timeRanges"
+                [ngClass]="{'selected': selectedTimeRange === range.key}"
+                (click)="changeTimeRange(range.key)">
+          {{ range.label }}
+        </button>
+      </div>
+    </div>
+
+    <div class="container" style="height: 520px; width: 100%; text-align: center;" *ngIf="parameterData.oneDay">
+      <apx-chart 
+        [series]="chartSeries"
+        [chart]="chartOptions.chart"
+        [xaxis]="chartOptions.xaxis"
+        [yaxis]="chartOptions.yaxis"
+        [stroke]="chartOptions.stroke"
+        [grid]="chartOptions.grid"
+        [legend]="chartOptions.legend"
+        [tooltip]="chartOptions.tooltip"
+        [dataLabels]="chartOptions.dataLabels">
+      </apx-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -12,8 +12,28 @@ import roleTypes from "./types/role.types"
 import roleResolvers from "./resolvers/role.resolver"
 import subscriptionTypes from "./types/subscription.types"
 import subscriptionResolvers from "./resolvers/subscription.resolver"
+import dataHistoricTypes from "./types/data-historic-tabular.types"
+import dataHistoricResolvers from "./resolvers/data-historic-tabular.resolver"
 
 export default {
-  typeDefs: [deviceTypes, deviceReadingSettingTypes, userTypes, authTypes, dashboardTypes, roleTypes, subscriptionTypes],
-  resolvers: [deviceResolvers, deviceReadingSettingResolver, userResolvers, authResolvers, dashboardResolvers, roleResolvers, subscriptionResolvers]
+  typeDefs: [
+    deviceTypes, 
+    deviceReadingSettingTypes, 
+    userTypes, 
+    authTypes, 
+    dashboardTypes, 
+    roleTypes, 
+    subscriptionTypes,
+    dataHistoricTypes
+  ],
+  resolvers: [
+    deviceResolvers, 
+    deviceReadingSettingResolver, 
+    userResolvers, 
+    authResolvers, 
+    dashboardResolvers, 
+    roleResolvers, 
+    subscriptionResolvers,
+    dataHistoricResolvers
+  ]
 }
