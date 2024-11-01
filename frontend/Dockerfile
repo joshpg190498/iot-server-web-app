@@ -13,8 +13,14 @@ RUN npm install
 # Copia todo el código de la aplicación al contenedor
 COPY . .
 
-# Expose app in port
-EXPOSE 4200
+# Instala las dependencias del proyecto
+RUN npm run build --prod
 
-# Comando por defecto para ejecutar el script de inicialización
-CMD ["npm", "run", "start"]
+# Etapa de producción
+FROM nginx:alpine
+
+# Copia los archivos de la aplicación Angular a la carpeta donde Nginx los servirá
+COPY --from=builder /app/dist/frontend /usr/share/nginx/html
+
+# Exponer el puerto por defecto de Nginx
+EXPOSE 80
