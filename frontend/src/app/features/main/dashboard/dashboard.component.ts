@@ -19,16 +19,7 @@ export class DashboardComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.setGetDevicesFunc()
-  }
-
-  ngOnDestroy() {
-
-  }
-
-  setGetDevicesFunc() {
     this.getDevices()
-    this.getDevicesFunc = setInterval(() => {this.getDevices()}, 2000)
   }
 
   getDevices() {

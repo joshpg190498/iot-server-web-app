@@ -158,7 +158,7 @@ export class DashboardService {
 
   getDevices(): Observable<Device[]> {
     return this.apollo
-      .watchQuery<{ dashboardDevices: Device[] }>({ query: GET_DEVICES_QUERY })
+      .watchQuery<{ dashboardDevices: Device[] }>({ query: GET_DEVICES_QUERY, pollInterval: 2000, fetchPolicy: 'no-cache' })
       .valueChanges.pipe(map((result: any) => result.data.dashboardDevices))
   }
 
