@@ -10,7 +10,7 @@ import { DashboardService } from 'src/app/core/services/dashboard.service';
 })
 export class DashboardComponent  implements OnInit {
 
-
+  getDevicesFunc: any
   devices: Device[] = []
 
   constructor(
@@ -19,12 +19,22 @@ export class DashboardComponent  implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setGetDevicesFunc()
+  }
+
+  ngOnDestroy() {
+
+  }
+
+  setGetDevicesFunc() {
     this.getDevices()
+    this.getDevicesFunc = setInterval(() => {this.getDevices()}, 2000)
   }
 
   getDevices() {
     this._dashboardService.getDevices().subscribe(
       (devices) => {
+        console.log(devices)
         this.devices = devices
       },
       (error) => {

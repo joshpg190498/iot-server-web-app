@@ -158,8 +158,8 @@ export class DashboardService {
 
   getDevices(): Observable<Device[]> {
     return this.apollo
-      .query<{ dashboardDevices: Device[] }>({ query: GET_DEVICES_QUERY })
-      .pipe(map((result: any) => result.data.dashboardDevices))
+      .watchQuery<{ dashboardDevices: Device[] }>({ query: GET_DEVICES_QUERY })
+      .valueChanges.pipe(map((result: any) => result.data.dashboardDevices))
   }
 
   getDashboardDeviceDataRT(id_device: string): Observable<any> {

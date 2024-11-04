@@ -52,10 +52,10 @@ export class DeviceService {
 
   getDevices(): Observable<Device[]> {
     return this.apollo
-      .query<{ devices: Device[] }>({
+      .watchQuery<{ devices: Device[] }>({
         query: GET_DEVICES_QUERY
       })
-      .pipe(map((result: any) => result.data.devices))
+      .valueChanges.pipe(map((result: any) => result.data.devices))
   }
 
   createDevice(form: Device): Observable<Device> {

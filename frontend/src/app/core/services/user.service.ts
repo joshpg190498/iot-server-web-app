@@ -65,10 +65,10 @@ export class UserService {
 
   getUsers(): Observable<User[]> {
     return this.apollo
-      .query<{ users: User[] }>({
+      .watchQuery<{ users: User[] }>({
         query: GET_USERS_QUERY
       })
-      .pipe(map((result: any) => result.data.users))
+      .valueChanges.pipe(map((result: any) => result.data.users))
   }
 
   getPermissionsByUserId(userId: number): Observable<Permission[]> {

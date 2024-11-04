@@ -9,6 +9,7 @@ import { UserDialogComponent } from './components/user-dialog.component';
 import { Role } from 'src/app/core/interfaces/role.interface';
 import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-handler.service';
 import { ToastService } from 'src/app/core/services/toast.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -21,6 +22,7 @@ export class UsersComponent  implements OnInit {
   roles: Role[] = []
   dataSource = new MatTableDataSource<any>(this.users)
   @ViewChild(MatPaginator) paginator!: MatPaginator
+  currentUserData: any
 
   isEditMode = false
   editUserId: number | null = null
@@ -32,6 +34,7 @@ export class UsersComponent  implements OnInit {
     public dialog: MatDialog,
     private _gqlErrorHandlerService: GraphQLErrorHandlerService,
     private _toastService: ToastService,
+    private _authService: AuthService
   ) {
   }
 
@@ -39,6 +42,12 @@ export class UsersComponent  implements OnInit {
     this.dataSource.paginator = this.paginator
     this.getUsers()
     this.getRoles()
+    this.checkCurrentUser()
+  }
+
+  checkCurrentUser() {
+    this.currentUserData = this._authService.getUserData()
+    console.log(this.currentUserData)
   }
 
   getUsers() {
@@ -49,7 +58,7 @@ export class UsersComponent  implements OnInit {
           position: i+1
         }))
         this.dataSource.data = this.users
-        console.log(this.users)
+        console.log('hola', this.users)
         this.dataSource.paginator = this.paginator
       }, 
       (error: any) => {
