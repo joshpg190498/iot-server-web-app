@@ -25,5 +25,6 @@ export const authOperations: {[key: string]: number[]} = {
   hourlyParameters: [1, 2, 3],
   historicData: [1, 2, 3],
   parameters: [1, 2, 3],
-  tabularData: [1, 2, 3]
+  tabularData: [1, 2, 3],
+  thresholdAlertData: [1, 2, 3]
 }

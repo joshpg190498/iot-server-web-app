@@ -43,7 +43,6 @@ export class LoginComponent  implements OnInit {
     this.isLogin = true
     this._authService.login(loginFormData).subscribe(
       (token) => {
-        console.log('Token:', token);
         this._authService.setToken(token)
         this._toastService.openToast('Credenciales correctas', 'success', 3000)
         this.isLogin = false

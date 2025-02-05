@@ -38,7 +38,6 @@ export class RealTimeDiskUsageComponent implements OnChanges {
       chart: {
         type: 'line',
         height: 240,
-width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
@@ -114,7 +113,7 @@ width: 445,
         diskData[disk_name].data.push({
           x: new Date(Number(collected_at_utc)).getTime(),
           y: Number(used_percent_disk), 
-          usedDiskMB: Number(used_disk) 
+          usedDiskMB: Number(used_disk)  
         })
       }
     })

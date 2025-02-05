@@ -1,5 +1,9 @@
 .feature-page-content {
 
+  .mat-mdc-tab-body-content {
+    overflow: hidden;
+  }
+
   .real-time-container {
     mat-tab-group {
       span {

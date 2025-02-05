@@ -40,7 +40,8 @@ export class DeviceReadingSettingService {
         query: GET_READING_SETTINGS_DEVICE_QUERY,
         variables: {
           id_device: id_device
-        }
+        },
+        fetchPolicy: 'network-only'
       })
       .pipe(map((result: any) => result.data.deviceReadingSettingsByIdDevice))
   }

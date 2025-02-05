@@ -66,7 +66,8 @@ export class UserService {
   getUsers(): Observable<User[]> {
     return this.apollo
       .watchQuery<{ users: User[] }>({
-        query: GET_USERS_QUERY
+        query: GET_USERS_QUERY,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.pipe(map((result: any) => result.data.users))
   }
@@ -90,6 +91,7 @@ export class UserService {
         variables: {
           id: userId
         },
+        fetchPolicy: 'network-only'
       })
       .pipe(map((result: any) => result.data.permissions));
   }

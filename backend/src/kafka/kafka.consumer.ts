@@ -52,7 +52,6 @@ const handleMessage = async (message: any) => {
   } catch (err) {
     console.error(err)
   }
-  console.log(message)
   console.log(`Received message: ${JSON.stringify(message)}`)
 }
 

@@ -16,6 +16,7 @@ import { RealTimeNetworkStatsComponent } from './data-graph/real-time/real-time-
 import { DataHistoricComponent } from './data-graph/data-historic/data-historic.component';
 import { DataTabularComponent } from './data-graph/data-tabular/data-tabular.component';
 import { RealTimeComponent } from './data-graph/real-time/real-time.component';
+import { ThresholdAlertComponent } from './data-graph/threshold-alert/threshold-alert.component';
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import { RealTimeComponent } from './data-graph/real-time/real-time.component';
     RealTimeComponent,
     DataHistoricComponent,
     DataTabularComponent,
+    ThresholdAlertComponent
   ],
   imports: [
     CommonModule,

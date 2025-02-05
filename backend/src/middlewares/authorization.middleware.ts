@@ -15,7 +15,6 @@ export const authorizationMiddleware = async (user: any, req: any) => {
 
   const roleList = authOperations[operationName]
 
-  console.log(user, roleList)
   if(!roleList.includes(user.id_role)) {
     throw new GraphQLError('Unauthorized', {
       extensions: {

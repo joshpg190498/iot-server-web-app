@@ -42,7 +42,6 @@ export class SettingsDeviceDialogComponent {
   updateDeviceReadingSettings(form: any) {
     this._deviceReadingSettingService.updateDeviceReadingSettings(form.id_device, form.parameters).subscribe(
       (data: any) => {
-        console.log('data:', data)
         this.dialogRef.close({success: true, id_device: form.id_device});
       },
       (error: any) => {

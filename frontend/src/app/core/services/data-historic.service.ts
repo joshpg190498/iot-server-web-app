@@ -39,7 +39,8 @@ export class DataHistoricService {
   getHourlyParameters(): Observable<Parameter[]> {
     return this.apollo
       .query<{ parameters: Parameter[] }>({
-        query: GET_HOURLY_PARAMETERS_QUERY
+        query: GET_HOURLY_PARAMETERS_QUERY,
+        fetchPolicy: 'network-only'
       })
       .pipe(map((result: any) => result.data.hourlyParameters))
   }
@@ -51,7 +52,8 @@ export class DataHistoricService {
         variables: {
           id_device: id_device,
           table_pointer: table_pointer
-        }
+        },
+        fetchPolicy: 'network-only'
       })
       .pipe(map((result: any) => result.data.historicData))
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Device } from 'src/app/core/interfaces/device.interface';
 import { DeviceService } from 'src/app/core/services/device.service';
@@ -17,13 +17,15 @@ import { GraphQLErrorHandlerService } from 'src/app/core/services/graphql-error-
 export class DevicesComponent implements OnInit {
   displayedColumns = ['nro', 'id_device', 'description', 'active', 'actions']
   devices: Device[] = []
-  dataSource = new MatTableDataSource<any>(this.devices)
+  dataSource: any[] = []  
   @ViewChild(MatPaginator) paginator!: MatPaginator
 
   //deviceForm: FormGroup
   isEditMode = false
   editDeviceId: number | null = null
   isModalOpen = false
+  pageSize: number = 10
+  pageIndex: number = 0
 
   constructor(
     private _deviceService: DeviceService,
@@ -34,19 +36,14 @@ export class DevicesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource.paginator = this.paginator
     this.getDevices()
   }
 
   getDevices() {
     this._deviceService.getDevices().subscribe(
-      (devices: any) => {
-        this.devices = devices.map((e: any, i: number) => ({
-          ...e,
-          position: i+1
-        }))
-        this.dataSource.data = this.devices
-        this.dataSource.paginator = this.paginator
+      (result: any) => {
+        this.devices = result
+        this.updateDataSource()
       },
       (error: any) => {
         let message = error.message
@@ -74,7 +71,6 @@ export class DevicesComponent implements OnInit {
   deleteDevice(id: number) {
     this._deviceService.deleteDevice(id).subscribe(
       (device: any) => {
-        console.log('device:', device)
         if (device) this._toastService.openToast('Dispositivo eliminado correctamente', 'success', 3000)
       },
       (error: any) => {
@@ -126,7 +122,6 @@ export class DevicesComponent implements OnInit {
   createDevice(form: Device) {
     this._deviceService.createDevice(form).subscribe(
       (device: any) => {
-        console.log('device:', device)
         this._toastService.openToast('Dispositivo creado correctamente', 'success', 3000)
       },
       (error: any) => {
@@ -139,12 +134,26 @@ export class DevicesComponent implements OnInit {
     this._deviceService.updateDevice(form).subscribe(
       (device: any) => {        
         this._toastService.openToast('Dispositivo editado correctamente', 'success', 3000)
-        console.log('device:', device)
       },
       (error: any) => {
         this._gqlErrorHandlerService.handleGraphQLError(error)
       }
     )
+  }
+
+  updateDataSource() {
+    const startIndex = this.pageIndex * this.pageSize
+    const endIndex = startIndex + this.pageSize
+    this.dataSource = this.devices.slice(startIndex, endIndex).map((item: any, index: any) => ({
+      ...item,
+      position: startIndex + index + 1
+    }))
+  }
+
+  onPageChange(event: PageEvent) {
+    this.pageIndex = event.pageIndex 
+    this.pageSize = event.pageSize
+    this.updateDataSource()
   }
 
 }

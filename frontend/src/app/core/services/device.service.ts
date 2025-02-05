@@ -53,7 +53,8 @@ export class DeviceService {
   getDevices(): Observable<Device[]> {
     return this.apollo
       .watchQuery<{ devices: Device[] }>({
-        query: GET_DEVICES_QUERY
+        query: GET_DEVICES_QUERY,
+        fetchPolicy: 'network-only'
       })
       .valueChanges.pipe(map((result: any) => result.data.devices))
   }

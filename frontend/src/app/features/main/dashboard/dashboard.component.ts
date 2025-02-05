@@ -25,11 +25,10 @@ export class DashboardComponent  implements OnInit {
   getDevices() {
     this._dashboardService.getDevices().subscribe(
       (devices) => {
-        console.log(devices)
         this.devices = devices
       },
       (error) => {
-        console.log(error.networkError.error.errors[0].message)
+        console.error(error.networkError.error.errors[0].message)
         let message = error.message
         if (error.graphQLErrors) {
           console.error('Error logging in:', error.graphQLErrors);

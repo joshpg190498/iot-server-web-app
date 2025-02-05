@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators'
 import { CpuTemperature, CpuUsage, DashboardDeviceDataRT, Device, DiskUsage, LoadAverage, NetworkStats, RamUsage } from '../interfaces/dashboard.interface'
 
 interface NewDeviceData {
-  parameter: 'ram' | 'cpu_temp' | 'cpu_usage' | 'disk' | 'load_average' | 'network_stats'
+  parameter: 'ram' | 'cpu_temp' | 'cpu_usage' | 'disk' | 'load_average' | 'net_stats'
   id_device: string
   data: any[]
 }
@@ -207,7 +207,7 @@ export class DashboardService {
             cpu_usage: this.cpuUsageDataSubjects,
             disk: this.diskUsageDataSubjects,
             load_average: this.loadAverageDataSubjects,
-            network_stats: this.networkStatsDataSubjects
+            net_stats: this.networkStatsDataSubjects
           }
           if (subjectsMap[newData.parameter]) {
             const subject = this.getOrCreateSubject(subjectsMap[newData.parameter], id_device)

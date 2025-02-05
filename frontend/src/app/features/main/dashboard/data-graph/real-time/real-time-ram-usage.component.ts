@@ -38,7 +38,6 @@ export class RealTimeRamUsageComponent implements OnChanges {
       chart: {
         type: 'line',
         height: 240,
-width: 445,
         animations: {
           enabled: false,
           easing: 'linear',
@@ -50,7 +49,7 @@ width: 445,
           enabled: false
         },
         toolbar: {
-          show: false
+          show: true
         }
       },
       xaxis: {

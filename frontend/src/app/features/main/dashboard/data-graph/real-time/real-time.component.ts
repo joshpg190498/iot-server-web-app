@@ -67,7 +67,7 @@ export class RealTimeComponent implements OnInit {
             this.networkStatsData = dashboardDeviceData.networkStatsData
             this.networkStatsDataLoaded = true
           }, (error) => {
-            console.log(error)
+            console.error(error)
           })
       )
 

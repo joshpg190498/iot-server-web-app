@@ -35,7 +35,6 @@ export class MainLayoutComponent  implements OnInit {
   getPermissions(id: number) {
     this._userService.getPermissionsByUserId(id).subscribe(
       (permissions) => {
-        console.log('Permissions:', permissions);
         this.userPermissions = permissions
       },
       (error) => {

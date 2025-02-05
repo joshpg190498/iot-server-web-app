@@ -14,6 +14,10 @@ import subscriptionTypes from "./types/subscription.types"
 import subscriptionResolvers from "./resolvers/subscription.resolver"
 import dataHistoricTypes from "./types/data-historic-tabular.types"
 import dataHistoricResolvers from "./resolvers/data-historic-tabular.resolver"
+import thresholdAlertTypes from "./types/threshold-alert.types"
+import thresholdAlertResolvers from "./resolvers/threshold-alert.resolver"
+import parameterTypes from "./types/parameter.types"
+import parameterResolvers from "./resolvers/parameter.resolver"
 
 export default {
   typeDefs: [
@@ -24,7 +28,9 @@ export default {
     dashboardTypes, 
     roleTypes, 
     subscriptionTypes,
-    dataHistoricTypes
+    dataHistoricTypes,
+    thresholdAlertTypes,
+    parameterTypes
   ],
   resolvers: [
     deviceResolvers, 
@@ -34,6 +40,8 @@ export default {
     dashboardResolvers, 
     roleResolvers, 
     subscriptionResolvers,
-    dataHistoricResolvers
+    dataHistoricResolvers,
+    thresholdAlertResolvers,
+    parameterResolvers
   ]
 }

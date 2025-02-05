@@ -24,7 +24,8 @@ export class RoleService {
   getRoles(): Observable<Role[]> {
     return this.apollo
       .query<{ roles: Role[] }>({
-        query: GET_ROLES_QUERY
+        query: GET_ROLES_QUERY,
+        fetchPolicy: 'network-only'
       })
       .pipe(map((result: any) => result.data.roles))
   }

@@ -104,7 +104,6 @@ export class DataHistoricComponent  implements OnInit {
     this._dataHistoricService.getHistoricData(this.idDevice, table_pointer).subscribe({
       next: (data: any) => {
         this.parameterData = data
-        console.log(this.parameterData)
         this.pushDataOnChart()
       },
       error: (err: any) => console.error(err)
@@ -131,7 +130,6 @@ export class DataHistoricComponent  implements OnInit {
     if (!this.selectedParameter || !this.parameterData) return
     const parameter = this.hourlyParameters.find((el: any) => el.id_parameter === this.selectedParameter)
     if (!parameter) return
-    console.log(this.selectedParameter, this.selectedTimeRange)
     switch (this.selectedParameter) {
       case 'ram':
         this.ramOnChart()

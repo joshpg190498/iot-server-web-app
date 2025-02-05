@@ -54,7 +54,19 @@ export function createApollo(httpLink: HttpLink) {
 
   return {
     link: ApolloLink.from([authLink, link]),
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      typePolicies: {
+        Query: {
+          fields: {
+            _: {
+              read() {
+                return undefined;
+              }
+            }
+          }
+        }
+      }
+    }),
   }
 }
 

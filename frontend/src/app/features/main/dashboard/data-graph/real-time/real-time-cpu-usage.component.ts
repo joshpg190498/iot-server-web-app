@@ -38,7 +38,6 @@ export class RealTimeCpuUsageComponent implements OnChanges, OnInit {
       chart: {
         type: 'line',
         height: 240,
-width: 445,
         animations: {
           enabled: false,
           easing: 'linear',

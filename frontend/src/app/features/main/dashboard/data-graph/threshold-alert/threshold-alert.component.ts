@@ -2,27 +2,28 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { PageEvent } from '@angular/material/paginator'
 import { ActivatedRoute } from '@angular/router'
 import { Parameter } from 'src/app/core/interfaces/parameter.interface'
-import { DataTabularService } from 'src/app/core/services/data-tabular.service'
+import { ThresholdAlertService } from 'src/app/core/services/threshold-alert.service'
 import { ngxCsv } from 'ngx-csv'
 
 @Component({
-  selector: 'app-data-tabular',
-  templateUrl: './data-tabular.component.html',
+  selector: 'app-threshold-alert',
+  templateUrl: './threshold-alert.component.html',
   styleUrls: ['../data-graph.component.scss'],
 })
-export class DataTabularComponent  implements OnInit {
+export class ThresholdAlertComponent  implements OnInit {
 
   idDevice: string = ''
   parameters: Parameter[] = []
   selectedParameter: string = ''
   parameterData: any = {}
-  displayedColumns: string[] = []
+  displayedColumns = ['nro', 'id_device', 'value', 'email_sent',  'date']
+
   pageSize: number = 10
   pageIndex: number = 0
   dataSource: any[] = []
 
   constructor(
-    private _dataTabularService: DataTabularService,
+    private _thresholdAlertService: ThresholdAlertService,
     private route: ActivatedRoute
   ) { }
 
@@ -35,10 +36,10 @@ export class DataTabularComponent  implements OnInit {
   }
 
   getParameters() {
-    this._dataTabularService.getParameters()
+    this._thresholdAlertService.getParameters()
       .subscribe({
         next: (data: any) => {
-          this.parameters = data
+          this.parameters = data.filter((e: any) => e.has_threshold)
           this.onParameterChange(this.parameters[0].id_parameter || '')
         },
         error: (err: any) => {
@@ -47,17 +48,15 @@ export class DataTabularComponent  implements OnInit {
       })
   }
 
-  fetchData(table_pointer: string) {
-    if (!table_pointer) return
-    this._dataTabularService.getTabularData(this.idDevice, table_pointer).subscribe({
+  fetchData(id_parameter: string) {
+    if (!id_parameter) return
+    this._thresholdAlertService.getThresholdAlertData(this.idDevice, id_parameter).subscribe({
       next: (result: any) => {
-        this.parameterData = result.data
-        if (this.parameterData.length > 0) {
-          this.displayedColumns = Object.keys(this.parameterData[0])
-          this.updateDataSource()
-        } else {
-          this.displayedColumns = []
-        }
+        this.parameterData = result.map((item: any) => ({
+          ...item,
+          created_at_utc: new Date(Number(item.created_at_utc)).toISOString()
+        }))
+        this.updateDataSource()
       },
       error: (err: any) => console.error(err)
     })
@@ -67,8 +66,8 @@ export class DataTabularComponent  implements OnInit {
     if (idParameter) {
       this.selectedParameter = idParameter
       const parameter = this.parameters.find((el: any) => el.id_parameter == idParameter)
-      const table_pointer = parameter?.table_pointer || ''
-      this.fetchData(table_pointer)
+      const id_parameter = parameter?.id_parameter || ''
+      this.fetchData(id_parameter)
     }
   }
 
@@ -83,21 +82,23 @@ export class DataTabularComponent  implements OnInit {
     const endIndex = startIndex + this.pageSize
     this.dataSource = this.parameterData.slice(startIndex, endIndex).map((item: any, index: any) => ({
       ...item,
-      id: startIndex + index + 1 
+      position: startIndex + index + 1,
+      value: JSON.parse(item.data).Value,
+      email_sent: item.email_sent ? 'Sí' : 'No'
     }))
   }
 
   downloadCSV() {
     const options = {
-      filename: 'datos_parametro',
+      filename: 'datos_alerta',
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
       showLabels: true,
       showTitle: true,
-      title: 'Datos de Parámetro',
+      title: 'Datos de Alertas',
       useBom: true,
-      headers: this.displayedColumns, 
+      headers: ['def_name', 'id', 'id_device', 'data', 'sent_email', 'date'], 
       noDownload: false,
       removeEmptyValues: false,
     }
