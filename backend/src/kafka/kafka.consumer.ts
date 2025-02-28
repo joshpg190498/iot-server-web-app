@@ -45,7 +45,8 @@ const handleMessage = async (message: any) => {
         newDeviceData: {
           id_device: IDDevice,
           parameter: Parameter,
-          data: formattedData
+          data: formattedData,
+          collected_at_utc: CollectedAtUtc
         }
       })  
     }

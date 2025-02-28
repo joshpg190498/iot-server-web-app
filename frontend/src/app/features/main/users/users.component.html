@@ -51,7 +51,7 @@
                 <button mat-icon-button (click)="openDialog(true, element)">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button *ngIf="!element.email == currentUserData.email" mat-icon-button (click)="deleteUser(element.id)">
+                <button *ngIf="element.email !== currentUserData.email" mat-icon-button (click)="deleteUser(element.id)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
