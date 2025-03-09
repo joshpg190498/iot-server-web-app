@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json .
 
 # Instala las dependencias del proyecto
-RUN npm install
+RUN NODE_OPTIONS="--max-old-space-size=4096" npm install
 
 # Copia todo el código de la aplicación al contenedor
 COPY . .
