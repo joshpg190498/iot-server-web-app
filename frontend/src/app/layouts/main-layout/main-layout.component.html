@@ -23,8 +23,9 @@
     </ion-buttons>
     <ion-title>Plataforma de monitoreo de rendimiento para computadoras de placa única</ion-title>
     <ion-buttons slot="end">
+      <span style="margin-right: 10px; ">{{ userData.first_name }} {{ userData.last_name }}</span>
       <ion-button (click)="logout()" fill="clear">
-        Cerrar Sesión
+        <ion-icon name="log-out-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -41,6 +42,6 @@
 <!-- Footer -->
 <ion-footer>
   <ion-toolbar>
-    <ion-title class="footer-text"> Plataforma de monitoreo de rendmiento de monoplacas basadas en Linux</ion-title>
+    <ion-title class="footer-text"> Trabajo final de la carrera de especialización en Internet de las Cosas, LSE - FIUBA 2025</ion-title>
   </ion-toolbar>
 </ion-footer>

@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { MenuController } from '@ionic/angular';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -14,8 +12,6 @@ export class MainLayoutComponent  implements OnInit {
   userPermissions: any = []
 
   constructor(
-    private router: Router,
-    private menu: MenuController,
     private _userService: UserService,
     private _authService: AuthService
   ) { 
@@ -29,15 +25,15 @@ export class MainLayoutComponent  implements OnInit {
 
   logout() {
     sessionStorage.removeItem('token')
-    this.router.navigate(['/auth'])
+    window.location.href = '/auth'
   }
 
   getPermissions(id: number) {
     this._userService.getPermissionsByUserId(id).subscribe(
-      (permissions) => {
+      (permissions: any) => {
         this.userPermissions = permissions
       },
-      (error) => {
+      (error: any) => {
         let message = error.message
         if (error.graphQLErrors) {
           console.error('Error logging in:', error.graphQLErrors);

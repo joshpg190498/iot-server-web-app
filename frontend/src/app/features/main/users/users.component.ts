@@ -23,6 +23,7 @@ export class UsersComponent  implements OnInit {
   dataSource: any[] = []  
   @ViewChild(MatPaginator) paginator!: MatPaginator
   currentUserData: any
+  currentLoggedUserData: any
 
   isEditMode = false
   editUserId: number | null = null
@@ -38,6 +39,7 @@ export class UsersComponent  implements OnInit {
     private _toastService: ToastService,
     private _authService: AuthService
   ) {
+    this.currentLoggedUserData = this._authService.getUserData()
   }
 
   ngOnInit() {
@@ -141,6 +143,9 @@ export class UsersComponent  implements OnInit {
     this._userService.updateUser(id, form).subscribe(
       (user: any) => {
         this._toastService.openToast('Usuario editado correctamente', 'success', 3000)
+        if(id == this.currentLoggedUserData.id) {
+          window.location.href = '/auth'
+        }
       },
       (error: any) => {
         this._gqlErrorHandlerService.handleGraphQLError(error)
