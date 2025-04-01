@@ -92,3 +92,28 @@
   font-family: 'Plus Jakarta Sans', sans-serif !important;
   font-size: 12px !important;  
 }
+
+.parameter-list {
+  overflow-x: auto; /* Permite scroll horizontal */
+  display: flex;
+  flex-direction: column;
+}
+
+.parameter-row {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Espaciado entre celdas */
+  flex-wrap: nowrap; /* Evita que las filas se rompan */
+  min-width: 600px; /* Asegura que el contenido tenga un ancho mínimo */
+}
+
+@media (max-width: 600px) {
+  .parameter-list {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .parameter-row {
+    min-width: 600px; /* Para que no se colapsen los campos */
+  }
+}
