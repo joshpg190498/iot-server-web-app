@@ -46,3 +46,9 @@ ion-footer {
     font-size: 14px;
   }
 }
+
+@media (max-width: 600px) {
+  ion-title {
+    display: none;
+  }
+}
