@@ -88,6 +88,15 @@ export class RealTimeLoadAverageComponent implements OnChanges {
       },
       grid: {
         show: true
+      },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
       }
     };
   }
@@ -100,16 +109,16 @@ export class RealTimeLoadAverageComponent implements OnChanges {
     this.loadAverageData
     .filter(({ id_device }) => id_device === this.deviceId)
     .forEach(({ collected_at_utc, load_average_1m, load_average_5m, load_average_15m }: LoadAverage) => {
-      const timestamp = collected_at_utc ? new Date(Number(collected_at_utc)).getTime() : null;
-      if (timestamp) {
+      const timestamp = new Date(Number(collected_at_utc)).getTime()
+      if (!isNaN(timestamp)) {
         if (load_average_1m !== undefined) {
-          series1m.push({ x: timestamp, y: Number(load_average_1m) });
+          series1m.push({ x: timestamp, y: Number(load_average_1m) })
         }
         if (load_average_5m !== undefined) {
-          series5m.push({ x: timestamp, y: Number(load_average_5m) });
+          series5m.push({ x: timestamp, y: Number(load_average_5m) })
         }
         if (load_average_15m !== undefined) {
-          series15m.push({ x: timestamp, y: Number(load_average_15m) });
+          series15m.push({ x: timestamp, y: Number(load_average_15m) })
         }
       }
     });

@@ -17,36 +17,39 @@
               <mat-card-title>Datos de Alertas</mat-card-title>
             </div>
             <div class="responsive-table-container">
-              <table mat-table [dataSource]="dataSource"  >
-        
-                <ng-container matColumnDef="nro">
-                  <th mat-header-cell *matHeaderCellDef> NRO </th>
-                  <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-                </ng-container>
-            
-                <ng-container matColumnDef="id_device">
-                  <th mat-header-cell *matHeaderCellDef> IDENTIFICADOR </th>
-                  <td mat-cell *matCellDef="let element"> {{element.id_device}} </td>
-                </ng-container>
+              <div class="table-wrapper">
 
-                <ng-container matColumnDef="value">
-                  <th mat-header-cell *matHeaderCellDef> VALOR </th>
-                  <td mat-cell *matCellDef="let element"> {{element.value}} </td>
-                </ng-container>
-            
-                <ng-container matColumnDef="email_sent">
-                  <th mat-header-cell *matHeaderCellDef> ESTADO EMAIL </th>
-                  <td mat-cell *matCellDef="let element"> {{element.email_sent}} </td>
-                </ng-container>
-            
-                <ng-container matColumnDef="date">
-                  <th mat-header-cell *matHeaderCellDef> FECHA </th>
-                  <td mat-cell *matCellDef="let element"> {{element.created_at_utc}} </td>
-                </ng-container>
+                <table mat-table [dataSource]="dataSource"  >
+          
+                  <ng-container matColumnDef="nro">
+                    <th mat-header-cell *matHeaderCellDef> NRO </th>
+                    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="id_device">
+                    <th mat-header-cell *matHeaderCellDef> IDENTIFICADOR </th>
+                    <td mat-cell *matCellDef="let element"> {{element.id_device}} </td>
+                  </ng-container>
 
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
+                  <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef> VALOR </th>
+                    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="email_sent">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO EMAIL </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email_sent}} </td>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> FECHA </th>
+                    <td mat-cell *matCellDef="let element"> {{element.created_at_utc}} </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
               <mat-paginator [length]="parameterData.length"
                              [pageSize]="pageSize"
                              [pageSizeOptions]="[5, 10, 20]"

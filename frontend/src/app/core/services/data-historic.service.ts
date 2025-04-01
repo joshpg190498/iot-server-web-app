@@ -46,6 +46,7 @@ export class DataHistoricService {
   }
 
   getHistoricData(id_device: string, table_pointer: string): Observable<HistoricData> {
+    console.log(table_pointer)
     return this.apollo
       .query<{ historicData: HistoricData }>({
         query: GET_HISTORIC_DATA_QUERY,

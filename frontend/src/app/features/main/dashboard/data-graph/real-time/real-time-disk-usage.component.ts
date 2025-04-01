@@ -93,6 +93,15 @@ export class RealTimeDiskUsageComponent implements OnChanges {
       },
       grid: {
         show: true
+      },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
       }
     }
   }
@@ -103,13 +112,14 @@ export class RealTimeDiskUsageComponent implements OnChanges {
     this.diskUsageData
     .filter(({ id_device }) => id_device === this.deviceId)
     .forEach(({ disk_name, collected_at_utc, used_disk, free_disk, used_percent_disk }: DiskUsage) => {
+      const timestamp = new Date(Number(collected_at_utc)).getTime()
       if (!disk_name || !used_disk || !used_percent_disk) return
 
       if (!diskData[disk_name]) {
         diskData[disk_name] = { name: disk_name, data: [] }
       }
 
-      if (collected_at_utc && used_percent_disk) {
+      if (!isNaN(timestamp) && collected_at_utc && used_percent_disk) {
         diskData[disk_name].data.push({
           x: new Date(Number(collected_at_utc)).getTime(),
           y: Number(used_percent_disk), 

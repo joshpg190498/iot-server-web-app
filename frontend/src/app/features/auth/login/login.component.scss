@@ -92,3 +92,18 @@
 .login-form {
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  mat-card {
+    margin: 20px;
+  }
+
+  .login-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .login-image {
+    display: none;
+  }
+}

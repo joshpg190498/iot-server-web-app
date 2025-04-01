@@ -13,6 +13,7 @@
     }
   
     mat-card {
+      margin: 10px;
       max-height: 330px;
       padding: 16px;
       border: 1px solid #919eab4d;
@@ -97,18 +98,24 @@
   }
   
   .tabular-container {
+    margin: 20px;
+
     .parameter-select {
       width: 300px
     }
 
+    .table-wrapper {
+      overflow-x: auto;
+      max-width: 100%;
+    }
+
     .responsive-table-container {
-      width: 100%; 
-      overflow-x: auto; 
+      display: flex;
+      flex-direction: column;
     }
     
     table {
       width: 100%;
-      table-layout: fixed; 
     }
     
     th.mat-header-cell,
@@ -124,7 +131,30 @@
     }
     
   }
-  
+}
+
+
+@media (max-width: 600px) {
+  .header-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .parameter-select {
+    width: 100%;
+  }
+
+  .time-range-buttons {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .time-range-buttons button {
+    flex: 1;
+    min-width: 100px;
+  }
 }
 
 

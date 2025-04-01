@@ -93,6 +93,15 @@ export class RealTimeRamUsageComponent implements OnChanges {
       },
       grid: {
         show: true 
+      },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
       }
     }
   }
@@ -101,20 +110,19 @@ export class RealTimeRamUsageComponent implements OnChanges {
     const usedRamTrend = this.ramUsageData
     .filter(({ id_device }) => id_device === this.deviceId)
     .map((el: RamUsage) => {
-      if (el.used_ram === null || el.used_percent_ram === null) {
-        return {
-          x: new Date(Number(el.collected_at_utc)).getTime(), 
-          y: null,
-          usedRamMB: null
-        }
+      const timestamp = new Date(Number(el.collected_at_utc)).getTime()
+      if (isNaN(timestamp) || el.used_ram === null || el.used_percent_ram === null) {
+        return 
       }
 
       return {
-        x: new Date(Number(el.collected_at_utc)).getTime(), 
+        x: timestamp, 
         y: el.used_percent_ram, 
         usedRamMB: Number(el.used_ram) 
       }
     })
+    .filter((p): p is { x: number; y: number; usedRamMB: number } => p !== null)
+
 
     this.chartSeries = [
       {

@@ -87,6 +87,15 @@ export class RealTimeCpuUsageComponent implements OnChanges, OnInit {
       },
       grid: {
         show: true
+      },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
       }
     }
   }
@@ -94,11 +103,15 @@ export class RealTimeCpuUsageComponent implements OnChanges, OnInit {
   parseData() {
     const cpuUsageTrend = this.cpuUsageData
     .filter(({ id_device }) => id_device === this.deviceId)
-    .map(({ cpu_usage, collected_at_utc}: CpuUsage) => ({
-      x: new Date(Number(collected_at_utc)).getTime(),
-      y: Number(cpu_usage)
-    }))
-
+    .map(({ cpu_usage, collected_at_utc}: CpuUsage) => {
+      const timestamp = new Date(Number(collected_at_utc)).getTime()
+      if (!isNaN(timestamp) && cpu_usage) {
+        return { x: timestamp, y: Number(cpu_usage) }
+      }
+      return null
+    })
+    .filter((p): p is { x: number; y: number } => p !== null)
+    
     this.chartSeries = [
       {
         name: 'Uso CPU',

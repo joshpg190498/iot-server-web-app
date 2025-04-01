@@ -33,14 +33,13 @@ export class DataHistoricComponent  implements OnInit {
     { label: '1 Mes', key: 'oneMonth' },
     { label: '6 Meses', key: 'sixMonths' }
   ]
-  parameterData: any = {}
+  parameterData: any = null
 
   constructor(
     private _dataHistoricService: DataHistoricService,
     private route: ActivatedRoute
   ) {
     this.initializeChartOptions()
-
    }
 
   ngOnInit() {
@@ -79,10 +78,14 @@ export class DataHistoricComponent  implements OnInit {
         },
         toolbar: {
           show: true
-        }
+        },
+        redrawOnParentResize: true,
+        redrawOnWindowResize: true
       },
       xaxis: {
         type: 'datetime',
+        position: 'bottom',
+
         labels: { format: 'dd-MM-yyyy HH:mm' }
       },
       yaxis: {
@@ -95,7 +98,16 @@ export class DataHistoricComponent  implements OnInit {
       tooltip: {
         x: { format: 'dd-MM-yyyy HH:mm' }
       },
-      grid: { show: true }
+      grid: { show: true },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
+      }
     }
   }
 
@@ -157,15 +169,16 @@ export class DataHistoricComponent  implements OnInit {
       const ramData: Record<string, { name: string, data: { x: number, y: number, usedRamMB: number }[] }> = {}
 
       this.parameterData[this.selectedTimeRange].forEach(({ collected_at_utc, used_ram, used_percent_ram }: any) => {
+        const timestamp = new Date(collected_at_utc).getTime()
         if (!used_percent_ram || !collected_at_utc) return
   
         if (!ramData['RAM Usada']) {
           ramData['RAM Usada'] = { name: 'RAM Usada', data: [] }
         }
   
-        if (collected_at_utc && used_percent_ram) {
+        if (!isNaN(timestamp) && used_percent_ram) {
           ramData['RAM Usada'].data.push({
-            x: new Date(collected_at_utc).getTime(),
+            x: timestamp,
             y: Number(used_percent_ram),
             usedRamMB: Number(used_ram) 
           })
@@ -188,7 +201,7 @@ export class DataHistoricComponent  implements OnInit {
         y: {
           formatter: (value: number, { series, seriesIndex, dataPointIndex, w }: any) => {
             const usedRamMB = w.config.series[seriesIndex].data[dataPointIndex].usedRamMB
-            return usedRamMB ? `${usedRamMB} MB` : 'N/A'
+            return usedRamMB ? `${usedRamMB.toFixed(2)} MB` : 'N/A'
           }
         }
       }
@@ -209,7 +222,7 @@ export class DataHistoricComponent  implements OnInit {
           ramData['RAM promedio'].data.push({
             x: new Date(start_time).getTime(),
             y: Number(avg_used_percent_ram),
-            usedRamMB: Number(total_ram)*Number(avg_used_percent_ram) / 100
+            usedRamMB: Number((Number(total_ram)*Number(avg_used_percent_ram) / 100).toFixed(2))
           })
         }
 
@@ -221,7 +234,7 @@ export class DataHistoricComponent  implements OnInit {
           ramData['RAM mínima'].data.push({
             x: new Date(start_time).getTime(),
             y: Number(min_used_percent_ram),
-            usedRamMB: Number(total_ram)*Number(min_used_percent_ram) / 100
+            usedRamMB: Number((Number(total_ram)*Number(min_used_percent_ram) / 100).toFixed(2))
           })
         }
 
@@ -233,7 +246,7 @@ export class DataHistoricComponent  implements OnInit {
           ramData['RAM máxima'].data.push({
             x: new Date(start_time).getTime(),
             y: Number(max_used_percent_ram),
-            usedRamMB: Number(total_ram)*Number(max_used_percent_ram) / 100
+            usedRamMB: Number((Number(total_ram)*Number(max_used_percent_ram) / 100).toFixed(2))
           })
         }
       })
@@ -304,7 +317,7 @@ export class DataHistoricComponent  implements OnInit {
           diskData[`${disk_name} promedio`].data.push({
             x: new Date(start_time).getTime(),
             y: Number(avg_used_percent_disk), 
-            usedDiskMB: Number(total_disk) * Number(avg_used_percent_disk) / 100
+            usedDiskMB: Number((Number(total_disk) * Number(avg_used_percent_disk) / 100).toFixed(2))
           })
         }
 
@@ -316,7 +329,7 @@ export class DataHistoricComponent  implements OnInit {
           diskData[`${disk_name} mínimo`].data.push({
             x: new Date(start_time).getTime(),
             y: Number(min_used_percent_disk), 
-            usedDiskMB: Number(total_disk) * Number(min_used_percent_disk) / 100 
+            usedDiskMB: Number((Number(total_disk) * Number(min_used_percent_disk) / 100).toFixed(2)) 
           })
         }
 
@@ -328,7 +341,7 @@ export class DataHistoricComponent  implements OnInit {
           diskData[`${disk_name} máximo`].data.push({
             x: new Date(start_time).getTime(),
             y: Number(max_used_percent_disk), 
-            usedDiskMB: Number(total_disk) * Number(max_used_percent_disk) / 100 
+            usedDiskMB: Number((Number(total_disk) * Number(max_used_percent_disk) / 100).toFixed(2)) 
           })
         }
       })

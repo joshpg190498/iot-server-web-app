@@ -52,7 +52,9 @@ export class RealTimeCpuTemperatureComponent implements OnChanges {
         },
         toolbar: {
           show: true
-        }
+        },
+        redrawOnParentResize: true,
+        redrawOnWindowResize: true
       },
       xaxis: {
         type: 'datetime',
@@ -74,7 +76,16 @@ export class RealTimeCpuTemperatureComponent implements OnChanges {
       stroke: { curve: 'smooth', width: 2 },
       legend: { show: true, position: 'bottom' },
       tooltip: { x: { format: 'dd-MM-yy HH:mm:ss' } },
-      grid: { show: true }
+      grid: { show: true },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
+      }
     }
   }
 
@@ -84,23 +95,25 @@ export class RealTimeCpuTemperatureComponent implements OnChanges {
     this.cpuTemperatureData
       .filter(({ id_device }) => id_device === this.deviceId) 
       .forEach(({ sensor_key, collected_at_utc, temperature }: CpuTemperature) => {
+        const timestamp = new Date(Number(collected_at_utc)).getTime()
+
         if (!sensor_key) return
 
         if (!sensorData[sensor_key]) {
           sensorData[sensor_key] = { name: sensor_key, data: [] }
         }
 
-        if (temperature) {
+        if (!isNaN(timestamp) && temperature) {
           sensorData[sensor_key].data.push({
-            x: new Date(Number(collected_at_utc)).getTime(),
+            x: timestamp,
             y: Number(temperature)
           })
         }
       })
-      
+          
     this.chartSeries = Object.values(sensorData).map(item => ({
       name: item.name,
-      data: item.data 
+      data: item.data
     }))
   }
 }

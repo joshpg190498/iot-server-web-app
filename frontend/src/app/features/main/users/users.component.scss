@@ -1,0 +1,27 @@
+.feature-page-content {
+  .table-wrapper {
+    overflow-x: auto;
+    max-width: 100%;
+  }
+
+  .responsive-table-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  table {
+    width: 100%;
+  }
+  
+  th.mat-header-cell,
+  td.mat-cell {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .mat-card {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+}

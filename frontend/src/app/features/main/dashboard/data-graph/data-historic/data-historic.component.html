@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-content>
-    <div class="header-controls">
-      <mat-form-field appearance="outline" class="parameter-select">
+    <div class="header-controls" fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <mat-form-field appearance="outline" class="parameter-select" fxFlex="auto" fxFlex.lt-sm="100%">
         <mat-label>Seleccione un parámetro</mat-label>
         <mat-select [(value)]="selectedParameter" (selectionChange)="onParameterChange($event.value)">
           <mat-option *ngFor="let param of hourlyParameters" [value]="param.id_parameter">
@@ -9,7 +9,8 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div class="time-range-buttons">
+
+      <div class="time-range-buttons" fxFlex="auto" fxLayoutAlign="end center" fxFlex.lt-sm="100%" fxLayout="row wrap" fxLayoutGap="8px">
         <button mat-button *ngFor="let range of timeRanges"
                 [ngClass]="{'selected': selectedTimeRange === range.key}"
                 (click)="changeTimeRange(range.key)">
@@ -18,7 +19,7 @@
       </div>
     </div>
 
-    <div class="container" style="height: 520px; width: 100%; text-align: center;" *ngIf="parameterData.oneDay">
+    <div class="container" style="height: 520px; width: 100%; text-align: center;" *ngIf="parameterData">
       <apx-chart 
         [series]="chartSeries"
         [chart]="chartOptions.chart"
@@ -28,6 +29,7 @@
         [grid]="chartOptions.grid"
         [legend]="chartOptions.legend"
         [tooltip]="chartOptions.tooltip"
+        [noData]="chartOptions.noData"
         [dataLabels]="chartOptions.dataLabels">
       </apx-chart>
     </div>

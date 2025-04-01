@@ -89,6 +89,15 @@ export class RealTimeNetworkStatsComponent implements OnChanges {
       },
       grid: {
         show: true
+      },
+      noData: {
+        text: "No hay datos disponibles",
+        align: 'center',
+        style: {
+          color: "red",
+          fontSize: "20px",
+          fontFamily: 'Plus Jakarta Sans'
+        }
       }
     }
   }
@@ -99,7 +108,9 @@ export class RealTimeNetworkStatsComponent implements OnChanges {
     this.networkStatsData
     .filter(({ id_device }) => id_device === this.deviceId)
     .forEach(({ interface_name, bytes_recv, bytes_sent, collected_at_utc }: NetworkStats) => {
-      if (!interface_name) return
+      const timestamp = new Date(Number(collected_at_utc)).getTime()
+
+      if (isNaN(timestamp) || !interface_name) return
 
       if (!trafficData[`${interface_name}_bytes_recv`]) {
         trafficData[`${interface_name}_bytes_recv`] = { name: `${interface_name}_bytes_recv`, data: [] }
@@ -113,12 +124,12 @@ export class RealTimeNetworkStatsComponent implements OnChanges {
       if (!bytes_sent && typeof bytes_sent !== 'number') return
 
       trafficData[`${interface_name}_bytes_recv`].data.push({
-        x: new Date(Number(collected_at_utc)).getTime(),
+        x: timestamp,
         y: Number((Number(bytes_recv)/1024/1024).toFixed(2)) || 0
       })
 
       trafficData[`${interface_name}_bytes_sent`].data.push({
-        x: new Date(Number(collected_at_utc)).getTime(),
+        x: timestamp,
         y: Number((Number(bytes_sent)/1024/1024).toFixed(2)) || 0
       })
       

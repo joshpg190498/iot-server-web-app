@@ -7,6 +7,7 @@
         <button mat-stroked-button class="my-button" (click)="openUpsertDialog(false)">Crear +</button>
       </div>
       <div class="responsive-table-container">
+        <div class="table-wrapper">
           <table mat-table [dataSource]="dataSource"  >
         
             <ng-container matColumnDef="nro">
@@ -50,13 +51,15 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
-          <mat-paginator [length]="dataSource.length"
-            [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event)"
-            showFirstLastButtons>
-          </mat-paginator>
         </div>
+
+        <mat-paginator [length]="dataSource.length"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 20]"
+          (page)="onPageChange($event)"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
